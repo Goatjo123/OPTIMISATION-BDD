@@ -102,7 +102,7 @@ Cas fil rouge : **ShopFlow** (PostgreSQL 18, schéma `shopflow`, 1 000 clients, 
 - **Écart d'estimation** : 80 048 groupes estimés pour 30 réels, faute de statistique sur `date_trunc('month', created_at)`. Du coup le planificateur trie au lieu de faire un `HashAggregate`.
 - **Pistes testées sur une copie** (voir 3bis) : `SET work_mem = '32MB'` (×1,7) et une statistique étendue sur l'expression (×1,9).
 - **Q1, nœud le plus coûteux = `Bitmap Heap Scan`** : 88 pages lues pour 100 commandes dispersées, puis tri pour n'en garder que 20. L'index utilisé est l'index unique `(client_id, cle_idempotence)` issu d'une contrainte, qui ne contient pas `created_at`.
-- **Piste testée sur une copie** (voir 3bis) : index composé `(client_id, created_at DESC, id DESC)`, 20 lignes dans l'ordre sans tri (×2,9, écritures +44 %).
+- **Piste testée à l'Atelier 3** (voir 3ter) : index composé `(client_id, created_at DESC, id DESC)`, 21 lignes dans l'ordre sans tri (×2,5 sur la requête de l'API, WAL +35 % à l'écriture).
 
 ### À retenir
 - Un `LIMIT` ne réduit pas le travail si PostgreSQL doit d'abord lire et trier toutes les lignes du client.
@@ -169,17 +169,48 @@ L'atelier 1 interdit d'ajouter index ou statistiques dans la base du labo. Les p
 | O1 `SET work_mem = '32MB'` | Q2 agrégation | 84,6 ms | 50,2 ms | ×1,7 | Mémoire par opération et par connexion : à limiter à une session |
 | **O2** `CREATE STATISTICS` sur `(date_trunc('month', created_at)), statut` + `ANALYZE` | Q2 agrégation | 84,6 ms | 45,5 ms | ×1,9 | Faible (non mesuré). **Recommandée : corrige la cause** |
 | O1 + O2 | Q2 agrégation | 84,6 ms | 47,9 ms | ×1,8 | Pas mieux que O2 seule |
-| **O3** index `(client_id, created_at DESC, id DESC)` | Q1 client 42 | 0,442 ms | 0,154 ms | ×2,9 | Index 3 984 kB (+59 % de la table) ; INSERT de 20 000 commandes : 236 → 339 ms (**+44 %**) |
 | Réécriture EXISTS (atelier 2) | clients avec commande payée | 27,6 ms | 11,3 ms | ×2,4 | Aucun |
 
 - **Hypothèse de l'atelier 1 confirmée** : donner plus de mémoire **ou** corriger l'estimation remplace le gros tri par un `HashAggregate`. Le `Sort` qui reste ne trie plus que 30 lignes (`ORDER BY`).
-- **Plan de Q1 avec l'index** : `Index Scan` seul, s'arrête après 20 lignes, plus de `Sort`, 26 buffers contre 98.
+- L'optimisation de Q1 (index) est traitée, avec les vraies requêtes de l'API, à l'**Atelier 3** (section 3ter). Les mesures préliminaires faites sur la copie ont été remplacées.
 
 ### Ce que j'ai compris (optimisations)
 - Optimiser = mesurer **un gain ET un coût**, avec un **résultat inchangé**.
 - On corrige **d'abord la cause** (la statistique règle l'erreur d'estimation) plutôt que de masquer le symptôme (augmenter `work_mem`).
-- **Un index n'est pas gratuit** : il accélère la lecture (×2,9) mais ralentit les écritures (+44 %) et prend de la place. Je le choisirais si la lecture domine (API de consultation).
-- Je compare **dans le même environnement** : la copie est plus compacte que le labo (840 pages contre 1 674 pour `commandes`), donc ses temps de référence diffèrent (Q1 : 0,44 ms contre 0,23 ms).
+- **Un index n'est pas gratuit** : il accélère la lecture mais ajoute du travail à chaque insertion (Atelier 3 : WAL +35 % pour le composé) et prend de la place (≈ 30 % de la table).
+- Je compare **dans le même environnement** : la copie est plus compacte que le labo (840 pages contre 1 674 pour `commandes`), donc les gains O1 et O2 se lisent au sein de la copie.
+
+---
+
+## 3ter. Atelier 3 : l'historique client (Jour 2)
+
+Documentation complète, scripts, mesures brutes et migration : dossier [`atelier3/`](atelier3/README.md). Le labo a été vérifié avant et après : **état initial retrouvé** (6 index, 0 statistique). Résultat fonctionnel **identique** pour les 75 combinaisons testées.
+
+**Les requêtes testées** : celle du cours, **celle de l'API** (`01_server/api/commandes.mjs`, 21 lignes, renvoie aussi `statut`) et sa page suivante par **curseur**.
+
+| Variante | API, client 42 (médiane, 51 tours) | Buffers | Client à 20 100 commandes | Taille | WAL (20 000 insertions) | Décision |
+|---|---|---|---|---|---|---|
+| Initiale | 0,690 ms (avec `Sort`) | 96 | 23,3 ms | index unique : 1 864 kB | référence | |
+| Index simple `(client_id)` | 0,729 ms | 96 | 23,3 ms | 688 kB | +28,2 % | **Rejeté : aucun gain** |
+| **Composé** `(client_id, created_at DESC, id DESC)` | **0,274 ms (×2,5)** | 27 | **0,256 ms (×91)** | 3 984 kB | +35,0 % | **Retenu** |
+| Couvrant `INCLUDE (statut, total)` | 0,199 ms (×3,5) | 7 | 0,189 ms (×123) | 5 792 kB | +42,1 % | Option |
+| Couvrant `INCLUDE (total)` | 0,267 ms (×2,6) | 27 | 0,276 ms (×84) | 4 864 kB | +38,4 % | **Rejeté : ne couvre pas l'API** |
+
+- **Simple : absence de gain.** La base a déjà un index qui commence par `client_id` (l'unique). PostgreSQL utilise le nouveau (plus petit) mais le **plan est identique** : il lit les 100 commandes et les trie.
+- **Le coût sans index grandit avec le volume** : 96 buffers (100 commandes), 287 (20 100 commandes) ; avec l'index composé il reste ≈ 27. C'est l'argument principal.
+- **Piège de l'alias** : les colonnes de sortie de l'API s'appellent aussi `id` et `created_at`. `ORDER BY created_at` sans qualificatif trie sur ces **textes** : l'index composé n'est plus utilisé (0,783 ms, 93 buffers). L'API écrit `commandes.created_at`, ce qui est indispensable.
+- **`INCLUDE (total)` ne couvre pas l'API** : elle lit `statut`. Bon pour la requête du cours, inutile pour le SQL réellement émis.
+- **`INCLUDE` ne garantit pas zéro `Heap Fetches`** : 0 → 40 après une modification sans `VACUUM`.
+- **Écriture** : le **WAL** est la mesure fiable (≈ 20 000 enregistrements de plus par index). Les durées sont très bruitées (+23 % à +62 % pour le composé selon l'exécution).
+- **Mesures bruitées** : la même requête a pris 0,23 ms à l'Atelier 1 et ≈ 0,55 ms plus tard. On compare des **mesures alternées**, et on s'appuie sur les buffers, les plans et le WAL.
+- **Migration** `atelier3/migration/` : montée, rejeu sans erreur, vérification, retour arrière, variante `CONCURRENTLY` (échoue bien dans une transaction). **Testée sur une base jetable, non appliquée au labo.**
+
+### Ce que j'ai compris (Atelier 3)
+- Un index ne sert que s'il **fournit ce que la requête demande** (ici l'ordre). Une **absence de gain est un résultat**, pas un échec à cacher.
+- L'ordre des colonnes suit l'usage : égalité (`client_id`), puis tri (`created_at DESC, id DESC`) : 21 entrées lues, plus de tri.
+- **Je teste le SQL réellement émis par l'application** : un `INCLUDE` ou un `ORDER BY` mal choisi peut rendre un index inutile.
+- Un index **se paie à chaque écriture** (WAL +35 %) et prend de la place (≈ 30 % de la table).
+- Je **décide avec des chiffres et je dis ce qui me ferait changer d'avis** : composé retenu, couvrant en option, simple et couvrant `(total)` rejetés.
 
 ---
 
@@ -216,5 +247,18 @@ docker exec -it api-postgres-1 psql -U cours -d shopflow
 
 ---
 
+## 5bis. Jour 2 : indexer
+
+Explication simple du cours (jusqu'à l'atelier 3) : voir [`COURS_JOUR2_SIMPLE.md`](COURS_JOUR2_SIMPLE.md).
+
+- **Index** = structure triée qui évite de parcourir la table, mais il **prend de la place et ralentit les écritures** (mesuré à l'Atelier 3 : WAL +35 % pour 20 000 insertions avec l'index composé).
+- **Ordre des colonnes** d'un index composé : égalité d'abord (`client_id`), puis tri (`created_at DESC, id DESC`). Avec `LIMIT`, l'index évite le tri.
+- **`INCLUDE` ne garantit pas** d'éviter la table : on vérifie `Heap Fetches` dans le plan.
+- Un **compteur d'usage nul ne prouve pas** qu'un index est inutile (il peut protéger une contrainte, comme l'index unique `(client_id, cle_idempotence)`).
+- **Un gain non reproductible ou un index inutilisé n'est pas une réussite** ; on présente aussi les variantes rejetées.
+
+---
+
 ## 6. À venir
-- Journée 2 : refaire ces optimisations **dans la base du labo** (elles n'ont été testées que sur une copie) et comparer avant/après avec le même protocole.
+- Appliquer la migration 001 (index composé) au labo quand le cours le demandera (`atelier3/migration/`), puis Atelier 4 (index spécialisés : partiel, GIN, GiST) et migration/bilan.
+- Les optimisations O1 (`work_mem`) et O2 (statistique) ne sont testées que sur une copie ; les refaire dans le labo si besoin.

@@ -1,0 +1,19 @@
+-- SELECT id, created_at, total FROM shopflow.commandes WHERE client_id = 1 ORDER BY created_at DESC, id DESC LIMIT 20
+Limit  (cost=329.84..329.89 rows=20 width=22) (actual time=0.871..0.878 rows=20.00 loops=1)
+  Buffers: shared hit=108
+  ->  Sort  (cost=329.84..330.09 rows=100 width=22) (actual time=0.870..0.873 rows=20.00 loops=1)
+        Sort Key: created_at DESC, id DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=108
+        ->  Bitmap Heap Scan on commandes  (cost=5.07..327.18 rows=100 width=22) (actual time=0.085..0.796 rows=100.00 loops=1)
+              Recheck Cond: (client_id = 1)
+              Heap Blocks: exact=97
+              Buffers: shared hit=102
+              ->  Bitmap Index Scan on commandes_client_id_cle_idempotence_key  (cost=0.00..5.04 rows=100 width=0) (actual time=0.053..0.053 rows=100.00 loops=1)
+                    Index Cond: (client_id = 1)
+                    Index Searches: 1
+                    Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=125
+Planning Time: 0.725 ms
+Execution Time: 0.951 ms

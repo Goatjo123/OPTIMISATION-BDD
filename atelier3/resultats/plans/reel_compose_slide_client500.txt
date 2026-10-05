@@ -1,0 +1,11 @@
+-- SELECT id, created_at, total FROM shopflow.commandes WHERE client_id = 500 ORDER BY created_at DESC, id DESC LIMIT 20
+Limit  (cost=0.42..79.96 rows=20 width=22) (actual time=0.068..0.194 rows=20.00 loops=1)
+  Buffers: shared hit=26
+  ->  Index Scan using a3_idx_compose on commandes  (cost=0.42..398.14 rows=100 width=22) (actual time=0.066..0.190 rows=20.00 loops=1)
+        Index Cond: (client_id = 500)
+        Index Searches: 1
+        Buffers: shared hit=26
+Planning:
+  Buffers: shared hit=148
+Planning Time: 0.669 ms
+Execution Time: 0.248 ms

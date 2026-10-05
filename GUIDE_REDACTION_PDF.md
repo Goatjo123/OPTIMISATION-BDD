@@ -64,7 +64,11 @@ Répondre aux 6 questions **avec un exemple et une condition d'application, pas 
 8. **Plans complets lisibles** : pas de lignes coupées en bout de page.
 9. **Citer les slides** quand une règle vient du cours (ex. « slide 24 : granularité »).
 10. **Pas de jargon sans explication** : définir « nœud », « granularité », « semi-jointure » en une phrase.
-11. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
+11. **Tester le SQL réellement émis par l'application** (slide 13), pas seulement celui du cours : lire le code de l'API (`commandes.mjs`) et reprendre sa requête exacte, qualificatifs compris.
+12. **Durées sub-milliseconde bruitées** : comparer des mesures **alternées** (un tour de chaque variante), s'appuyer sur les valeurs déterministes (buffers, plans, WAL, tailles) et annoncer la variabilité. Ne jamais comparer une durée d'une session à une durée d'une autre.
+13. **Prouver que le laboratoire est restauré** après toute expérience qui crée des objets (index, tables) et que **chaque variante** renvoie le même résultat (empreinte md5).
+14. **Une absence de gain est un résultat** : la présenter et l'expliquer (slide 12), ne pas la cacher.
+15. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
 
 ## 5. Vérification de l'exactitude (à refaire à chaque modification)
 
@@ -94,22 +98,22 @@ Tous les chiffres du PDF ont été recalculés à partir des mesures brutes et d
 Points restant à connaître :
 - La mesure à froid de 1 096,8 ms a été prise dans **pgAdmin** (interface graphique), les mesures à chaud via **psql**. Les deux sont du temps d'exécution côté serveur, mais ce n'est pas le même client.
 - Le temps propre d'un nœud (ex. Sort ≈ 37 ms) est **calculé par soustraction** sur le plan de la mesure n°5, pas relevé directement.
-- Les optimisations ont été testées **sur une copie** (`shopflow_opt`), pas dans la base du labo. La copie est plus compacte (840 pages contre 1 674) : ses temps de référence diffèrent, on ne compare qu'**au sein de la copie**.
-- Le coût de `CREATE STATISTICS` n'a pas été mesuré ; le coût en écriture de l'index l'a été (+44 %).
+- Les optimisations **O1 et O2** (atelier 1) ont été testées **sur une copie** (`shopflow_opt`) ; l'Atelier 3 a été mesuré sur la **vraie table** du labo (index créés puis supprimés, labo vérifié identique avant/après) et sur des tables de travail jetables. La copie est plus compacte (840 pages contre 1 674) : on ne compare qu'**au sein d'une même mesure**.
+- Le coût de `CREATE STATISTICS` n'a pas été mesuré ; le coût en écriture des index a été mesuré à l'Atelier 3 (WAL +35 % pour le composé ; durées trop bruitées pour un pourcentage unique).
 - Les explications sur la **cause** (le bitmap lit 85 à 88 pages parce que les commandes sont dispersées) restent des hypothèses ; celles sur le tri et l'estimation sont **confirmées** par les tests.
 
 ## 6. Mise à jour de `SYNTHESE.md`
 À chaque point pertinent (concept, résultat mesuré, piège, correction), l'ajouter dans la bonne section de `SYNTHESE.md`, en français, concis, avec les chiffres. Ne pas attendre qu'on le redemande.
 
-## 7. Structure actuelle du PDF
+## 7. Structure actuelle du PDF (17 pages)
 | Pages | Contenu |
 |---|---|
-| 1 | Contexte, requêtes, résultats vérifiés, 5 mesures, froid/chaud |
-| 2 | Atelier 1 : nœud coûteux, hypothèses, **Ce que j'ai compris** |
-| 3 | Atelier 2 partie A : jointure contre EXISTS |
-| 4 | Atelier 2 partie B : total par commande, conclusion |
-| 5 à 7 | Atelier 2 (suite), **Optimisations testées : le bilan**, questions de compréhension |
-| 8 à 12 | Annexes : plans complets (atelier 1, atelier 2, optimisations) |
+| 1 à 2 | Atelier 1 : contexte, requêtes, résultats vérifiés, 5 mesures, nœud coûteux, **Ce que j'ai compris** |
+| 3 à 5 | Atelier 2 : jointure contre EXISTS, total par commande, **Ce que j'ai compris** |
+| 5 à 6 | Optimisations testées : le bilan (O1 `work_mem`, O2 statistique) |
+| 7 à 10 | **Atelier 3** : requêtes réelles de l'API, variantes, lecture, 5 clients, client très actif, piège de l'alias, écriture, `Heap Fetches`, tableau de décision, migration, **Ce que j'ai compris** |
+| 10 à 11 | Questions de compréhension du cours |
+| 12 à 17 | Annexes : plans complets (atelier 1, atelier 2, O1 et O2, atelier 3) |
 
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].

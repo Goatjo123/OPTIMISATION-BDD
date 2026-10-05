@@ -1,0 +1,12 @@
+-- SELECT id::text AS id, to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS created_at, statut, total::text AS total FROM shopflow.commandes AS commandes WHERE client_id = 1000 ORDER BY commandes.created_at DESC, commandes.id DESC LIMIT 21
+Limit  (cost=0.42..1.94 rows=21 width=118) (actual time=0.132..0.151 rows=21.00 loops=1)
+  Buffers: shared hit=7
+  ->  Index Only Scan using a3_idx_couvrant on commandes  (cost=0.42..7.67 rows=100 width=118) (actual time=0.131..0.149 rows=21.00 loops=1)
+        Index Cond: (client_id = 1000)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=7
+Planning:
+  Buffers: shared hit=167
+Planning Time: 0.500 ms
+Execution Time: 0.175 ms

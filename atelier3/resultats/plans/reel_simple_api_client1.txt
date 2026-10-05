@@ -1,0 +1,19 @@
+-- SELECT id::text AS id, to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS created_at, statut, total::text AS total FROM shopflow.commandes AS commandes WHERE client_id = 1 ORDER BY commandes.created_at DESC, commandes.id DESC LIMIT 21
+Limit  (cost=331.38..331.43 rows=21 width=118) (actual time=0.883..0.887 rows=21.00 loops=1)
+  Buffers: shared hit=108
+  ->  Sort  (cost=331.38..331.63 rows=100 width=118) (actual time=0.881..0.883 rows=21.00 loops=1)
+        Sort Key: created_at DESC, id DESC
+        Sort Method: top-N heapsort  Memory: 30kB
+        Buffers: shared hit=108
+        ->  Bitmap Heap Scan on commandes  (cost=5.07..328.68 rows=100 width=118) (actual time=0.170..0.815 rows=100.00 loops=1)
+              Recheck Cond: (client_id = 1)
+              Heap Blocks: exact=97
+              Buffers: shared hit=102
+              ->  Bitmap Index Scan on a3_idx_simple  (cost=0.00..5.04 rows=100 width=0) (actual time=0.060..0.060 rows=100.00 loops=1)
+                    Index Cond: (client_id = 1)
+                    Index Searches: 1
+                    Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=150
+Planning Time: 0.747 ms
+Execution Time: 0.926 ms

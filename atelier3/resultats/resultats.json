@@ -1,0 +1,2823 @@
+{
+ "env": {
+  "version": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "work_mem": "4MB",
+  "shared_buffers": "128MB",
+  "pages_commandes": 1674,
+  "taille_commandes_octets": 13713408
+ },
+ "etat_avant": {
+  "index": [
+   "clients_email_key",
+   "clients_pkey",
+   "commandes_client_id_cle_idempotence_key",
+   "commandes_pkey",
+   "lignes_pkey",
+   "produits_pkey"
+  ],
+  "statistiques_etendues": 0,
+  "pages_et_visibles": "1674/1674"
+ },
+ "etat_apres": {
+  "index": [
+   "clients_email_key",
+   "clients_pkey",
+   "commandes_client_id_cle_idempotence_key",
+   "commandes_pkey",
+   "lignes_pkey",
+   "produits_pkey"
+  ],
+  "statistiques_etendues": 0,
+  "pages_et_visibles": "1674/1674"
+ },
+ "labo_restaure": true,
+ "clients": [
+  1,
+  42,
+  250,
+  500,
+  1000
+ ],
+ "lecture_reelle": {
+  "initiale": {
+   "slide": {
+    "1": {
+     "label": "reel_initiale_slide",
+     "client": 1,
+     "lignes": 20,
+     "md5": "378faa2e6da2",
+     "identique_a_la_reference": true,
+     "ms": [
+      1.014,
+      0.757,
+      0.729,
+      0.653,
+      0.951
+     ],
+     "mediane_ms": 0.757,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 108,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_initiale_slide",
+     "client": 42,
+     "lignes": 20,
+     "md5": "5ae634c471f1",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.47,
+      0.525,
+      0.538,
+      0.575,
+      0.606
+     ],
+     "mediane_ms": 0.538,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 99,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_initiale_slide",
+     "client": 250,
+     "lignes": 20,
+     "md5": "628efcdfee90",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.509,
+      1.263,
+      2.015,
+      0.565,
+      0.855
+     ],
+     "mediane_ms": 0.855,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 105,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_initiale_slide",
+     "client": 500,
+     "lignes": 20,
+     "md5": "943014267f0c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.538,
+      0.674,
+      0.511,
+      0.524,
+      0.567
+     ],
+     "mediane_ms": 0.538,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 109,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_initiale_slide",
+     "client": 1000,
+     "lignes": 20,
+     "md5": "ce505a608836",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.541,
+      0.737,
+      0.593,
+      0.549,
+      0.659
+     ],
+     "mediane_ms": 0.593,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 104,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    }
+   },
+   "api": {
+    "1": {
+     "label": "reel_initiale_api",
+     "client": 1,
+     "lignes": 21,
+     "md5": "d60c48f2e88e",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.915,
+      0.855,
+      0.769,
+      0.782,
+      0.799
+     ],
+     "mediane_ms": 0.799,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 108,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_initiale_api",
+     "client": 42,
+     "lignes": 21,
+     "md5": "21df3003a95c",
+     "identique_a_la_reference": true,
+     "ms": [
+      1.035,
+      0.882,
+      0.786,
+      0.627,
+      0.711
+     ],
+     "mediane_ms": 0.786,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 99,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_initiale_api",
+     "client": 250,
+     "lignes": 21,
+     "md5": "6d059dbcc1e7",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.803,
+      0.891,
+      0.688,
+      1.051,
+      0.628
+     ],
+     "mediane_ms": 0.803,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 105,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_initiale_api",
+     "client": 500,
+     "lignes": 21,
+     "md5": "4e97020cd521",
+     "identique_a_la_reference": true,
+     "ms": [
+      1.222,
+      0.884,
+      0.86,
+      0.723,
+      0.922
+     ],
+     "mediane_ms": 0.884,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 109,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_initiale_api",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "300c87e77b17",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.71,
+      1.076,
+      0.771,
+      0.742,
+      0.805
+     ],
+     "mediane_ms": 0.771,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 104,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    }
+   },
+   "curseur": {
+    "1": {
+     "label": "reel_initiale_curseur",
+     "client": 1,
+     "lignes": 21,
+     "md5": "00f9a9fff24f",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.787,
+      0.741,
+      0.734,
+      1.189,
+      0.675
+     ],
+     "mediane_ms": 0.741,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 108,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_initiale_curseur",
+     "client": 42,
+     "lignes": 21,
+     "md5": "e2a1d1ff6bb9",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.729,
+      0.784,
+      0.649,
+      0.747,
+      0.755
+     ],
+     "mediane_ms": 0.747,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 99,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_initiale_curseur",
+     "client": 250,
+     "lignes": 21,
+     "md5": "b85c8192a892",
+     "identique_a_la_reference": true,
+     "ms": [
+      1.067,
+      1.331,
+      1.335,
+      1.21,
+      0.668
+     ],
+     "mediane_ms": 1.21,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 105,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_initiale_curseur",
+     "client": 500,
+     "lignes": 21,
+     "md5": "ae385fc44294",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.908,
+      1.232,
+      0.719,
+      1.479,
+      0.901
+     ],
+     "mediane_ms": 0.908,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 109,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_initiale_curseur",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "69b91bbcaa00",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.702,
+      1.272,
+      1.051,
+      0.896,
+      0.798
+     ],
+     "mediane_ms": 0.896,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "commandes_client_id_cle_idempotence_key"
+     ],
+     "buffers_hit": 104,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    }
+   }
+  },
+  "simple": {
+   "slide": {
+    "1": {
+     "label": "reel_simple_slide",
+     "client": 1,
+     "lignes": 20,
+     "md5": "378faa2e6da2",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.53,
+      0.644,
+      0.65,
+      0.551,
+      0.588
+     ],
+     "mediane_ms": 0.588,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 108,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_simple_slide",
+     "client": 42,
+     "lignes": 20,
+     "md5": "5ae634c471f1",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.565,
+      0.486,
+      0.792,
+      0.528,
+      0.534
+     ],
+     "mediane_ms": 0.534,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 99,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_simple_slide",
+     "client": 250,
+     "lignes": 20,
+     "md5": "628efcdfee90",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.588,
+      0.582,
+      0.839,
+      0.589,
+      0.783
+     ],
+     "mediane_ms": 0.589,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 105,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_simple_slide",
+     "client": 500,
+     "lignes": 20,
+     "md5": "943014267f0c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.615,
+      0.942,
+      0.526,
+      0.543,
+      0.669
+     ],
+     "mediane_ms": 0.615,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 109,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_simple_slide",
+     "client": 1000,
+     "lignes": 20,
+     "md5": "ce505a608836",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.57,
+      0.523,
+      0.55,
+      0.518,
+      0.68
+     ],
+     "mediane_ms": 0.55,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 104,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    }
+   },
+   "api": {
+    "1": {
+     "label": "reel_simple_api",
+     "client": 1,
+     "lignes": 21,
+     "md5": "d60c48f2e88e",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.738,
+      0.781,
+      0.719,
+      0.766,
+      0.926
+     ],
+     "mediane_ms": 0.766,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 108,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_simple_api",
+     "client": 42,
+     "lignes": 21,
+     "md5": "21df3003a95c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.662,
+      0.733,
+      0.935,
+      0.847,
+      1.306
+     ],
+     "mediane_ms": 0.847,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 99,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_simple_api",
+     "client": 250,
+     "lignes": 21,
+     "md5": "6d059dbcc1e7",
+     "identique_a_la_reference": true,
+     "ms": [
+      1.111,
+      0.672,
+      0.923,
+      0.683,
+      0.701
+     ],
+     "mediane_ms": 0.701,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 105,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_simple_api",
+     "client": 500,
+     "lignes": 21,
+     "md5": "4e97020cd521",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.724,
+      0.848,
+      0.771,
+      0.973,
+      0.707
+     ],
+     "mediane_ms": 0.771,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 109,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_simple_api",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "300c87e77b17",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.669,
+      0.769,
+      0.991,
+      0.766,
+      0.803
+     ],
+     "mediane_ms": 0.769,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 104,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    }
+   },
+   "curseur": {
+    "1": {
+     "label": "reel_simple_curseur",
+     "client": 1,
+     "lignes": 21,
+     "md5": "00f9a9fff24f",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.729,
+      0.924,
+      0.743,
+      0.741,
+      0.795
+     ],
+     "mediane_ms": 0.743,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 108,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_simple_curseur",
+     "client": 42,
+     "lignes": 21,
+     "md5": "e2a1d1ff6bb9",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.647,
+      0.76,
+      0.644,
+      0.679,
+      0.955
+     ],
+     "mediane_ms": 0.679,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 99,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_simple_curseur",
+     "client": 250,
+     "lignes": 21,
+     "md5": "b85c8192a892",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.815,
+      0.673,
+      0.737,
+      0.734,
+      0.867
+     ],
+     "mediane_ms": 0.737,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 105,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_simple_curseur",
+     "client": 500,
+     "lignes": 21,
+     "md5": "ae385fc44294",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.713,
+      0.764,
+      0.726,
+      0.715,
+      0.7
+     ],
+     "mediane_ms": 0.715,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 109,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_simple_curseur",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "69b91bbcaa00",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.719,
+      0.803,
+      0.69,
+      0.728,
+      1.122
+     ],
+     "mediane_ms": 0.728,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "buffers_hit": 104,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": true,
+     "plan_identique_5_fois": true
+    }
+   }
+  },
+  "compose": {
+   "slide": {
+    "1": {
+     "label": "reel_compose_slide",
+     "client": 1,
+     "lignes": 20,
+     "md5": "378faa2e6da2",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.427,
+      0.204,
+      0.201,
+      0.196,
+      0.197
+     ],
+     "mediane_ms": 0.201,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 26,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_compose_slide",
+     "client": 42,
+     "lignes": 20,
+     "md5": "5ae634c471f1",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.51,
+      0.184,
+      0.199,
+      0.22,
+      0.222
+     ],
+     "mediane_ms": 0.22,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 26,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_compose_slide",
+     "client": 250,
+     "lignes": 20,
+     "md5": "628efcdfee90",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.248,
+      0.286,
+      0.192,
+      0.201,
+      0.201
+     ],
+     "mediane_ms": 0.201,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 26,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_compose_slide",
+     "client": 500,
+     "lignes": 20,
+     "md5": "943014267f0c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.203,
+      0.208,
+      0.182,
+      0.172,
+      0.248
+     ],
+     "mediane_ms": 0.203,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 26,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_compose_slide",
+     "client": 1000,
+     "lignes": 20,
+     "md5": "ce505a608836",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.2,
+      0.209,
+      0.185,
+      0.196,
+      0.187
+     ],
+     "mediane_ms": 0.196,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 26,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   },
+   "api": {
+    "1": {
+     "label": "reel_compose_api",
+     "client": 1,
+     "lignes": 21,
+     "md5": "d60c48f2e88e",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.338,
+      0.252,
+      0.254,
+      0.256,
+      0.289
+     ],
+     "mediane_ms": 0.256,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_compose_api",
+     "client": 42,
+     "lignes": 21,
+     "md5": "21df3003a95c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.407,
+      0.464,
+      0.248,
+      0.251,
+      0.321
+     ],
+     "mediane_ms": 0.321,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_compose_api",
+     "client": 250,
+     "lignes": 21,
+     "md5": "6d059dbcc1e7",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.265,
+      0.301,
+      0.302,
+      0.257,
+      0.281
+     ],
+     "mediane_ms": 0.281,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_compose_api",
+     "client": 500,
+     "lignes": 21,
+     "md5": "4e97020cd521",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.389,
+      0.369,
+      0.28,
+      0.358,
+      0.243
+     ],
+     "mediane_ms": 0.358,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_compose_api",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "300c87e77b17",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.273,
+      0.258,
+      0.273,
+      0.297,
+      0.314
+     ],
+     "mediane_ms": 0.273,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   },
+   "curseur": {
+    "1": {
+     "label": "reel_compose_curseur",
+     "client": 1,
+     "lignes": 21,
+     "md5": "00f9a9fff24f",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.328,
+      0.334,
+      0.28,
+      0.281,
+      0.302
+     ],
+     "mediane_ms": 0.302,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_compose_curseur",
+     "client": 42,
+     "lignes": 21,
+     "md5": "e2a1d1ff6bb9",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.343,
+      0.293,
+      0.451,
+      0.479,
+      0.385
+     ],
+     "mediane_ms": 0.385,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_compose_curseur",
+     "client": 250,
+     "lignes": 21,
+     "md5": "b85c8192a892",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.304,
+      0.532,
+      0.432,
+      0.539,
+      0.297
+     ],
+     "mediane_ms": 0.432,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_compose_curseur",
+     "client": 500,
+     "lignes": 21,
+     "md5": "ae385fc44294",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.369,
+      0.27,
+      0.274,
+      0.275,
+      0.303
+     ],
+     "mediane_ms": 0.275,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 28,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_compose_curseur",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "69b91bbcaa00",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.522,
+      0.318,
+      0.288,
+      0.3,
+      0.333
+     ],
+     "mediane_ms": 0.318,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   }
+  },
+  "couvrant": {
+   "slide": {
+    "1": {
+     "label": "reel_couvrant_slide",
+     "client": 1,
+     "lignes": 20,
+     "md5": "378faa2e6da2",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.186,
+      0.147,
+      0.094,
+      0.101,
+      0.094
+     ],
+     "mediane_ms": 0.101,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_couvrant_slide",
+     "client": 42,
+     "lignes": 20,
+     "md5": "5ae634c471f1",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.091,
+      0.095,
+      0.097,
+      0.095,
+      0.099
+     ],
+     "mediane_ms": 0.095,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_couvrant_slide",
+     "client": 250,
+     "lignes": 20,
+     "md5": "628efcdfee90",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.097,
+      0.194,
+      0.166,
+      0.163,
+      0.15
+     ],
+     "mediane_ms": 0.163,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_couvrant_slide",
+     "client": 500,
+     "lignes": 20,
+     "md5": "943014267f0c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.107,
+      0.115,
+      0.1,
+      0.141,
+      0.124
+     ],
+     "mediane_ms": 0.115,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_couvrant_slide",
+     "client": 1000,
+     "lignes": 20,
+     "md5": "ce505a608836",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.133,
+      0.161,
+      0.343,
+      0.326,
+      0.117
+     ],
+     "mediane_ms": 0.161,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   },
+   "api": {
+    "1": {
+     "label": "reel_couvrant_api",
+     "client": 1,
+     "lignes": 21,
+     "md5": "d60c48f2e88e",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.165,
+      0.16,
+      0.155,
+      0.184,
+      0.16
+     ],
+     "mediane_ms": 0.16,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_couvrant_api",
+     "client": 42,
+     "lignes": 21,
+     "md5": "21df3003a95c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.2,
+      0.161,
+      0.158,
+      0.15,
+      0.217
+     ],
+     "mediane_ms": 0.161,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_couvrant_api",
+     "client": 250,
+     "lignes": 21,
+     "md5": "6d059dbcc1e7",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.172,
+      0.166,
+      0.18,
+      0.18,
+      0.156
+     ],
+     "mediane_ms": 0.172,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_couvrant_api",
+     "client": 500,
+     "lignes": 21,
+     "md5": "4e97020cd521",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.163,
+      0.162,
+      0.168,
+      0.175,
+      0.193
+     ],
+     "mediane_ms": 0.168,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_couvrant_api",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "300c87e77b17",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.403,
+      0.202,
+      0.203,
+      0.229,
+      0.175
+     ],
+     "mediane_ms": 0.203,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   },
+   "curseur": {
+    "1": {
+     "label": "reel_couvrant_curseur",
+     "client": 1,
+     "lignes": 21,
+     "md5": "00f9a9fff24f",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.207,
+      0.165,
+      0.267,
+      0.201,
+      0.294
+     ],
+     "mediane_ms": 0.207,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_couvrant_curseur",
+     "client": 42,
+     "lignes": 21,
+     "md5": "e2a1d1ff6bb9",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.232,
+      0.515,
+      0.241,
+      0.322,
+      0.203
+     ],
+     "mediane_ms": 0.241,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_couvrant_curseur",
+     "client": 250,
+     "lignes": 21,
+     "md5": "b85c8192a892",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.227,
+      0.21,
+      0.216,
+      0.331,
+      0.267
+     ],
+     "mediane_ms": 0.227,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 8,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_couvrant_curseur",
+     "client": 500,
+     "lignes": 21,
+     "md5": "ae385fc44294",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.242,
+      0.207,
+      0.218,
+      0.204,
+      0.19
+     ],
+     "mediane_ms": 0.207,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_couvrant_curseur",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "69b91bbcaa00",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.198,
+      0.251,
+      0.225,
+      0.225,
+      0.191
+     ],
+     "mediane_ms": 0.225,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   }
+  },
+  "couvrant_total": {
+   "slide": {
+    "1": {
+     "label": "reel_couvrant_total_slide",
+     "client": 1,
+     "lignes": 20,
+     "md5": "378faa2e6da2",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.119,
+      0.092,
+      0.102,
+      0.099,
+      0.099
+     ],
+     "mediane_ms": 0.099,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_couvrant_total_slide",
+     "client": 42,
+     "lignes": 20,
+     "md5": "5ae634c471f1",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.091,
+      0.094,
+      0.109,
+      0.118,
+      0.099
+     ],
+     "mediane_ms": 0.099,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_couvrant_total_slide",
+     "client": 250,
+     "lignes": 20,
+     "md5": "628efcdfee90",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.119,
+      0.103,
+      0.283,
+      0.142,
+      0.104
+     ],
+     "mediane_ms": 0.119,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_couvrant_total_slide",
+     "client": 500,
+     "lignes": 20,
+     "md5": "943014267f0c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.098,
+      0.112,
+      0.129,
+      0.098,
+      0.107
+     ],
+     "mediane_ms": 0.107,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_couvrant_total_slide",
+     "client": 1000,
+     "lignes": 20,
+     "md5": "ce505a608836",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.106,
+      0.1,
+      0.16,
+      0.106,
+      0.128
+     ],
+     "mediane_ms": 0.106,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 7,
+     "buffers_read": 0,
+     "heap_fetches": 0,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   },
+   "api": {
+    "1": {
+     "label": "reel_couvrant_total_api",
+     "client": 1,
+     "lignes": 21,
+     "md5": "d60c48f2e88e",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.256,
+      0.318,
+      0.297,
+      0.282,
+      0.36
+     ],
+     "mediane_ms": 0.297,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_couvrant_total_api",
+     "client": 42,
+     "lignes": 21,
+     "md5": "21df3003a95c",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.257,
+      0.299,
+      0.252,
+      0.399,
+      0.248
+     ],
+     "mediane_ms": 0.257,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_couvrant_total_api",
+     "client": 250,
+     "lignes": 21,
+     "md5": "6d059dbcc1e7",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.372,
+      0.586,
+      0.309,
+      0.286,
+      0.295
+     ],
+     "mediane_ms": 0.309,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_couvrant_total_api",
+     "client": 500,
+     "lignes": 21,
+     "md5": "4e97020cd521",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.296,
+      0.273,
+      0.52,
+      0.276,
+      0.256
+     ],
+     "mediane_ms": 0.276,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_couvrant_total_api",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "300c87e77b17",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.26,
+      0.274,
+      0.289,
+      0.26,
+      0.269
+     ],
+     "mediane_ms": 0.269,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   },
+   "curseur": {
+    "1": {
+     "label": "reel_couvrant_total_curseur",
+     "client": 1,
+     "lignes": 21,
+     "md5": "00f9a9fff24f",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.305,
+      0.376,
+      0.46,
+      0.324,
+      0.295
+     ],
+     "mediane_ms": 0.324,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "42": {
+     "label": "reel_couvrant_total_curseur",
+     "client": 42,
+     "lignes": 21,
+     "md5": "e2a1d1ff6bb9",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.345,
+      0.279,
+      0.278,
+      0.325,
+      0.374
+     ],
+     "mediane_ms": 0.325,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "250": {
+     "label": "reel_couvrant_total_curseur",
+     "client": 250,
+     "lignes": 21,
+     "md5": "b85c8192a892",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.296,
+      0.296,
+      0.327,
+      0.327,
+      0.348
+     ],
+     "mediane_ms": 0.327,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "500": {
+     "label": "reel_couvrant_total_curseur",
+     "client": 500,
+     "lignes": 21,
+     "md5": "ae385fc44294",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.27,
+      0.3,
+      0.293,
+      0.282,
+      0.266
+     ],
+     "mediane_ms": 0.282,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 27,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    },
+    "1000": {
+     "label": "reel_couvrant_total_curseur",
+     "client": 1000,
+     "lignes": 21,
+     "md5": "69b91bbcaa00",
+     "identique_a_la_reference": true,
+     "ms": [
+      0.53,
+      0.292,
+      0.609,
+      0.301,
+      0.308
+     ],
+     "mediane_ms": 0.308,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "buffers_hit": 28,
+     "buffers_read": 0,
+     "heap_fetches": null,
+     "tri": false,
+     "plan_identique_5_fois": true
+    }
+   }
+  }
+ },
+ "tailles_index_octets": {
+  "initiale (index unique existant)": 1908736,
+  "simple": 704512,
+  "compose": 4079616,
+  "couvrant": 5931008,
+  "couvrant_total": 4980736
+ },
+ "controle_table_de_travail": {
+  "buffers_table_de_travail": 96,
+  "buffers_vraie_table": 99
+ },
+ "tailles_index_table_de_travail": {
+  "simple": 704512,
+  "compose": 4079616,
+  "couvrant": 5931008,
+  "couvrant_total": 4980736
+ },
+ "mesure_renforcee_client42": {
+  "slide": {
+   "initiale": {
+    "mediane_ms": 0.546,
+    "p95_ms": 0.845,
+    "min_ms": 0.418,
+    "n": 51,
+    "buffers_hit": 96,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "t_initiale_client_id_cle_idempotence_key"
+    ],
+    "heap_fetches": null,
+    "md5": "5ae634c471f1",
+    "identique_a_initiale": true
+   },
+   "simple": {
+    "mediane_ms": 0.548,
+    "p95_ms": 0.86,
+    "min_ms": 0.419,
+    "n": 51,
+    "buffers_hit": 96,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_simple"
+    ],
+    "heap_fetches": null,
+    "md5": "5ae634c471f1",
+    "identique_a_initiale": true
+   },
+   "compose": {
+    "mediane_ms": 0.161,
+    "p95_ms": 0.339,
+    "min_ms": 0.129,
+    "n": 51,
+    "buffers_hit": 26,
+    "noeuds": [
+     "Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_compose"
+    ],
+    "heap_fetches": null,
+    "md5": "5ae634c471f1",
+    "identique_a_initiale": true
+   },
+   "couvrant": {
+    "mediane_ms": 0.094,
+    "p95_ms": 0.186,
+    "min_ms": 0.076,
+    "n": 51,
+    "buffers_hit": 7,
+    "noeuds": [
+     "Index Only Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_couvrant"
+    ],
+    "heap_fetches": 0,
+    "md5": "5ae634c471f1",
+    "identique_a_initiale": true
+   },
+   "couvrant_total": {
+    "mediane_ms": 0.086,
+    "p95_ms": 0.182,
+    "min_ms": 0.071,
+    "n": 51,
+    "buffers_hit": 7,
+    "noeuds": [
+     "Index Only Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_couvrant_total"
+    ],
+    "heap_fetches": 0,
+    "md5": "5ae634c471f1",
+    "identique_a_initiale": true
+   }
+  },
+  "api": {
+   "initiale": {
+    "mediane_ms": 0.69,
+    "p95_ms": 1.117,
+    "min_ms": 0.592,
+    "n": 51,
+    "buffers_hit": 96,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "t_initiale_client_id_cle_idempotence_key"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "simple": {
+    "mediane_ms": 0.729,
+    "p95_ms": 1.414,
+    "min_ms": 0.62,
+    "n": 51,
+    "buffers_hit": 96,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_simple"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "compose": {
+    "mediane_ms": 0.274,
+    "p95_ms": 0.485,
+    "min_ms": 0.218,
+    "n": 51,
+    "buffers_hit": 27,
+    "noeuds": [
+     "Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_compose"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "couvrant": {
+    "mediane_ms": 0.199,
+    "p95_ms": 0.366,
+    "min_ms": 0.15,
+    "n": 51,
+    "buffers_hit": 7,
+    "noeuds": [
+     "Index Only Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_couvrant"
+    ],
+    "heap_fetches": 0,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "couvrant_total": {
+    "mediane_ms": 0.267,
+    "p95_ms": 0.515,
+    "min_ms": 0.212,
+    "n": 51,
+    "buffers_hit": 27,
+    "noeuds": [
+     "Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_couvrant_total"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   }
+  },
+  "api_alias": {
+   "initiale": {
+    "mediane_ms": 0.877,
+    "p95_ms": 1.648,
+    "min_ms": 0.717,
+    "n": 51,
+    "buffers_hit": 93,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "t_initiale_client_id_cle_idempotence_key"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "simple": {
+    "mediane_ms": 0.86,
+    "p95_ms": 1.363,
+    "min_ms": 0.709,
+    "n": 51,
+    "buffers_hit": 93,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_simple"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "compose": {
+    "mediane_ms": 0.783,
+    "p95_ms": 1.26,
+    "min_ms": 0.665,
+    "n": 51,
+    "buffers_hit": 93,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "t_compose_client_id_cle_idempotence_key"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "couvrant": {
+    "mediane_ms": 0.382,
+    "p95_ms": 0.73,
+    "min_ms": 0.309,
+    "n": 51,
+    "buffers_hit": 11,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Index Only Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_couvrant"
+    ],
+    "heap_fetches": 0,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   },
+   "couvrant_total": {
+    "mediane_ms": 0.819,
+    "p95_ms": 1.213,
+    "min_ms": 0.703,
+    "n": 51,
+    "buffers_hit": 93,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "t_couvrant_total_client_id_cle_idempotence_key"
+    ],
+    "heap_fetches": null,
+    "md5": "21df3003a95c",
+    "identique_a_initiale": true
+   }
+  },
+  "curseur": {
+   "initiale": {
+    "mediane_ms": 0.69,
+    "p95_ms": 1.249,
+    "min_ms": 0.592,
+    "n": 51,
+    "buffers_hit": 96,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "t_initiale_client_id_cle_idempotence_key"
+    ],
+    "heap_fetches": null,
+    "md5": "e2a1d1ff6bb9",
+    "identique_a_initiale": true
+   },
+   "simple": {
+    "mediane_ms": 0.707,
+    "p95_ms": 1.169,
+    "min_ms": 0.585,
+    "n": 51,
+    "buffers_hit": 96,
+    "noeuds": [
+     "Sort",
+     "Sort",
+     "Sort",
+     "Bitmap Heap Scan",
+     "Bitmap Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_simple"
+    ],
+    "heap_fetches": null,
+    "md5": "e2a1d1ff6bb9",
+    "identique_a_initiale": true
+   },
+   "compose": {
+    "mediane_ms": 0.342,
+    "p95_ms": 0.562,
+    "min_ms": 0.24,
+    "n": 51,
+    "buffers_hit": 27,
+    "noeuds": [
+     "Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_compose"
+    ],
+    "heap_fetches": null,
+    "md5": "e2a1d1ff6bb9",
+    "identique_a_initiale": true
+   },
+   "couvrant": {
+    "mediane_ms": 0.201,
+    "p95_ms": 0.403,
+    "min_ms": 0.16,
+    "n": 51,
+    "buffers_hit": 7,
+    "noeuds": [
+     "Index Only Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_couvrant"
+    ],
+    "heap_fetches": 0,
+    "md5": "e2a1d1ff6bb9",
+    "identique_a_initiale": true
+   },
+   "couvrant_total": {
+    "mediane_ms": 0.303,
+    "p95_ms": 0.58,
+    "min_ms": 0.243,
+    "n": 51,
+    "buffers_hit": 27,
+    "noeuds": [
+     "Index Scan"
+    ],
+    "index_utilises": [
+     "a3_idx_couvrant_total"
+    ],
+    "heap_fetches": null,
+    "md5": "e2a1d1ff6bb9",
+    "identique_a_initiale": true
+   }
+  }
+ },
+ "ecriture": {
+  "initiale": {
+   "mediane_ms": 126.766,
+   "min_ms": 88.168,
+   "p95_ms": 391.134,
+   "n": 15,
+   "wal_bytes_mediane": 4623674,
+   "wal_records_mediane": 60322,
+   "nb_index_sur_la_table": 2
+  },
+  "simple": {
+   "mediane_ms": 180.857,
+   "min_ms": 132.527,
+   "p95_ms": 353.797,
+   "n": 15,
+   "wal_bytes_mediane": 5927578,
+   "wal_records_mediane": 80327,
+   "nb_index_sur_la_table": 3
+  },
+  "compose": {
+   "mediane_ms": 194.049,
+   "min_ms": 139.482,
+   "p95_ms": 593.318,
+   "n": 15,
+   "wal_bytes_mediane": 6240760,
+   "wal_records_mediane": 80322,
+   "nb_index_sur_la_table": 3
+  },
+  "couvrant": {
+   "mediane_ms": 218.958,
+   "min_ms": 152.069,
+   "p95_ms": 443.69,
+   "n": 15,
+   "wal_bytes_mediane": 6570048,
+   "wal_records_mediane": 80322,
+   "nb_index_sur_la_table": 3
+  },
+  "couvrant_total": {
+   "mediane_ms": 187.779,
+   "min_ms": 142.547,
+   "p95_ms": 302.993,
+   "n": 15,
+   "wal_bytes_mediane": 6400760,
+   "wal_records_mediane": 80323,
+   "nb_index_sur_la_table": 3
+  }
+ },
+ "visibilite": {
+  "1_apres_vacuum_initial": {
+   "ms": 0.145,
+   "noeuds": [
+    "Index Only Scan"
+   ],
+   "index_utilises": [
+    "a3_idx_vis"
+   ],
+   "buffers_hit": 4,
+   "buffers_read": 3,
+   "heap_fetches": 0,
+   "tri": false
+  },
+  "2_apres_update_sans_vacuum": {
+   "ms": 0.287,
+   "noeuds": [
+    "Index Only Scan"
+   ],
+   "index_utilises": [
+    "a3_idx_vis"
+   ],
+   "buffers_hit": 48,
+   "buffers_read": 0,
+   "heap_fetches": 40,
+   "tri": false
+  },
+  "3_apres_nouveau_vacuum": {
+   "ms": 0.084,
+   "noeuds": [
+    "Index Only Scan"
+   ],
+   "index_utilises": [
+    "a3_idx_vis"
+   ],
+   "buffers_hit": 8,
+   "buffers_read": 0,
+   "heap_fetches": 0,
+   "tri": false
+  }
+ },
+ "client_actif": {
+  "client": 7,
+  "commandes": 20100,
+  "mesures": {
+   "slide": {
+    "initiale": {
+     "mediane_ms": 6.619,
+     "p95_ms": 11.267,
+     "min_ms": 5.838,
+     "n": 51,
+     "buffers_hit": 287,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "t_initiale_client_id_cle_idempotence_key"
+     ],
+     "heap_fetches": null,
+     "md5": "de81be17c07e",
+     "identique_a_initiale": true
+    },
+    "simple": {
+     "mediane_ms": 6.35,
+     "p95_ms": 11.042,
+     "min_ms": 5.779,
+     "n": 51,
+     "buffers_hit": 287,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "heap_fetches": null,
+     "md5": "de81be17c07e",
+     "identique_a_initiale": true
+    },
+    "compose": {
+     "mediane_ms": 0.148,
+     "p95_ms": 0.269,
+     "min_ms": 0.127,
+     "n": 51,
+     "buffers_hit": 26,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "heap_fetches": null,
+     "md5": "de81be17c07e",
+     "identique_a_initiale": true
+    },
+    "couvrant": {
+     "mediane_ms": 0.091,
+     "p95_ms": 0.175,
+     "min_ms": 0.075,
+     "n": 51,
+     "buffers_hit": 7,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "heap_fetches": 0,
+     "md5": "de81be17c07e",
+     "identique_a_initiale": true
+    },
+    "couvrant_total": {
+     "mediane_ms": 0.103,
+     "p95_ms": 0.168,
+     "min_ms": 0.081,
+     "n": 51,
+     "buffers_hit": 7,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "heap_fetches": 0,
+     "md5": "de81be17c07e",
+     "identique_a_initiale": true
+    }
+   },
+   "api": {
+    "initiale": {
+     "mediane_ms": 23.311,
+     "p95_ms": 42.914,
+     "min_ms": 20.991,
+     "n": 51,
+     "buffers_hit": 287,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "t_initiale_client_id_cle_idempotence_key"
+     ],
+     "heap_fetches": null,
+     "md5": "3db83692c135",
+     "identique_a_initiale": true
+    },
+    "simple": {
+     "mediane_ms": 23.325,
+     "p95_ms": 40.407,
+     "min_ms": 21.219,
+     "n": 51,
+     "buffers_hit": 287,
+     "noeuds": [
+      "Sort",
+      "Sort",
+      "Sort",
+      "Bitmap Heap Scan",
+      "Bitmap Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_simple"
+     ],
+     "heap_fetches": null,
+     "md5": "3db83692c135",
+     "identique_a_initiale": true
+    },
+    "compose": {
+     "mediane_ms": 0.256,
+     "p95_ms": 0.493,
+     "min_ms": 0.207,
+     "n": 51,
+     "buffers_hit": 27,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_compose"
+     ],
+     "heap_fetches": null,
+     "md5": "3db83692c135",
+     "identique_a_initiale": true
+    },
+    "couvrant": {
+     "mediane_ms": 0.189,
+     "p95_ms": 0.347,
+     "min_ms": 0.152,
+     "n": 51,
+     "buffers_hit": 7,
+     "noeuds": [
+      "Index Only Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant"
+     ],
+     "heap_fetches": 0,
+     "md5": "3db83692c135",
+     "identique_a_initiale": true
+    },
+    "couvrant_total": {
+     "mediane_ms": 0.276,
+     "p95_ms": 0.439,
+     "min_ms": 0.225,
+     "n": 51,
+     "buffers_hit": 27,
+     "noeuds": [
+      "Index Scan"
+     ],
+     "index_utilises": [
+      "a3_idx_couvrant_total"
+     ],
+     "heap_fetches": null,
+     "md5": "3db83692c135",
+     "identique_a_initiale": true
+    }
+   }
+  },
+  "tailles_index_octets": {
+   "simple": 843776,
+   "compose": 5152768,
+   "couvrant": 7413760,
+   "couvrant_total": 6316032
+  }
+ }
+}

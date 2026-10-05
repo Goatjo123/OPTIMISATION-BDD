@@ -1,0 +1,12 @@
+-- SELECT id::text AS id, to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS created_at, statut, total::text AS total FROM shopflow.commandes AS commandes WHERE client_id = 42 AND (created_at, id) < ('2026-09-12 08:04:02+00'::timestamptz, 29042::bigint) ORDER BY commandes.created_at DESC, commandes.id DESC LIMIT 21
+Limit  (cost=0.42..2.14 rows=21 width=118) (actual time=0.142..0.161 rows=21.00 loops=1)
+  Buffers: shared hit=7
+  ->  Index Only Scan using a3_idx_couvrant on commandes  (cost=0.42..7.39 rows=85 width=118) (actual time=0.141..0.158 rows=21.00 loops=1)
+        Index Cond: ((client_id = 42) AND (ROW(created_at, id) < ROW('2026-09-12 08:04:02+00'::timestamp with time zone, '29042'::bigint)))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=7
+Planning:
+  Buffers: shared hit=166
+Planning Time: 0.488 ms
+Execution Time: 0.203 ms

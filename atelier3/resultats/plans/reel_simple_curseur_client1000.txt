@@ -1,0 +1,21 @@
+-- SELECT id::text AS id, to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS created_at, statut, total::text AS total FROM shopflow.commandes AS commandes WHERE client_id = 1000 AND (created_at, id) < ('2026-07-20 08:03:20+00'::timestamptz, 29000::bigint) ORDER BY commandes.created_at DESC, commandes.id DESC LIMIT 21
+Limit  (cost=330.49..330.54 rows=21 width=118) (actual time=1.040..1.046 rows=21.00 loops=1)
+  Buffers: shared hit=104
+  ->  Sort  (cost=330.49..330.65 rows=67 width=118) (actual time=1.039..1.041 rows=21.00 loops=1)
+        Sort Key: created_at DESC, id DESC
+        Sort Method: top-N heapsort  Memory: 29kB
+        Buffers: shared hit=104
+        ->  Bitmap Heap Scan on commandes  (cost=5.06..328.68 rows=67 width=118) (actual time=0.196..0.945 rows=80.00 loops=1)
+              Recheck Cond: (client_id = 1000)
+              Filter: (ROW(created_at, id) < ROW('2026-07-20 08:03:20+00'::timestamp with time zone, '29000'::bigint))
+              Rows Removed by Filter: 20
+              Heap Blocks: exact=93
+              Buffers: shared hit=98
+              ->  Bitmap Index Scan on a3_idx_simple  (cost=0.00..5.04 rows=100 width=0) (actual time=0.054..0.055 rows=100.00 loops=1)
+                    Index Cond: (client_id = 1000)
+                    Index Searches: 1
+                    Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=149
+Planning Time: 0.833 ms
+Execution Time: 1.122 ms
