@@ -49,6 +49,17 @@ Livrable attendu : **SQL avant/après, contrôle du contenu, plans et interprét
 - **Prouver l'équivalence** du résultat pertinent, puis mesurer avec le **même protocole**.
 - Si les plans sont identiques, **l'expliquer**. Si la réécriture perd des lignes, **la rejeter même si elle est plus rapide**.
 
+### Preuves à conserver de l'Atelier 3 (slide 12) : où les trouver dans le PDF
+| Exigence de la slide | Emplacement |
+|---|---|
+| La **requête** | Section A (API) et **annexe 5.0** (les 3 requêtes exactes) |
+| Le **plan** | **Annexe 4** : 3 requêtes × 5 variantes, client 42 (les 75 plans sont dans `atelier3/resultats/plans/`) |
+| Les **buffers** | Sections C, D, E, F, annexes 4 et 5.2 |
+| La **taille des index** | Section B |
+| Les **répétitions** | **Annexe 5.2** : les 5 mesures brutes des 75 combinaisons ; 5.3 et 5.4 pour les mesures renforcées (médiane, p95, minimum seulement) |
+| Un **lot d'insertion** dans une transaction de laboratoire | Section G (SQL `BEGIN … ROLLBACK`, WAL, durées) et annexe 5.4 |
+| **Expliquer le gain ou l'absence de gain** | Sections C et I, encadré « Ce que j'ai compris de l'atelier 3 » |
+
 ### Questions de compréhension (slide 33)
 Répondre aux 6 questions **avec un exemple et une condition d'application, pas uniquement une définition.**
 
@@ -68,7 +79,8 @@ Répondre aux 6 questions **avec un exemple et une condition d'application, pas 
 12. **Durées sub-milliseconde bruitées** : comparer des mesures **alternées** (un tour de chaque variante), s'appuyer sur les valeurs déterministes (buffers, plans, WAL, tailles) et annoncer la variabilité. Ne jamais comparer une durée d'une session à une durée d'une autre.
 13. **Prouver que le laboratoire est restauré** après toute expérience qui crée des objets (index, tables) et que **chaque variante** renvoie le même résultat (empreinte md5).
 14. **Une absence de gain est un résultat** : la présenter et l'expliquer (slide 12), ne pas la cacher.
-15. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
+15. **Les preuves sont dans le PDF, pas seulement les médianes** : fournir en annexe les mesures brutes (les 5 répétitions de chaque combinaison), l'empreinte du résultat, l'état du laboratoire avant/après et la version. Dire explicitement ce qui n'est pas conservé (ex. les 51 valeurs des mesures renforcées : seuls médiane, p95 et minimum).
+16. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
 
 ## 5. Vérification de l'exactitude (à refaire à chaque modification)
 
@@ -105,7 +117,7 @@ Points restant à connaître :
 ## 6. Mise à jour de `SYNTHESE.md`
 À chaque point pertinent (concept, résultat mesuré, piège, correction), l'ajouter dans la bonne section de `SYNTHESE.md`, en français, concis, avec les chiffres. Ne pas attendre qu'on le redemande.
 
-## 7. Structure actuelle du PDF (17 pages)
+## 7. Structure actuelle du PDF (25 pages)
 | Pages | Contenu |
 |---|---|
 | 1 à 2 | Atelier 1 : contexte, requêtes, résultats vérifiés, 5 mesures, nœud coûteux, **Ce que j'ai compris** |
@@ -113,7 +125,8 @@ Points restant à connaître :
 | 5 à 6 | Optimisations testées : le bilan (O1 `work_mem`, O2 statistique) |
 | 7 à 10 | **Atelier 3** : requêtes réelles de l'API, variantes, lecture, 5 clients, client très actif, piège de l'alias, écriture, `Heap Fetches`, tableau de décision, migration, **Ce que j'ai compris** |
 | 10 à 11 | Questions de compréhension du cours |
-| 12 à 17 | Annexes : plans complets (atelier 1, atelier 2, O1 et O2, atelier 3) |
+| 12 à 21 | Annexes 1 à 4 : plans complets (atelier 1, atelier 2, O1 et O2, atelier 3 : les 3 requêtes × 5 variantes pour le client 42) |
+| 22 à 25 | **Annexe 5 : preuves des mesures** (les 3 requêtes exactes, environnement, état du labo avant/après, 5 mesures brutes des 75 combinaisons avec empreintes, mesure renforcée, écriture, O1/O2) |
 
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].
