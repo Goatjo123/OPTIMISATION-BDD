@@ -1,0 +1,13 @@
+-- SELECT id, nom FROM shopflow.produits WHERE attributs @> '{"categorie":"inexistant"}'::jsonb ORDER BY id
+Sort  (cost=5.51..5.51 rows=1 width=19) (actual time=0.096..0.096 rows=0.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=6
+  ->  Seq Scan on produits  (cost=0.00..5.50 rows=1 width=19) (actual time=0.072..0.072 rows=0.00 loops=1)
+        Filter: (attributs @> '{"categorie": "inexistant"}'::jsonb)
+        Rows Removed by Filter: 200
+        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=97
+Planning Time: 0.481 ms
+Execution Time: 0.129 ms

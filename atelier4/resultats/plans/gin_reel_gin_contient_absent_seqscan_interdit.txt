@@ -1,0 +1,16 @@
+-- SET enable_seqscan = off ; SELECT id, nom FROM shopflow.produits WHERE attributs @> '{"categorie":"inexistant"}'::jsonb ORDER BY id
+Sort  (cost=12.81..12.81 rows=1 width=19) (actual time=0.033..0.033 rows=0.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=6
+  ->  Bitmap Heap Scan on produits  (cost=8.79..12.80 rows=1 width=19) (actual time=0.014..0.014 rows=0.00 loops=1)
+        Recheck Cond: (attributs @> '{"categorie": "inexistant"}'::jsonb)
+        Buffers: shared hit=3
+        ->  Bitmap Index Scan on a4_idx_gin  (cost=0.00..8.79 rows=1 width=0) (actual time=0.008..0.008 rows=0.00 loops=1)
+              Index Cond: (attributs @> '{"categorie": "inexistant"}'::jsonb)
+              Index Searches: 1
+              Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=97
+Planning Time: 0.357 ms
+Execution Time: 0.078 ms

@@ -214,6 +214,37 @@ Documentation complète, scripts, mesures brutes et migration : dossier [`atelie
 
 ---
 
+## 3quater. Atelier 4 : index spécialisés (Jour 2)
+
+Documentation complète, script, mesures brutes et migration : dossier [`atelier4/`](atelier4/README.md). Laboratoire vérifié avant/après : **état initial retrouvé**. Résultats fonctionnels **identiques** entre variantes (empreinte md5).
+
+| Besoin | Index | Résultat mesuré | Coût d'écriture | Décision |
+|---|---|---|---|---|
+| File des commandes `en_attente` (10 % de la table) | **Partiel** `(created_at, id) WHERE statut = 'en_attente'` | **×145**, 1 680 → 3 buffers, index de **328 kB** (2,4 % de la table) | WAL **+3,2 %** | **Retenu** (migration 002) |
+| Même file, tous statuts | Complet `(statut, created_at, id)` | ×130 à ×184, 4 072 kB (**12,4 fois** le partiel) | WAL **+36,5 %** | Rejeté |
+| Attributs de `produits` (200 lignes) | GIN | **jamais utilisé** (`idx_scan = 0`), Seq Scan sur 3 pages | n/a | **Rejeté** |
+| Attributs à 200 000 lignes | GIN | valeur rare (0,1 %) **×17** ; valeur à 24,9 % ×2,0 ; **inutile pour `->>`** | WAL **+120,7 %** | Conditionnel |
+| Propriété connue (`categorie`) | Expression ou colonne typée | **×28** / **×30** | WAL +34,6 % / +38,9 % | **Préférable** |
+| Chevauchement de périodes | GiST `&&` | **×164**, 1 474 → 8 buffers | WAL **+54,1 %**, insertion **×7,8** | Retenu si le besoin existe |
+
+- **Un partiel ne sert que son prédicat** : pour `payee` et `annulee` le plan reste un Seq Scan. L'écriture d'une ligne qui **quitte** la file ne coûte rien (WAL identique), celle d'une ligne qui y **entre** coûte une entrée.
+- **Piège de la requête paramétrée** : avec `statut = $1` et un plan **générique**, l'index partiel n'est pas utilisé (PostgreSQL ne peut pas prouver que la condition implique le prédicat). Il faut le littéral.
+- **`now()` dans un prédicat** : refusé (`functions in index predicate must be marked IMMUTABLE`).
+- **Un Seq Scan peut être rationnel** : sur 200 produits (3 pages), ni le GIN ni l'index d'expression ne sont utilisés. Test à 200 000 lignes réalisé.
+- **Le GIN sert `@>`, pas `->>`** ; l'index d'expression sert `->>`, pas `@>`. Le GIN est le plus **petit** mais le plus **coûteux** à maintenir.
+- **GiST** : les intervalles sont semi-ouverts `[)` : une période contiguë ne chevauche pas.
+- **Deux défauts de mesure trouvés et corrigés** : buffers incomplets (il faut `hit` **+** `read`) et plans parallèles non comparables à des plans simples (parallélisme désactivé pour les mesures alternées).
+
+### Ce que j'ai compris (Atelier 4)
+- Je **choisis l'index d'après la requête et l'opérateur**, pas l'inverse.
+- Un index partiel est **petit et peu coûteux** mais ne répond qu'à son prédicat.
+- Je **teste la requête telle que l'application l'enverra** (paramètre, plan générique).
+- Un **Seq Scan peut être le bon choix** sur une petite table ; je vérifie à plus grand volume.
+- L'utilité d'un index dépend de la **rareté de la valeur** (GIN : ×17 à 0,1 %, ×2,0 à 24,9 %).
+- **Mes propres mesures se vérifient** avant de conclure.
+
+---
+
 ## 4. Réponses aux questions de compréhension (slide 33)
 1. **Pourquoi ne pas additionner les durées de tous les nœuds ?** Les nœuds imbriqués partagent du travail : le temps d'un parent inclut celui de ses enfants.
 2. **Quand un parcours séquentiel est-il raisonnable ?** Table petite, ou requête qui lit une grande part des lignes.
@@ -260,5 +291,5 @@ Explication simple du cours (jusqu'à l'atelier 3) : voir [`COURS_JOUR2_SIMPLE.m
 ---
 
 ## 6. À venir
-- Appliquer la migration 001 (index composé) au labo quand le cours le demandera (`atelier3/migration/`), puis Atelier 4 (index spécialisés : partiel, GIN, GiST) et migration/bilan.
+- Appliquer les migrations 001 (index composé, `atelier3/migration/`) et 002 (index partiel, `atelier4/migration/`) au labo quand le cours le demandera ; puis Atelier 4 bis (migration de schéma sur une copie de `clients`).
 - Les optimisations O1 (`work_mem`) et O2 (statistique) ne sont testées que sur une copie ; les refaire dans le labo si besoin.

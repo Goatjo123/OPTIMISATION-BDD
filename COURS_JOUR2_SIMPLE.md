@@ -1,6 +1,6 @@
-# Cours Jour 2 expliqué simplement (jusqu'à l'Atelier 3)
+# Cours Jour 2 expliqué simplement (jusqu'à l'Atelier 4)
 
-Sujet du jour : **indexer et faire évoluer le schéma**. Ce fichier couvre les slides 1 à 12 (jusqu'à l'Atelier 3 inclus). Les exemples viennent de ShopFlow et de nos propres mesures.
+Sujet du jour : **indexer et faire évoluer le schéma**. Ce fichier couvre les slides 1 à 26 de la **nouvelle version du cours (48 slides)**, jusqu'à l'Atelier 4 inclus. Les exemples viennent de ShopFlow et de nos propres mesures. Après l'Atelier 4 viennent la migration de schéma, `CREATE INDEX CONCURRENTLY`, les verrous (slides 27 à 32) et l'Atelier 4 bis (slides 33 à 43), non traités ici.
 
 ---
 
@@ -220,7 +220,65 @@ Résultats complets dans [`atelier3/README.md`](atelier3/README.md) :
 
 ---
 
-## 11. Glossaire express
+## 11. Entre l'Atelier 3 et l'Atelier 4 : les index spécialisés (slides 13 à 25)
+
+### Index partiel (slides 13 et 14)
+Un index qui ne contient **que certaines lignes** (avec un `WHERE`). Exemple : seules les commandes `en_attente` (10 % de la table).
+- Il est **petit** (328 kB contre 4 072 kB pour un index complet) et **peu coûteux** à maintenir.
+- Il ne répond **qu'aux requêtes qui contiennent sa condition** : pour `payee` ou `annulee`, il ne sert à rien.
+- PostgreSQL doit pouvoir **prouver** que la condition de la requête implique celle de l'index. Avec un paramètre (`statut = $1`) et un plan générique, ce n'est pas possible : l'index n'est pas utilisé.
+- Un prédicat avec `now()` est **refusé** : la date relative change sans que les lignes changent.
+
+### Index d'expression (slide 15)
+Il indexe le **résultat d'un calcul**, par exemple `lower(email)`. La requête doit utiliser **la même expression**.
+
+### GIN (slides 16 et 17)
+Un index « inversé » pour chercher **dans** une valeur composée, comme un JSONB : `attributs @> '{"categorie":"livre"}'`.
+- Il sert l'opérateur `@>`, **pas** `->>`.
+- Il dépend de la **rareté** de la valeur cherchée.
+- Pour une **propriété toujours filtrée**, un index d'expression ou une **colonne typée** est plus rapide et moins coûteux en écriture (slide 17).
+
+### GiST (slide 18)
+Pour des cas spéciaux : **intervalles** (`tstzrange`) et opérateur de chevauchement `&&`. Les intervalles sont **semi-ouverts** `[)` : une période qui commence quand l'autre finit **ne la chevauche pas**.
+
+### BRIN (slide 19)
+Un tout petit index qui résume des **blocs de table**. Il ne marche que si la valeur suit l'ordre physique des lignes. Notre jeu mélange les dates : c'est un contre-exemple.
+
+### Comparer les familles (slide 20)
+Le type d'index découle de **l'opérateur** utilisé. B-tree : égalité, intervalle, tri. GIN : présence dans une valeur composée. GiST : intervalles, proximité. BRIN : plages corrélées aux blocs. Le partiel et `INCLUDE` sont des choix supplémentaires, pas des familles concurrentes.
+
+### Schéma et données (slides 21 à 25)
+- **Contrainte et index** (21) : une clé primaire ou `UNIQUE` s'appuie sur un index, et son rôle dépasse la performance. PostgreSQL ne crée pas d'index automatique sur les clés étrangères (côté qui référence).
+- **Décomposition verticale** (22 et 23) : séparer les colonnes consultées souvent des gros textes (`livres` et `livres_details`). Le détail demande ensuite une jointure.
+- **Données dérivées** (24 et 25) : un compteur évite un calcul, mais il faut définir qui le met à jour. Une vue matérialisée ne se met à jour que par `REFRESH` : il y a un décalage de fraîcheur.
+
+---
+
+## 12. Atelier 4 : index spécialisés (slide 26)
+
+**Consigne :** créer les variantes **partielle** et **GIN** dans le laboratoire ; comparer avec un filtre qui **correspond** au prédicat et un filtre qui **ne correspond pas** ; observer la **taille** et l'**usage** des index ; sur la petite table `produits`, un Seq Scan peut rester rationnel (l'expliquer et proposer un test à plus grand volume) ; pour **GiST**, deux périodes qui se chevauchent et une disjointe. **Livrable :** choix d'index, opérateurs, résultats et conditions.
+
+### Ce qu'on a mesuré (résultats complets dans [`atelier4/README.md`](atelier4/README.md))
+| Besoin | Index | Résultat | Décision |
+|---|---|---|---|
+| File des commandes en attente | **Partiel** | **×145**, 3 buffers, 328 kB, WAL +3,2 % ; **inutile** pour `payee` et `annulee` | **Retenu** |
+| Même file, tous statuts | Complet | ×130 à ×184 mais 12,4 fois plus gros, WAL +36,5 % | Rejeté |
+| Attributs de `produits` (200 lignes) | GIN | **jamais utilisé** : Seq Scan sur 3 pages | **Rejeté** |
+| Attributs à 200 000 lignes | GIN | ×17 (valeur à 0,1 %), ×2,0 (24,9 %), inutile pour `->>` ; WAL +120,7 % | Conditionnel |
+| Propriété connue | Expression ou colonne typée | ×28 et ×30 ; WAL +35 à +39 % | **Préférable** |
+| Chevauchement de périodes | GiST | ×164 ; WAL +54,1 %, insertion ×7,8 | Retenu si le besoin existe |
+
+### À retenir
+- Je **choisis l'index d'après la requête et l'opérateur**.
+- Un **partiel** est petit mais ne sert que son prédicat, et exige le **littéral** dans la requête.
+- Un **Seq Scan** peut être le bon choix sur une petite table.
+- Le **GIN** est le plus petit mais le plus coûteux à maintenir ; il sert `@>` et pas `->>`.
+- Les durées sont bruitées : on s'appuie sur les **buffers, tailles et volumes de WAL**.
+- Deux défauts de mesure ont été trouvés et corrigés en cours de route : buffers incomplets (`hit` **+** `read`) et plans parallèles non comparables à des plans simples.
+
+---
+
+## 13. Glossaire express
 | Mot | En une phrase |
 |---|---|
 | Index | Structure triée qui indique où sont les lignes |
@@ -233,3 +291,9 @@ Résultats complets dans [`atelier3/README.md`](atelier3/README.md) :
 | Heap Fetches | Visites à la table malgré un Index Only Scan (vérification de visibilité) |
 | WAL | Journal d'écriture : chaque modification en produit |
 | Index redondant | Index qui en recouvre un autre (mais il peut avoir une raison d'exister) |
+| Index partiel | Index limité aux lignes qui respectent une condition (`WHERE`) |
+| Plan générique | Plan d'une requête paramétrée, fait sans connaître la valeur du paramètre |
+| GIN | Index « inversé » pour chercher dans une valeur composée (JSONB), opérateur `@>` |
+| GiST | Index pour intervalles et proximité, opérateur `&&` pour le chevauchement |
+| BRIN | Petit index qui résume des blocs de table ; utile si la valeur suit l'ordre physique |
+| Index d'expression | Index sur le résultat d'un calcul, comme `lower(email)` |

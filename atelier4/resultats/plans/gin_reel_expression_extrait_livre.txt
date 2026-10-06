@@ -1,0 +1,13 @@
+-- SELECT id, nom FROM shopflow.produits WHERE attributs->>'categorie' = 'livre' ORDER BY id
+Sort  (cost=6.01..6.01 rows=1 width=19) (actual time=0.077..0.080 rows=50.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=6
+  ->  Seq Scan on produits  (cost=0.00..6.00 rows=1 width=19) (actual time=0.018..0.048 rows=50.00 loops=1)
+        Filter: ((attributs ->> 'categorie'::text) = 'livre'::text)
+        Rows Removed by Filter: 150
+        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=102
+Planning Time: 0.358 ms
+Execution Time: 0.108 ms

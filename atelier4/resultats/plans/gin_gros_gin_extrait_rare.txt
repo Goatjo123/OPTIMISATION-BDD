@@ -1,0 +1,11 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_gin WHERE attributs->>'categorie' = 'rare'
+Aggregate  (cost=5860.00..5860.01 rows=1 width=40) (actual time=31.624..31.626 rows=1.00 loops=1)
+  Buffers: shared hit=2855
+  ->  Seq Scan on g_gin  (cost=0.00..5855.00 rows=1000 width=8) (actual time=0.181..31.571 rows=200.00 loops=1)
+        Filter: ((attributs ->> 'categorie'::text) = 'rare'::text)
+        Rows Removed by Filter: 199800
+        Buffers: shared hit=2855
+Planning:
+  Buffers: shared hit=89
+Planning Time: 0.351 ms
+Execution Time: 31.669 ms

@@ -1,0 +1,13 @@
+-- SELECT id FROM a4_tmp.r_sans WHERE periode && tstzrange('2026-03-01 14:00+00', '2026-03-01 16:00+00') ORDER BY id
+Sort  (cost=3971.38..3971.42 rows=18 width=8) (actual time=26.709..26.711 rows=17.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=1474
+  ->  Seq Scan on r_sans  (cost=0.00..3971.00 rows=18 width=8) (actual time=1.249..26.694 rows=17.00 loops=1)
+        Filter: (periode && '["2026-03-01 14:00:00+00","2026-03-01 16:00:00+00")'::tstzrange)
+        Rows Removed by Filter: 199983
+        Buffers: shared hit=1471
+Planning:
+  Buffers: shared hit=74
+Planning Time: 0.310 ms
+Execution Time: 26.727 ms

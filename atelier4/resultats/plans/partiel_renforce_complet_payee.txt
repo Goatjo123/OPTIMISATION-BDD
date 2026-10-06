@@ -1,0 +1,12 @@
+-- SELECT id FROM a4_tmp.t_complet WHERE statut = 'payee' ORDER BY created_at, id LIMIT 100
+Limit  (cost=0.42..4.21 rows=100 width=16) (actual time=0.048..0.062 rows=100.00 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using a4_idx_complet on t_complet  (cost=0.42..3040.74 rows=80247 width=16) (actual time=0.046..0.055 rows=100.00 loops=1)
+        Index Cond: (statut = 'payee'::text)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=144
+Planning Time: 0.576 ms
+Execution Time: 0.087 ms

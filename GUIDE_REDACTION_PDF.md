@@ -60,6 +60,17 @@ Livrable attendu : **SQL avant/après, contrôle du contenu, plans et interprét
 | Un **lot d'insertion** dans une transaction de laboratoire | Section G (SQL `BEGIN … ROLLBACK`, WAL, durées) et annexe 5.4 |
 | **Expliquer le gain ou l'absence de gain** | Sections C et I, encadré « Ce que j'ai compris de l'atelier 3 » |
 
+### Preuves de l'Atelier 4 (slide 26) : où les trouver dans le PDF
+| Exigence de la slide | Emplacement |
+|---|---|
+| Variantes **partielle** et **GIN** dans le laboratoire | Sections A et B de l'atelier 4 ; DDL dans l'annexe 7.0 |
+| Filtre qui **correspond** au prédicat et filtre qui **ne correspond pas** | Section A (en_attente contre payee et annulee), annexe 6 |
+| **Taille** et **usage** des index | Section A (tailles, `idx_scan`), section B, annexe 7.2 |
+| Sur la petite table `produits`, **Seq Scan rationnel** : l'expliquer | Section B (200 lignes, 3 pages, coûts estimés, diagnostic Seq Scan interdit) |
+| **Test à plus grand volume** | Section B (200 000 produits) |
+| **GiST** : deux périodes qui se chevauchent et une disjointe | Section C (ids 1 et 2, 3 disjointe, 4 contiguë) |
+| **Choix d'index, opérateurs, résultats et conditions** (livrable) | Section D et encadré « Ce que j'ai compris de l'atelier 4 » |
+
 ### Questions de compréhension (slide 33)
 Répondre aux 6 questions **avec un exemple et une condition d'application, pas uniquement une définition.**
 
@@ -80,7 +91,12 @@ Répondre aux 6 questions **avec un exemple et une condition d'application, pas 
 13. **Prouver que le laboratoire est restauré** après toute expérience qui crée des objets (index, tables) et que **chaque variante** renvoie le même résultat (empreinte md5).
 14. **Une absence de gain est un résultat** : la présenter et l'expliquer (slide 12), ne pas la cacher.
 15. **Les preuves sont dans le PDF, pas seulement les médianes** : fournir en annexe les mesures brutes (les 5 répétitions de chaque combinaison), l'empreinte du résultat, l'état du laboratoire avant/après et la version. Dire explicitement ce qui n'est pas conservé (ex. les 51 valeurs des mesures renforcées : seuls médiane, p95 et minimum).
-16. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
+16. **Les buffers se comptent en `hit` + `read`** : ne jamais lire seulement `shared hit`. Vérifier que `read` est nul (ou l'annoncer) avant de comparer des plans.
+17. **Comparer des plans de même forme** : un `Parallel Seq Scan` n'est pas comparable à un `Seq Scan` simple. Fixer `max_parallel_workers_per_gather` pour les mesures alternées sur des tables différentes, et le dire.
+18. **Contrôler le rendu des nombres** : séparateur de milliers (espace) et virgule décimale ne doivent pas se confondre (par exemple « 10,1 » et non « 10 1 »). Rechercher les motifs suspects dans le texte extrait du PDF.
+19. **Un défaut de mesure trouvé en cours de route se documente** (ce qui était faux, comment il a été corrigé) et les chiffres viennent de l'exécution corrigée.
+20. **Pour chaque solution : la situation, pourquoi on la choisit (et laquelle on écarte), et si elle fonctionne** (gain, résultat identique, limites vérifiées, verdict). Ne jamais présenter une solution sans dire si elle marche et dans quelles conditions.
+21. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
 
 ## 5. Vérification de l'exactitude (à refaire à chaque modification)
 
@@ -114,19 +130,29 @@ Points restant à connaître :
 - Le coût de `CREATE STATISTICS` n'a pas été mesuré ; le coût en écriture des index a été mesuré à l'Atelier 3 (WAL +35 % pour le composé ; durées trop bruitées pour un pourcentage unique).
 - Les explications sur la **cause** (le bitmap lit 85 à 88 pages parce que les commandes sont dispersées) restent des hypothèses ; celles sur le tri et l'estimation sont **confirmées** par les tests.
 
+### Dernière vérification effectuée : atelier 4 (06/10/2026)
+Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resultats/resultats.json` (aucun écart). Trois défauts ont été trouvés et corrigés pendant le travail :
+| Défaut | Correction |
+|---|---|
+| Buffers : seul `shared hit` était lu (un plan affichait `hit=841 read=1554`) | Buffers = `hit` + `read` ; tous les `read` valent 0 dans l'exécution finale |
+| Un `Parallel Seq Scan` (22 ms) comparé à un `Seq Scan` simple (≈ 42 ms) sur des tables différentes | Parallélisme désactivé pour les mesures alternées ; plan parallèle conservé comme observation |
+| Dans le PDF, « 10,1 » devenait « 10 1 » (virgule décimale remplacée par une espace) | Milliers formatés séparément ; recherche automatique de motifs suspects dans le texte du PDF |
+
 ## 6. Mise à jour de `SYNTHESE.md`
 À chaque point pertinent (concept, résultat mesuré, piège, correction), l'ajouter dans la bonne section de `SYNTHESE.md`, en français, concis, avec les chiffres. Ne pas attendre qu'on le redemande.
 
-## 7. Structure actuelle du PDF (25 pages)
+## 7. Structure actuelle du PDF (38 pages)
 | Pages | Contenu |
 |---|---|
 | 1 à 2 | Atelier 1 : contexte, requêtes, résultats vérifiés, 5 mesures, nœud coûteux, **Ce que j'ai compris** |
-| 3 à 5 | Atelier 2 : jointure contre EXISTS, total par commande, **Ce que j'ai compris** |
+| 3 à 4 | Atelier 2 : jointure contre EXISTS, total par commande, **Ce que j'ai compris** |
 | 5 à 6 | Optimisations testées : le bilan (O1 `work_mem`, O2 statistique) |
-| 7 à 10 | **Atelier 3** : requêtes réelles de l'API, variantes, lecture, 5 clients, client très actif, piège de l'alias, écriture, `Heap Fetches`, tableau de décision, migration, **Ce que j'ai compris** |
-| 10 à 11 | Questions de compréhension du cours |
-| 12 à 21 | Annexes 1 à 4 : plans complets (atelier 1, atelier 2, O1 et O2, atelier 3 : les 3 requêtes × 5 variantes pour le client 42) |
-| 22 à 25 | **Annexe 5 : preuves des mesures** (les 3 requêtes exactes, environnement, état du labo avant/après, 5 mesures brutes des 75 combinaisons avec empreintes, mesure renforcée, écriture, O1/O2) |
+| 7 à 10 | **Atelier 3** : historique client (requêtes réelles de l'API, variantes, lecture, 5 clients, client très actif, piège de l'alias, écriture, `Heap Fetches`, décision, migration 001) |
+| 11 à 15 | **Atelier 4** : situation, puis pour chaque partie (A partiel, B GIN, C GiST) **situation, solution choisie et pourquoi, résultats, « est-ce que ça fonctionne ? »** ; livrable, migration 002, **Ce que j'ai compris** |
+| 16 | Questions de compréhension du cours |
+| 17 à 30 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
+| 31 à 35 | **Annexe 6** : plans de l'atelier 4 |
+| 36 à 38 | **Annexe 7** : preuves de l'atelier 4 |
 
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].

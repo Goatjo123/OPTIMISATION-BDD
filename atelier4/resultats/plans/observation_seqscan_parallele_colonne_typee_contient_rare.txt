@@ -1,0 +1,17 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_colonne_typee WHERE attributs @> '{"categorie":"rare"}'::jsonb
+Finalize Aggregate  (cost=5128.30..5128.31 rows=1 width=40) (actual time=18.570..22.203 rows=1.00 loops=1)
+  Buffers: shared hit=3086
+  ->  Gather  (cost=5128.07..5128.28 rows=2 width=40) (actual time=18.424..22.188 rows=3.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=3086
+        ->  Partial Aggregate  (cost=4128.07..4128.08 rows=1 width=40) (actual time=16.031..16.032 rows=1.00 loops=3)
+              Buffers: shared hit=3086
+              ->  Parallel Seq Scan on g_colonne_typee  (cost=0.00..4127.67 rows=80 width=8) (actual time=0.121..16.003 rows=66.67 loops=3)
+                    Filter: (attributs @> '{"categorie": "rare"}'::jsonb)
+                    Rows Removed by Filter: 66600
+                    Buffers: shared hit=3086
+Planning:
+  Buffers: shared hit=98
+Planning Time: 0.288 ms
+Execution Time: 22.274 ms

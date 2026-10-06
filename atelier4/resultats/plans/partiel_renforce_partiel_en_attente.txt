@@ -1,0 +1,11 @@
+-- SELECT id FROM a4_tmp.t_partiel WHERE statut = 'en_attente' ORDER BY created_at, id LIMIT 100
+Limit  (cost=0.29..3.42 rows=100 width=16) (actual time=0.036..0.049 rows=100.00 loops=1)
+  Buffers: shared hit=3
+  ->  Index Only Scan using a4_idx_partiel on t_partiel  (cost=0.29..315.04 rows=10050 width=16) (actual time=0.035..0.043 rows=100.00 loops=1)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=133
+Planning Time: 0.439 ms
+Execution Time: 0.069 ms

@@ -1,0 +1,13 @@
+-- SELECT id, nom FROM shopflow.produits WHERE attributs @> '{"categorie":"materiel"}'::jsonb ORDER BY id
+Sort  (cost=8.82..9.07 rows=100 width=19) (actual time=0.102..0.106 rows=100.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=6
+  ->  Seq Scan on produits  (cost=0.00..5.50 rows=100 width=19) (actual time=0.014..0.062 rows=100.00 loops=1)
+        Filter: (attributs @> '{"categorie": "materiel"}'::jsonb)
+        Rows Removed by Filter: 100
+        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=97
+Planning Time: 0.398 ms
+Execution Time: 0.145 ms

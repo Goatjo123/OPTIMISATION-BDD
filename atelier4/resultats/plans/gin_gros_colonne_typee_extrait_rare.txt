@@ -1,0 +1,11 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_colonne_typee WHERE attributs->>'categorie' = 'rare'
+Aggregate  (cost=6091.00..6091.01 rows=1 width=40) (actual time=32.763..32.764 rows=1.00 loops=1)
+  Buffers: shared hit=3086
+  ->  Seq Scan on g_colonne_typee  (cost=0.00..6086.00 rows=1000 width=8) (actual time=0.293..32.699 rows=200.00 loops=1)
+        Filter: ((attributs ->> 'categorie'::text) = 'rare'::text)
+        Rows Removed by Filter: 199800
+        Buffers: shared hit=3086
+Planning:
+  Buffers: shared hit=89
+Planning Time: 0.466 ms
+Execution Time: 32.854 ms

@@ -1,0 +1,11 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_initiale WHERE attributs @> '{"categorie":"rare"}'::jsonb
+Aggregate  (cost=5356.34..5356.35 rows=1 width=40) (actual time=45.080..45.082 rows=1.00 loops=1)
+  Buffers: shared hit=2855
+  ->  Seq Scan on g_initiale  (cost=0.00..5355.00 rows=267 width=8) (actual time=0.219..45.010 rows=200.00 loops=1)
+        Filter: (attributs @> '{"categorie": "rare"}'::jsonb)
+        Rows Removed by Filter: 199800
+        Buffers: shared hit=2855
+Planning:
+  Buffers: shared hit=66
+Planning Time: 0.290 ms
+Execution Time: 45.134 ms

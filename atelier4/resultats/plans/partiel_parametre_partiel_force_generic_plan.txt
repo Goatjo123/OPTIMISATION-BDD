@@ -1,0 +1,15 @@
+-- EXECUTE q_attente('en_attente') ; PREPARE q_attente(text) AS SELECT id FROM shopflow.commandes WHERE statut = $1 ORDER BY created_at, id LIMIT 100
+Limit  (cost=4197.96..4198.21 rows=100 width=16) (actual time=10.712..10.723 rows=100.00 loops=1)
+  Buffers: shared hit=1680
+  ->  Sort  (cost=4197.96..4281.30 rows=33333 width=16) (actual time=10.711..10.715 rows=100.00 loops=1)
+        Sort Key: created_at, id
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=1680
+        ->  Seq Scan on commandes  (cost=0.00..2924.00 rows=33333 width=16) (actual time=0.777..9.430 rows=10000.00 loops=1)
+              Filter: (statut = $1)
+              Rows Removed by Filter: 90000
+              Buffers: shared hit=1674
+Planning:
+  Buffers: shared hit=134 read=1
+Planning Time: 0.651 ms
+Execution Time: 10.750 ms

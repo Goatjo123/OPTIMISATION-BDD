@@ -1,0 +1,15 @@
+-- SELECT id FROM shopflow.commandes WHERE statut = 'annulee' ORDER BY created_at, id LIMIT 100
+Limit  (cost=3303.52..3303.77 rows=100 width=16) (actual time=8.817..8.827 rows=100.00 loops=1)
+  Buffers: shared hit=1680
+  ->  Sort  (cost=3303.52..3328.34 rows=9930 width=16) (actual time=8.816..8.820 rows=100.00 loops=1)
+        Sort Key: created_at, id
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=1680
+        ->  Seq Scan on commandes  (cost=0.00..2924.00 rows=9930 width=16) (actual time=0.622..7.692 rows=10000.00 loops=1)
+              Filter: (statut = 'annulee'::text)
+              Rows Removed by Filter: 90000
+              Buffers: shared hit=1674
+Planning:
+  Buffers: shared hit=139
+Planning Time: 0.396 ms
+Execution Time: 8.848 ms

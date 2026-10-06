@@ -1,0 +1,13 @@
+-- SET enable_seqscan = off ; SELECT id FROM a4_tmp.reservations WHERE periode && tstzrange('2026-10-10 14:00+02', '2026-10-10 16:00+02') ORDER BY id
+Sort  (cost=8.21..8.21 rows=3 width=8) (actual time=0.080..0.081 rows=2.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=5
+  ->  Index Scan using idx_periode on reservations  (cost=0.13..8.18 rows=3 width=8) (actual time=0.047..0.049 rows=2.00 loops=1)
+        Index Cond: (periode && '["2026-10-10 12:00:00+00","2026-10-10 14:00:00+00")'::tstzrange)
+        Index Searches: 1
+        Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=94
+Planning Time: 0.834 ms
+Execution Time: 0.111 ms

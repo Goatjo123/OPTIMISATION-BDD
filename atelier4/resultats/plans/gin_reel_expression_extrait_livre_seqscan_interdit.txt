@@ -1,0 +1,13 @@
+-- SET enable_seqscan = off ; SELECT id, nom FROM shopflow.produits WHERE attributs->>'categorie' = 'livre' ORDER BY id
+Sort  (cost=8.17..8.18 rows=1 width=19) (actual time=0.144..0.148 rows=50.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 26kB
+  Buffers: shared hit=6 read=1
+  ->  Index Scan using a4_idx_expr on produits  (cost=0.14..8.16 rows=1 width=19) (actual time=0.083..0.097 rows=50.00 loops=1)
+        Index Cond: ((attributs ->> 'categorie'::text) = 'livre'::text)
+        Index Searches: 1
+        Buffers: shared hit=3 read=1
+Planning:
+  Buffers: shared hit=102
+Planning Time: 0.427 ms
+Execution Time: 0.195 ms

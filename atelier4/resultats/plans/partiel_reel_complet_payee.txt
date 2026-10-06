@@ -1,0 +1,12 @@
+-- SELECT id FROM shopflow.commandes WHERE statut = 'payee' ORDER BY created_at, id LIMIT 100
+Limit  (cost=0.42..4.20 rows=100 width=16) (actual time=0.039..0.053 rows=100.00 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using a4_idx_complet on commandes  (cost=0.42..3041.97 rows=80317 width=16) (actual time=0.038..0.047 rows=100.00 loops=1)
+        Index Cond: (statut = 'payee'::text)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=145
+Planning Time: 0.434 ms
+Execution Time: 0.076 ms

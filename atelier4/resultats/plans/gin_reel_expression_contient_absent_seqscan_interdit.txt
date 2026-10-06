@@ -1,0 +1,10 @@
+-- SET enable_seqscan = off ; SELECT id, nom FROM shopflow.produits WHERE attributs @> '{"categorie":"inexistant"}'::jsonb ORDER BY id
+Index Scan using produits_pkey on produits  (cost=0.14..17.64 rows=1 width=19) (actual time=0.128..0.128 rows=0.00 loops=1)
+  Filter: (attributs @> '{"categorie": "inexistant"}'::jsonb)
+  Rows Removed by Filter: 200
+  Index Searches: 1
+  Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=106
+Planning Time: 0.407 ms
+Execution Time: 0.156 ms

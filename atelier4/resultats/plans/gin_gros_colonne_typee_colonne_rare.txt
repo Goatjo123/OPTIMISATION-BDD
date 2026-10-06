@@ -1,0 +1,15 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_colonne_typee WHERE categorie = 'rare'
+Aggregate  (cost=432.16..432.17 rows=1 width=40) (actual time=0.824..0.825 rows=1.00 loops=1)
+  Buffers: shared hit=203
+  ->  Bitmap Heap Scan on g_colonne_typee  (cost=5.40..431.52 rows=127 width=8) (actual time=0.054..0.802 rows=200.00 loops=1)
+        Recheck Cond: (categorie = 'rare'::text)
+        Heap Blocks: exact=200
+        Buffers: shared hit=203
+        ->  Bitmap Index Scan on a4_idx_typee  (cost=0.00..5.37 rows=127 width=0) (actual time=0.029..0.029 rows=200.00 loops=1)
+              Index Cond: (categorie = 'rare'::text)
+              Index Searches: 1
+              Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=96
+Planning Time: 0.381 ms
+Execution Time: 0.887 ms

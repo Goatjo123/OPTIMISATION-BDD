@@ -1,0 +1,15 @@
+-- SELECT id FROM a4_tmp.t_initiale WHERE statut = 'payee' ORDER BY created_at, id LIMIT 100
+Limit  (cost=5149.72..5149.97 rows=100 width=16) (actual time=23.119..23.131 rows=100.00 loops=1)
+  Buffers: shared hit=846
+  ->  Sort  (cost=5149.72..5349.86 rows=80057 width=16) (actual time=23.116..23.122 rows=100.00 loops=1)
+        Sort Key: created_at, id
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=846
+        ->  Seq Scan on t_initiale  (cost=0.00..2090.00 rows=80057 width=16) (actual time=0.022..13.521 rows=80000.00 loops=1)
+              Filter: (statut = 'payee'::text)
+              Rows Removed by Filter: 20000
+              Buffers: shared hit=840
+Planning:
+  Buffers: shared hit=113
+Planning Time: 0.874 ms
+Execution Time: 23.182 ms

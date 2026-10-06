@@ -1,0 +1,12 @@
+-- SELECT id FROM shopflow.commandes WHERE statut = 'en_attente' ORDER BY created_at, id LIMIT 100
+Limit  (cost=0.42..4.22 rows=100 width=16) (actual time=0.042..0.057 rows=100.00 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using a4_idx_complet on commandes  (cost=0.42..371.10 rows=9753 width=16) (actual time=0.041..0.049 rows=100.00 loops=1)
+        Index Cond: (statut = 'en_attente'::text)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=145
+Planning Time: 0.422 ms
+Execution Time: 0.078 ms

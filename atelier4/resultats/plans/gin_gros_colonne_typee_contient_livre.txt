@@ -1,0 +1,11 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_colonne_typee WHERE attributs @> '{"categorie":"livre"}'::jsonb
+Aggregate  (cost=5830.70..5830.71 rows=1 width=40) (actual time=46.938..46.939 rows=1.00 loops=1)
+  Buffers: shared hit=3086
+  ->  Seq Scan on g_colonne_typee  (cost=0.00..5586.00 rows=48940 width=8) (actual time=0.150..44.035 rows=49800.00 loops=1)
+        Filter: (attributs @> '{"categorie": "livre"}'::jsonb)
+        Rows Removed by Filter: 150200
+        Buffers: shared hit=3086
+Planning:
+  Buffers: shared hit=83
+Planning Time: 0.281 ms
+Execution Time: 46.989 ms

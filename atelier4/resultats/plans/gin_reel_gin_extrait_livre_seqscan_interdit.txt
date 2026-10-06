@@ -1,0 +1,10 @@
+-- SET enable_seqscan = off ; SELECT id, nom FROM shopflow.produits WHERE attributs->>'categorie' = 'livre' ORDER BY id
+Index Scan using produits_pkey on produits  (cost=0.14..18.14 rows=1 width=19) (actual time=0.021..0.068 rows=50.00 loops=1)
+  Filter: ((attributs ->> 'categorie'::text) = 'livre'::text)
+  Rows Removed by Filter: 150
+  Index Searches: 1
+  Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=95
+Planning Time: 0.314 ms
+Execution Time: 0.099 ms

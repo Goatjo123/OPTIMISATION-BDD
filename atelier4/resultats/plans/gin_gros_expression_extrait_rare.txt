@@ -1,0 +1,15 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_expression WHERE attributs->>'categorie' = 'rare'
+Aggregate  (cost=685.22..685.23 rows=1 width=40) (actual time=0.865..0.866 rows=1.00 loops=1)
+  Buffers: shared hit=203
+  ->  Bitmap Heap Scan on g_expression  (cost=6.12..684.12 rows=220 width=8) (actual time=0.055..0.842 rows=200.00 loops=1)
+        Recheck Cond: ((attributs ->> 'categorie'::text) = 'rare'::text)
+        Heap Blocks: exact=200
+        Buffers: shared hit=203
+        ->  Bitmap Index Scan on a4_idx_expr  (cost=0.00..6.07 rows=220 width=0) (actual time=0.026..0.026 rows=200.00 loops=1)
+              Index Cond: ((attributs ->> 'categorie'::text) = 'rare'::text)
+              Index Searches: 1
+              Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=96
+Planning Time: 0.362 ms
+Execution Time: 0.913 ms

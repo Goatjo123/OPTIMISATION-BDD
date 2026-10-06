@@ -1,0 +1,12 @@
+-- SELECT id FROM a4_tmp.t_complet WHERE statut = 'en_attente' ORDER BY created_at, id LIMIT 100
+Limit  (cost=0.42..4.24 rows=100 width=16) (actual time=0.073..0.087 rows=100.00 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using a4_idx_complet on t_complet  (cost=0.42..376.97 rows=9860 width=16) (actual time=0.072..0.080 rows=100.00 loops=1)
+        Index Cond: (statut = 'en_attente'::text)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=144
+Planning Time: 0.406 ms
+Execution Time: 0.111 ms

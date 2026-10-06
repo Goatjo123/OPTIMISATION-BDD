@@ -1,0 +1,15 @@
+-- SELECT id FROM shopflow.commandes WHERE statut = 'en_attente' ORDER BY created_at, id LIMIT 100
+Limit  (cost=3296.75..3297.00 rows=100 width=16) (actual time=9.173..9.183 rows=100.00 loops=1)
+  Buffers: shared hit=1680
+  ->  Sort  (cost=3296.75..3321.14 rows=9753 width=16) (actual time=9.172..9.176 rows=100.00 loops=1)
+        Sort Key: created_at, id
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=1680
+        ->  Seq Scan on commandes  (cost=0.00..2924.00 rows=9753 width=16) (actual time=0.630..8.066 rows=10000.00 loops=1)
+              Filter: (statut = 'en_attente'::text)
+              Rows Removed by Filter: 90000
+              Buffers: shared hit=1674
+Planning:
+  Buffers: shared hit=113
+Planning Time: 0.359 ms
+Execution Time: 9.207 ms

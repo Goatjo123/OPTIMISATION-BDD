@@ -1,0 +1,12 @@
+-- SELECT id FROM shopflow.commandes WHERE statut = 'annulee' ORDER BY created_at, id LIMIT 100
+Limit  (cost=0.42..4.22 rows=100 width=16) (actual time=0.048..0.062 rows=100.00 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using a4_idx_complet on commandes  (cost=0.42..378.19 rows=9930 width=16) (actual time=0.047..0.055 rows=100.00 loops=1)
+        Index Cond: (statut = 'annulee'::text)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=145
+Planning Time: 0.498 ms
+Execution Time: 0.085 ms

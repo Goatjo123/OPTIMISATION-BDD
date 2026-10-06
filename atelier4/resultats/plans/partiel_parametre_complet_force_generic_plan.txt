@@ -1,0 +1,12 @@
+-- EXECUTE q_attente('en_attente') ; PREPARE q_attente(text) AS SELECT id FROM shopflow.commandes WHERE statut = $1 ORDER BY created_at, id LIMIT 100
+Limit  (cost=0.42..4.21 rows=100 width=16) (actual time=0.059..0.075 rows=100.00 loops=1)
+  Buffers: shared hit=1 read=3
+  ->  Index Only Scan using a4_idx_complet on commandes  (cost=0.42..1263.74 rows=33333 width=16) (actual time=0.058..0.067 rows=100.00 loops=1)
+        Index Cond: (statut = $1)
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=1 read=3
+Planning:
+  Buffers: shared hit=145 read=1
+Planning Time: 0.498 ms
+Execution Time: 0.101 ms

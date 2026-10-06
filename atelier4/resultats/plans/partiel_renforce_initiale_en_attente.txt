@@ -1,0 +1,15 @@
+-- SELECT id FROM a4_tmp.t_initiale WHERE statut = 'en_attente' ORDER BY created_at, id LIMIT 100
+Limit  (cost=2467.61..2467.86 rows=100 width=16) (actual time=9.859..9.870 rows=100.00 loops=1)
+  Buffers: shared hit=846
+  ->  Sort  (cost=2467.61..2492.31 rows=9880 width=16) (actual time=9.858..9.862 rows=100.00 loops=1)
+        Sort Key: created_at, id
+        Sort Method: top-N heapsort  Memory: 31kB
+        Buffers: shared hit=846
+        ->  Seq Scan on t_initiale  (cost=0.00..2090.00 rows=9880 width=16) (actual time=0.007..8.635 rows=10000.00 loops=1)
+              Filter: (statut = 'en_attente'::text)
+              Rows Removed by Filter: 90000
+              Buffers: shared hit=840
+Planning:
+  Buffers: shared hit=113
+Planning Time: 0.361 ms
+Execution Time: 9.899 ms

@@ -1,0 +1,10 @@
+-- SET enable_seqscan = off ; SELECT id, nom FROM shopflow.produits WHERE attributs @> '{"categorie":"livre"}'::jsonb ORDER BY id
+Index Scan using produits_pkey on produits  (cost=0.14..17.64 rows=50 width=19) (actual time=0.081..0.137 rows=50.00 loops=1)
+  Filter: (attributs @> '{"categorie": "livre"}'::jsonb)
+  Rows Removed by Filter: 150
+  Index Searches: 1
+  Buffers: shared hit=3 read=1
+Planning:
+  Buffers: shared hit=97
+Planning Time: 0.547 ms
+Execution Time: 0.172 ms

@@ -1,0 +1,13 @@
+-- SELECT id FROM a4_tmp.reservations WHERE periode && tstzrange('2026-10-10 14:00+02', '2026-10-10 16:00+02') ORDER BY id
+Sort  (cost=1.07..1.08 rows=3 width=8) (actual time=0.044..0.045 rows=2.00 loops=1)
+  Sort Key: id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4
+  ->  Seq Scan on reservations  (cost=0.00..1.05 rows=3 width=8) (actual time=0.017..0.018 rows=2.00 loops=1)
+        Filter: (periode && '["2026-10-10 12:00:00+00","2026-10-10 14:00:00+00")'::tstzrange)
+        Rows Removed by Filter: 2
+        Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=94
+Planning Time: 0.612 ms
+Execution Time: 0.142 ms

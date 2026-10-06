@@ -1,0 +1,15 @@
+-- SELECT count(*), sum(id) FROM a4_tmp.g_gin WHERE attributs @> '{"categorie":"rare"}'::jsonb
+Aggregate  (cost=634.29..634.30 rows=1 width=40) (actual time=2.112..2.113 rows=1.00 loops=1)
+  Buffers: shared hit=257
+  ->  Bitmap Heap Scan on g_gin  (cost=116.89..633.49 rows=160 width=8) (actual time=1.300..2.092 rows=200.00 loops=1)
+        Recheck Cond: (attributs @> '{"categorie": "rare"}'::jsonb)
+        Heap Blocks: exact=200
+        Buffers: shared hit=257
+        ->  Bitmap Index Scan on a4_idx_gin  (cost=0.00..116.85 rows=160 width=0) (actual time=1.270..1.271 rows=200.00 loops=1)
+              Index Cond: (attributs @> '{"categorie": "rare"}'::jsonb)
+              Index Searches: 1
+              Buffers: shared hit=57
+Planning:
+  Buffers: shared hit=91
+Planning Time: 0.364 ms
+Execution Time: 2.194 ms

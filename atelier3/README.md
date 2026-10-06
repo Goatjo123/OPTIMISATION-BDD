@@ -207,11 +207,11 @@ Sur la vraie table, `Heap Fetches` vaut 0 parce que la table était entièrement
 
 ## 9. Limites et conditions de remise en cause
 
-- Durées sub-milliseconde et bruitées : seules les comparaisons au sein d'une mesure alternée sont fiables ; on ne généralise pas un pourcentage (slide 29).
+- Durées sub-milliseconde et bruitées : seules les comparaisons au sein d'une mesure alternée sont fiables ; on ne généralise pas un pourcentage (slide 45).
 - Jeu synthétique : 100 commandes par client. Le cas du client très actif est **simulé** sur une table de travail.
 - Les écritures mesurées sont des insertions. Les mises à jour de `statut` ne sont pas mesurées. **Hypothèse non testée :** une colonne dans `INCLUDE` compte comme colonne indexée, donc modifier `statut` empêcherait une mise à jour « HOT » et coûterait davantage avec l'index couvrant `(statut, total)`.
 - La charge réelle (fréquence des lectures de l'historique, rythme des créations de commandes) est inconnue. **Remettre en cause la décision** si les créations de commandes dominent nettement, ou si l'endpoint devient un point chaud (alors envisager le couvrant).
-- La construction sur une très grande table (volume de production) n'est pas prouvée par un essai sur 100 000 lignes (slide 24) ; d'où la variante `CONCURRENTLY`.
+- La construction sur une très grande table (volume de production) n'est pas prouvée par un essai sur 100 000 lignes (slide 27) ; d'où la variante `CONCURRENTLY`.
 
 ---
 
@@ -230,7 +230,7 @@ Dossier `atelier3/migration/` :
 - la montée crée l'index (valide, 3 984 kB) et peut être **rejouée sans erreur** (`IF NOT EXISTS`) ;
 - le plan de la requête de l'API devient `Index Scan using idx_hist_client`, sans `Sort` ;
 - le retour arrière supprime l'index et laisse l'index unique `commandes_client_id_cle_idempotence_key` intact ;
-- la variante `CONCURRENTLY` fonctionne hors transaction et **échoue dans un bloc `BEGIN`** (`cannot run inside a transaction block`), comme l'annonce la slide 25.
+- la variante `CONCURRENTLY` fonctionne hors transaction et **échoue dans un bloc `BEGIN`** (`cannot run inside a transaction block`), comme l'annonce la slide 29.
 
 **La migration n'a pas été appliquée au laboratoire** : l'Atelier 3 demande une décision, et le laboratoire sert encore aux ateliers suivants. Pour l'appliquer :
 ```bash
