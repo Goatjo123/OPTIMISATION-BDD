@@ -21,6 +21,7 @@ Le PDF concerné est `Atelier1_Diagnostic_compact.pdf` (à la racine). **Il sert
 | 6 | Dire **ce que j'ai compris, moi**, pour chaque atelier | Encadré « Ce que j'ai compris » à la **première personne** après chaque atelier |
 | 7 | Montrer la **compréhension** (notation) | Encadrés + réponses aux 6 questions de la slide 33 |
 | 8 | **Vérifier l'exactitude** de tout ce qui est écrit | Voir section 5 |
+| 11 | **Consigne du prof : mettre en avant les optimisations** de requêtes ou de scripts qui donnent **le même résultat** (optimiser = moins coûteux et plus rapide à résultat identique), avec des **schémas ou des images**. **Présenter chaque optimisation comme la transformation d'une ancienne requête en une nouvelle**, sans comparer des techniques entre elles (par exemple jointure contre EXISTS) | PDF séparé `Optimisations.pdf` : ancienne version / nouvelle version, schéma du plan, graphiques, preuve d'identité |
 | 10 | Les **optimisations doivent être claires** (objectif du cours) | Section « Optimisations testées » : avant, après, gain, coût, verdict |
 | 9 | Mettre à jour **`SYNTHESE.md`** à chaque point pertinent | Voir section 6 |
 
@@ -96,7 +97,8 @@ Répondre aux 6 questions **avec un exemple et une condition d'application, pas 
 18. **Contrôler le rendu des nombres** : séparateur de milliers (espace) et virgule décimale ne doivent pas se confondre (par exemple « 10,1 » et non « 10 1 »). Rechercher les motifs suspects dans le texte extrait du PDF.
 19. **Un défaut de mesure trouvé en cours de route se documente** (ce qui était faux, comment il a été corrigé) et les chiffres viennent de l'exécution corrigée.
 20. **Pour chaque solution : la situation, pourquoi on la choisit (et laquelle on écarte), et si elle fonctionne** (gain, résultat identique, limites vérifiées, verdict). Ne jamais présenter une solution sans dire si elle marche et dans quelles conditions.
-21. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
+21. **Une optimisation = la transformation d'une ancienne requête en une nouvelle, avec le même résultat, moins coûteuse et plus rapide.** Ne pas présenter une comparaison de techniques (jointure contre EXISTS) mais la transformation de la requête d'origine. Toujours montrer l'*ancienne version* et la *nouvelle version* (SQL ou DDL), **prouver que le résultat est identique**, chiffrer le gain **et** le coût, et l'exprimer par un schéma (plan d'exécution) et un graphique avant/après, pas seulement par des tableaux. Une variante plus rapide mais au résultat différent n'est pas une optimisation.
+22. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
 
 ## 5. Vérification de l'exactitude (à refaire à chaque modification)
 
@@ -141,7 +143,9 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 ## 6. Mise à jour de `SYNTHESE.md`
 À chaque point pertinent (concept, résultat mesuré, piège, correction), l'ajouter dans la bonne section de `SYNTHESE.md`, en français, concis, avec les chiffres. Ne pas attendre qu'on le redemande.
 
-## 7. Structure actuelle du PDF (38 pages)
+## 7. Structure actuelle des PDF
+**`Atelier1_Diagnostic_compact.pdf` (38 pages, détail des ateliers 1 à 4, inchangé)**
+
 | Pages | Contenu |
 |---|---|
 | 1 à 2 | Atelier 1 : contexte, requêtes, résultats vérifiés, 5 mesures, nœud coûteux, **Ce que j'ai compris** |
@@ -153,6 +157,14 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 | 17 à 30 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
 | 31 à 35 | **Annexe 6** : plans de l'atelier 4 |
 | 36 à 38 | **Annexe 7** : preuves de l'atelier 4 |
+
+**`Optimisations.pdf` (9 pages, PDF séparé qui met en avant les optimisations)**
+| Page | Contenu |
+|---|---|
+| 1 | Définition (ancienne version → nouvelle version, même résultat, plus rapide), **graphique des gains**, tableau récapitulatif avec preuve d'identité du résultat |
+| 2 à 7 | Une page par transformation : **ancienne version / nouvelle version** (SQL ou DDL), **schéma du plan d'exécution**, graphiques avant/après, résultat identique, pourquoi, coût : 1 agrégation (statistique), 2 clients avec commande payée (réécriture EXISTS), 3 historique client (index composé), 4 file en attente (index partiel), 5 filtre JSON (colonne typée), 6 chevauchement de périodes (GiST) |
+| 8 | Transformations écartées (résultat différent ou aucun gain) et prix d'un index à l'écriture |
+| 9 | Méthode de preuve et limites |
 
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].
