@@ -1,0 +1,362 @@
+{
+  "N": 3000000,
+  "lot": 50000,
+  "version": "18.6 (Debian 18.6-1.pgdg13+2)",
+  "debut": "2026-10-07 09:44:35",
+  "taille_initiale_octets": 252575744,
+  "ancienne": {
+    "add_column": {
+      "ms": 4.754,
+      "wal_octets": 18016
+    },
+    "default": {
+      "ms": 3.466,
+      "wal_octets": 25008
+    },
+    "update_unique": {
+      "ms": 57043.135,
+      "wal_octets": 1631296056,
+      "sonde": {
+        "mesures": 5226,
+        "max_ms": 30989.1,
+        "mediane_ms": 1.61
+      },
+      "taille_apres_octets": 505856000,
+      "taille_avant_octets": 252575744
+    },
+    "set_not_null": {
+      "ms": 3324.143,
+      "wal_octets": 517010872,
+      "sonde": {
+        "mesures": 229,
+        "max_ms": 3322.9,
+        "mediane_ms": 0.43
+      }
+    }
+  },
+  "ancienne_final": {
+    "md5": "b227f2377b62",
+    "lignes": 3000000,
+    "nb_false": 3000000,
+    "nb_null": 0,
+    "is_nullable": "NO",
+    "defaut": "false"
+  },
+  "nouvelle": {
+    "add_column": {
+      "ms": 2.45,
+      "wal_octets": 1669864
+    },
+    "default": {
+      "ms": 2.25,
+      "wal_octets": 2296488
+    },
+    "lots": {
+      "nombre_de_lots_utiles": 60,
+      "lots": [
+        {
+          "lignes": 50000,
+          "ms": 3250.439
+        },
+        {
+          "lignes": 50000,
+          "ms": 2348.185
+        },
+        {
+          "lignes": 50000,
+          "ms": 2264.606
+        },
+        {
+          "lignes": 50000,
+          "ms": 4122.908
+        },
+        {
+          "lignes": 50000,
+          "ms": 4276.16
+        },
+        {
+          "lignes": 50000,
+          "ms": 2680.171
+        },
+        {
+          "lignes": 50000,
+          "ms": 2310.026
+        },
+        {
+          "lignes": 50000,
+          "ms": 2482.693
+        },
+        {
+          "lignes": 50000,
+          "ms": 3933.026
+        },
+        {
+          "lignes": 50000,
+          "ms": 2487.564
+        },
+        {
+          "lignes": 50000,
+          "ms": 3216.95
+        },
+        {
+          "lignes": 50000,
+          "ms": 3241.696
+        },
+        {
+          "lignes": 50000,
+          "ms": 2344.475
+        },
+        {
+          "lignes": 50000,
+          "ms": 4003.368
+        },
+        {
+          "lignes": 50000,
+          "ms": 4179.665
+        },
+        {
+          "lignes": 50000,
+          "ms": 4506.543
+        },
+        {
+          "lignes": 50000,
+          "ms": 1866.35
+        },
+        {
+          "lignes": 50000,
+          "ms": 1697.707
+        },
+        {
+          "lignes": 50000,
+          "ms": 1703.549
+        },
+        {
+          "lignes": 50000,
+          "ms": 1710.229
+        },
+        {
+          "lignes": 50000,
+          "ms": 1889.757
+        },
+        {
+          "lignes": 50000,
+          "ms": 1836.833
+        },
+        {
+          "lignes": 50000,
+          "ms": 1880.375
+        },
+        {
+          "lignes": 50000,
+          "ms": 1951.477
+        },
+        {
+          "lignes": 50000,
+          "ms": 1946.926
+        },
+        {
+          "lignes": 50000,
+          "ms": 2282.139
+        },
+        {
+          "lignes": 50000,
+          "ms": 2307.621
+        },
+        {
+          "lignes": 50000,
+          "ms": 2119.136
+        },
+        {
+          "lignes": 50000,
+          "ms": 2156.467
+        },
+        {
+          "lignes": 50000,
+          "ms": 2237.136
+        },
+        {
+          "lignes": 50000,
+          "ms": 2285.429
+        },
+        {
+          "lignes": 50000,
+          "ms": 2345.256
+        },
+        {
+          "lignes": 50000,
+          "ms": 2354.574
+        },
+        {
+          "lignes": 50000,
+          "ms": 2341.854
+        },
+        {
+          "lignes": 50000,
+          "ms": 2686.695
+        },
+        {
+          "lignes": 50000,
+          "ms": 3035.083
+        },
+        {
+          "lignes": 50000,
+          "ms": 3544.897
+        },
+        {
+          "lignes": 50000,
+          "ms": 3623.833
+        },
+        {
+          "lignes": 50000,
+          "ms": 3073.221
+        },
+        {
+          "lignes": 50000,
+          "ms": 2308.774
+        },
+        {
+          "lignes": 50000,
+          "ms": 2124.442
+        },
+        {
+          "lignes": 50000,
+          "ms": 2139.574
+        },
+        {
+          "lignes": 50000,
+          "ms": 2636.424
+        },
+        {
+          "lignes": 50000,
+          "ms": 2377.074
+        },
+        {
+          "lignes": 50000,
+          "ms": 2400.9
+        },
+        {
+          "lignes": 50000,
+          "ms": 2018.773
+        },
+        {
+          "lignes": 50000,
+          "ms": 2110.459
+        },
+        {
+          "lignes": 50000,
+          "ms": 2208.662
+        },
+        {
+          "lignes": 50000,
+          "ms": 2318.575
+        },
+        {
+          "lignes": 50000,
+          "ms": 2142.58
+        },
+        {
+          "lignes": 50000,
+          "ms": 2256.917
+        },
+        {
+          "lignes": 50000,
+          "ms": 2223.427
+        },
+        {
+          "lignes": 50000,
+          "ms": 2292.972
+        },
+        {
+          "lignes": 50000,
+          "ms": 2301.676
+        },
+        {
+          "lignes": 50000,
+          "ms": 2371.356
+        },
+        {
+          "lignes": 50000,
+          "ms": 2402.507
+        },
+        {
+          "lignes": 50000,
+          "ms": 3848.558
+        },
+        {
+          "lignes": 50000,
+          "ms": 3144.437
+        },
+        {
+          "lignes": 50000,
+          "ms": 3101.139
+        },
+        {
+          "lignes": 50000,
+          "ms": 2633.336
+        },
+        {
+          "lignes": 0,
+          "ms": 315.128
+        }
+      ],
+      "ms_total_mur": 156265.4,
+      "ms_lot_max": 4506.543,
+      "ms_lot_mediane": 2343.1645,
+      "wal_octets": 1985809168,
+      "sonde": {
+        "mesures": 33210,
+        "max_ms": 415.9,
+        "mediane_ms": 1.43
+      },
+      "taille_avant_octets": 252575744,
+      "taille_apres_octets": 377921536
+    },
+    "check_not_valid": {
+      "ms": 7.9,
+      "wal_octets": 48304
+    },
+    "validate": {
+      "ms": 320.625,
+      "wal_octets": 168,
+      "sonde": {
+        "mesures": 292,
+        "max_ms": 38.9,
+        "mediane_ms": 0.27
+      }
+    },
+    "set_not_null": {
+      "ms": 38.388,
+      "wal_octets": 7048
+    }
+  },
+  "nouvelle_final": {
+    "md5": "b227f2377b62",
+    "lignes": 3000000,
+    "nb_false": 3000000,
+    "nb_null": 0,
+    "is_nullable": "NO",
+    "defaut": "false"
+  },
+  "preuve_verrous": {
+    "verrou_validate": "ShareUpdateExclusiveLock",
+    "validate_lecture_concurrente": {
+      "resultat": "passe",
+      "ms": 1.387
+    },
+    "validate_ecriture_concurrente": {
+      "resultat": "passe",
+      "ms": 3.449
+    },
+    "validate_insertion_concurrente": {
+      "resultat": "passe",
+      "ms": 2.042
+    },
+    "verrou_set_not_null": "AccessExclusiveLock",
+    "set_not_null_lecture_concurrente": {
+      "resultat": "bloquée (55P03 après 500 ms)",
+      "ms": 500.876
+    }
+  },
+  "laboratoire_intact": true,
+  "fin": "2026-10-07 09:50:07"
+}

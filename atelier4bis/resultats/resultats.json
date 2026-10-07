@@ -1,0 +1,259 @@
+{
+  "debut": "2026-10-07 09:44:16",
+  "avant": {
+    "index": [
+      "clients_email_key",
+      "clients_pkey",
+      "commandes_client_id_cle_idempotence_key",
+      "commandes_pkey",
+      "lignes_pkey",
+      "produits_pkey"
+    ],
+    "statistiques_etendues": 0,
+    "tables": [
+      "clients",
+      "commandes",
+      "lignes",
+      "produits"
+    ],
+    "lignes": {
+      "clients": 1000,
+      "produits": 200,
+      "commandes": 100000,
+      "lignes": 300000
+    },
+    "md5_clients": "aec47d5bdba0"
+  },
+  "version": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "01_nb_clients": 1000,
+  "01_nb_reference": 1000,
+  "01_taille_copie_octets": 81920,
+  "01_contraintes_copie": "n:clients_email_not_null, n:clients_id_not_null, u:clients_migration_tp_email_key, p:clients_migration_tp_pkey, n:clients_nom_not_null",
+  "01_index_copie": "clients_migration_tp_email_key, clients_migration_tp_pkey",
+  "02_alter_ms": 6.318,
+  "02_nb_null": 1000,
+  "02_clients_originale_intacte": true,
+  "02_taille_apres_octets": 81920,
+  "03_lignes_test_persistantes": 0,
+  "03_nb_null_apres_defaut": 1000,
+  "03_defaut": "false",
+  "03_insertions_test": "  id  | newsletter_ok \n------+---------------\n 1001 | \n 1002 | f\n(2 rows)\n\nTime: 0.314 ms",
+  "03bis_lots_test": [
+    200,
+    200,
+    200,
+    200,
+    199,
+    0,
+    0
+  ],
+  "03bis_valeur_id7": true,
+  "03bis_sortie": " id | newsletter_ok \n----+---------------\n  7 | t\n(1 row)\n\nTime: 0.241 ms",
+  "03bis_apres_rollback_null": 1000,
+  "04_taille_avant_octets": 155648,
+  "04_lots": [
+    {
+      "lot": 1,
+      "lignes_modifiees": 200,
+      "duree_ms": 4.19,
+      "wal_octets": 66560,
+      "null_restants": 800
+    },
+    {
+      "lot": 2,
+      "lignes_modifiees": 200,
+      "duree_ms": 5.347,
+      "wal_octets": 65352,
+      "null_restants": 600
+    },
+    {
+      "lot": 3,
+      "lignes_modifiees": 200,
+      "duree_ms": 41.549,
+      "wal_octets": 60872,
+      "null_restants": 400
+    },
+    {
+      "lot": 4,
+      "lignes_modifiees": 200,
+      "duree_ms": 38.517,
+      "wal_octets": 57296,
+      "null_restants": 200
+    },
+    {
+      "lot": 5,
+      "lignes_modifiees": 200,
+      "duree_ms": 39.177,
+      "wal_octets": 44816,
+      "null_restants": 0
+    },
+    {
+      "lot": 6,
+      "lignes_modifiees": 0,
+      "duree_ms": 0.553,
+      "wal_octets": 0,
+      "null_restants": 0
+    }
+  ],
+  "04_wal_total_octets": 305464,
+  "04_taille_apres_octets": 221184,
+  "04_nb_false": 1000,
+  "05_etat": "         conname          | convalidated \n--------------------------+--------------\n clients_newsletter_nn_tp | f\n(1 row)\n\nTime: 1.481 ms",
+  "05_convalidated": "f",
+  "05_not_valid_refuse_null": {
+    "sqlstate": "23514",
+    "sortie": "ERROR:  23514: new row for relation \"clients_migration_tp\" violates check constraint \"clients_newsletter_nn_tp\"\nDETAIL:  Failing row contains (1001, t@example.test, t, null).\nSCHEMA NAME:  shopflow\nTABLE NAME:  clients_migration_tp\nCONSTRAINT NAME:  clients_newsletter_nn_tp\nLOCATION:  ExecConstraints, execMain.c:2076\nTime: 0.726 ms"
+  },
+  "06_validate_ms": 38.203,
+  "06_set_not_null_ms": 2.258,
+  "06_set_not_null_debug": "DEBUG:  00000: existing constraints on column \"clients_migration_tp.newsletter_ok\" are sufficient to prove that it does not contain nulls\nLOCATION:  NotNullImpliedByRelConstraints, tablecmds.c:8116\nTime: 2.258 ms",
+  "06_sans_scan": true,
+  "06_etat_contrainte": "         conname          | convalidated \n--------------------------+--------------\n clients_newsletter_nn_tp | t\n(1 row)\n\nTime: 0.577 ms",
+  "06_colonne": "  column_name  | is_nullable | column_default \n---------------+-------------+----------------\n newsletter_ok | NO          | false\n(1 row)\n\nTime: 10.328 ms",
+  "06_convalidated": "t",
+  "06_is_nullable": "NO",
+  "07_defaut_insert": "  id  | newsletter_ok \n------+---------------\n 1001 | f\n(1 row)\n\nTime: 0.310 ms",
+  "07_rejet_null": {
+    "sqlstate": "23502",
+    "sortie": "Time: 0.342 ms\nERROR:  23502: null value in column \"newsletter_ok\" of relation \"clients_migration_tp\" violates not-null constraint\nDETAIL:  Failing row contains (1, etudiant1@example.test, Client 1, null).\nSCHEMA NAME:  shopflow\nTABLE NAME:  clients_migration_tp\nCOLUMN NAME:  newsletter_ok\nLOCATION:  ReportNotNullViolationError, execMain.c:2213"
+  },
+  "07_comptage": " nb_clients | nb_null | nb_false \n------------+---------+----------\n       1000 |       0 |     1000\n(1 row)\n\nTime: 0.405 ms",
+  "07_ecarts_sortie": " ecarts_historiques \n--------------------\n                  0\n(1 row)\n\nTime: 1.551 ms",
+  "07_nb_clients": 1000,
+  "07_nb_null": 0,
+  "07_nb_false": 1000,
+  "07_ecarts": 0,
+  "07_md5_copie": "aec47d5bdba0",
+  "07_md5_reference": "aec47d5bdba0",
+  "07_md5_clients": "aec47d5bdba0",
+  "08_b_attente_s": 2.005,
+  "08_b_erreur_sqlstate": "55P03",
+  "08_b_erreur_sortie": "Time: 2001.761 ms (00:02.002)\nERROR:  55P03: canceling statement due to lock timeout\nLOCATION:  ProcessInterrupts, postgres.c:3437",
+  "08_b_duree_serveur_ms": 2001.761,
+  "08_snapshot_activite": "A|idle in transaction|Client|ClientRead|SELECT id FROM shopflow.clients_migration_tp LIMIT 1\nB|active|Lock|relation|ALTER TABLE shopflow.clients_migration_tp ADD COLUMN",
+  "08_snapshot_verrous": "A|AccessShareLock|t\nB|AccessExclusiveLock|f",
+  "08_colonne_test_apres_echec": "0",
+  "08_b_2e_tentative_ms": 2.298,
+  "08_b_2e_tentative_sortie": "Time: 2.298 ms",
+  "08_b_2e_tentative_ok": true,
+  "08_colonne_test_apres_succes": "1",
+  "08_colonne_test_apres_nettoyage": "0",
+  "08_chronologie": [
+    {
+      "t_s": 0.003,
+      "session": "A",
+      "evenement": "BEGIN + SELECT : ACCESS SHARE détenu, transaction laissée ouverte"
+    },
+    {
+      "t_s": 0.004,
+      "session": "B",
+      "evenement": "ALTER TABLE ... ADD COLUMN test_verrou : lancé (demande ACCESS EXCLUSIVE)"
+    },
+    {
+      "t_s": 1.278,
+      "session": "-",
+      "evenement": "instantané pg_stat_activity / pg_locks pris pendant l'attente de B (B attend toujours)"
+    },
+    {
+      "t_s": 2.009,
+      "session": "B",
+      "evenement": "retour de l'ALTER : 55P03"
+    },
+    {
+      "t_s": 2.178,
+      "session": "A",
+      "evenement": "COMMIT : verrou ACCESS SHARE libéré"
+    },
+    {
+      "t_s": 2.182,
+      "session": "B",
+      "evenement": "même ALTER relancé : réussi"
+    },
+    {
+      "t_s": 2.4,
+      "session": "B",
+      "evenement": "DROP COLUMN test_verrou + RESET lock_timeout : nettoyage"
+    }
+  ],
+  "08bis_snapshot": "A|Client|ClientRead|f|SELECT id FROM shopflow.clients_migration_tp\nB|Lock|relation|t|ALTER TABLE shopflow.clients_migration_tp AD\nC|Lock|relation|t|SELECT count(*) FROM shopflow.clients_migrat",
+  "08bis_c_attente_s": 3.005,
+  "08bis_c_duree_serveur_ms": 2999.932,
+  "08bis_b_sqlstate": "55P03",
+  "08bis_chronologie": [
+    {
+      "t_s": 0.003,
+      "session": "A",
+      "evenement": "BEGIN + SELECT : ACCESS SHARE détenu"
+    },
+    {
+      "t_s": 0.004,
+      "session": "B",
+      "evenement": "ALTER TABLE lancé (attend ACCESS EXCLUSIVE derrière A)"
+    },
+    {
+      "t_s": 1.007,
+      "session": "C",
+      "evenement": "SELECT lancé (simple lecture, arrivée après B)"
+    },
+    {
+      "t_s": 2.173,
+      "session": "-",
+      "evenement": "instantané pendant l'attente : B et C attendent, A non"
+    },
+    {
+      "t_s": 4.007,
+      "session": "B",
+      "evenement": "ALTER abandonné : 55P03"
+    },
+    {
+      "t_s": 4.012,
+      "session": "C",
+      "evenement": "SELECT terminé"
+    },
+    {
+      "t_s": 4.017,
+      "session": "A",
+      "evenement": "COMMIT"
+    }
+  ],
+  "08bis_colonne_test": "0",
+  "09_colonne_encore_la": "1",
+  "09_valeurs_encore_la": 1000,
+  "09_contraintes_restantes": "0",
+  "09_is_nullable_apres_retrait": "YES",
+  "09_defaut_apres_retrait": "(aucun)",
+  "09_sortie_colonne_restante": " colonne_restante \n------------------\n                0\n(1 row)\n\nTime: 4.729 ms",
+  "09_sortie_ecarts": " ecarts_historiques \n--------------------\n                  0\n(1 row)\n\nTime: 3.400 ms",
+  "09_colonne_restante": 0,
+  "09_ecarts": 0,
+  "09_md5_copie": "aec47d5bdba0",
+  "rejeu_02_ok": true,
+  "rejeu_02_nb_null": 1000,
+  "rejeu_01_sqlstate": "42P07",
+  "apres": {
+    "index": [
+      "clients_email_key",
+      "clients_pkey",
+      "commandes_client_id_cle_idempotence_key",
+      "commandes_pkey",
+      "lignes_pkey",
+      "produits_pkey"
+    ],
+    "statistiques_etendues": 0,
+    "tables": [
+      "clients",
+      "commandes",
+      "lignes",
+      "produits"
+    ],
+    "lignes": {
+      "clients": 1000,
+      "produits": 200,
+      "commandes": 100000,
+      "lignes": 300000
+    },
+    "md5_clients": "aec47d5bdba0"
+  },
+  "laboratoire_identique": true,
+  "fin": "2026-10-07 09:44:35"
+}

@@ -243,6 +243,29 @@ Documentation complète, script, mesures brutes et migration : dossier [`atelier
 - L'utilité d'un index dépend de la **rareté de la valeur** (GIN : ×17 à 0,1 %, ×2,0 à 24,9 %).
 - **Mes propres mesures se vérifient** avant de conclure.
 
+## 3quinquies. Atelier 4 bis : migration de schéma compatible (Jour 2, slides 33 à 43)
+
+Détail complet pour l'oral : [`ATELIER4BIS_DE_A_A_Z.md`](ATELIER4BIS_DE_A_A_Z.md). Scripts et résultats : `atelier4bis/`.
+
+- **Question** : ajouter `newsletter_ok` (NOT NULL, défaut false) à `clients` pendant que l'application tourne, sans la casser ni la bloquer. Fait sur une copie (`clients_migration_tp`), avec une table de référence pour comparer.
+- **Méthode en étapes** : colonne nullable (instantané, 1 000 NULL) → `SET DEFAULT false` (**ne remplit pas** les anciennes lignes : toujours 1 000 NULL) → lots de 200 en autocommit (200, 200, 200, 200, 200, puis 0 ; rejouable : relancé après 0 il modifie 0 ligne) → `CHECK … NOT VALID` (`convalidated = false`, **refuse déjà** un NULL : erreur 23514) → `VALIDATE CONSTRAINT` (verrou léger) → `SET NOT NULL` (**saute le scan** grâce au CHECK validé : message DEBUG1 relevé).
+- **Résultat identique** : 1 000 / 0 NULL / 1 000 false ; écriture de NULL refusée (23502) ; **0 écart** sur `id`, `email`, `nom` (`EXCEPT ALL` dans les deux sens, md5 identique à la table d'origine). Un comptage seul ne prouve pas l'égalité des valeurs.
+- **Verrous** (deux vraies connexions) : A garde `ACCESS SHARE` (transaction ouverte) ; B (`ALTER`, `lock_timeout = 2 s`) échoue en **55P03 après 2,005 s** ; après le `COMMIT` de A, le même `ALTER` réussit. `lock_timeout` limite l'**attente**, pas la durée du DDL.
+- **File d'attente (slide 31, vérifiée)** : avec B en attente, une simple lecture C arrivée après reste **bloquée 3,005 s** derrière lui, alors que A ne détient qu'un verrou de lecture compatible. C'est le danger réel d'un `ALTER` sur une table très lue.
+- **Retour arrière** : le premier bloc retire contrainte, NOT NULL et défaut (colonne et valeurs encore là) ; `DROP COLUMN` **détruit** les valeurs. Le retour de structure ne reconstitue pas les données : en production, conserver les valeurs et prévoir le retour de la version applicative. 01 ne se rejoue pas (42P07), on reprend à 02.
+- **Ancienne → nouvelle version à 3 000 000 lignes** (table jetable, une seule exécution, même résultat md5 `b227f2377b62`) : temps sous `ACCESS EXCLUSIVE` pour poser NOT NULL **3 324 → 46,3 ms** (×72 ; une première exécution : ×226) ; écriture la plus longue bloquée **30 989 → 416 ms** ; **mais** remplissage **57 → 156 s** (≈ ×2,7 plus long) et plus de WAL. On échange du temps total contre l'absence de blocage.
+- **Preuve de verrouillage déterministe** : pendant `VALIDATE` (`ShareUpdateExclusiveLock`) lecture, UPDATE et INSERT concurrents passent ; pendant `SET NOT NULL` (`AccessExclusiveLock`) une lecture est bloquée (55P03 après 500 ms).
+- **Ce n'est pas un gain de vitesse de requête** (le cours le dit) : optimiser une migration, c'est réduire l'attente des autres.
+- **Défaut trouvé dans mon propre script et corrigé** : une erreur de psql (sortie d'erreur) pouvait arriver après la commande suivante dans le tube et être mal attribuée ; sentinelle sur chaque flux, deux scripts relancés en entier.
+
+### Ce que j'ai compris (Atelier 4 bis)
+- Je **découpe une migration** : chaque étape garde un verrou court ou léger, et l'ancienne version de l'application continue de fonctionner.
+- Un **`DEFAULT` ne remplit pas l'existant** (1 000 NULL vérifiés) : il faut un remplissage par lots.
+- **`NOT VALID` puis `VALIDATE`** : la règle protège tout de suite les nouvelles écritures, la vérification des anciennes lignes se fait ensuite avec un verrou qui ne bloque ni lectures ni écritures. Un CHECK validé permet à `SET NOT NULL` de **sauter le scan**.
+- **`lock_timeout` borne l'attente**, pas le DDL, et une lecture simple peut rester coincée **derrière** un `ALTER` en attente.
+- **Le retour arrière est partiel** : `DROP COLUMN` détruit les valeurs.
+- **À grand volume la nouvelle méthode est plus lente au total mais bloque presque personne** ; je le dis au lieu de ne montrer que le bon chiffre. Limites : copie de 1 000 lignes, une seule exécution à 3 millions.
+
 ---
 
 ## 4. Réponses aux questions de compréhension (slide 33)
@@ -291,5 +314,5 @@ Explication simple du cours (jusqu'à l'atelier 3) : voir [`COURS_JOUR2_SIMPLE.m
 ---
 
 ## 6. À venir
-- Appliquer les migrations 001 (index composé, `atelier3/migration/`) et 002 (index partiel, `atelier4/migration/`) au labo quand le cours le demandera ; puis Atelier 4 bis (migration de schéma sur une copie de `clients`).
+- Appliquer les migrations 001 (index composé, `atelier3/migration/`) et 002 (index partiel, `atelier4/migration/`) au labo quand le cours le demandera (non appliquées : le labo est resté à l'état initial). L'atelier 4 bis est fait (copie supprimée à la fin ; relancer `atelier4bis/run_atelier.py` pour le rejouer).
 - Les optimisations O1 (`work_mem`) et O2 (statistique) ne sont testées que sur une copie ; les refaire dans le labo si besoin.

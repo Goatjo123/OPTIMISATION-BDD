@@ -1,0 +1,717 @@
+TRANSCRIPT BRUT de l'atelier 4 bis (sortie psql avec \timing et VERBOSITY verbose)
+Exécuté le 2026-10-07 09:44:16 sur PostgreSQL 18.6 (Debian 18.6-1
+
+====================================================================================================
+01 : préparation (01_preparation.sql)
+====================================================================================================
+
+[M] 01_preparation.sql
+CREATE TABLE shopflow.clients_migration_tp
+  (LIKE shopflow.clients INCLUDING ALL);
+--> Time: 43.088 ms
+
+[M] 01_preparation.sql
+INSERT INTO shopflow.clients_migration_tp (id,email,nom)
+SELECT id,email,nom FROM shopflow.clients;
+--> Time: 20.948 ms
+
+[M] 01_preparation.sql
+CREATE TABLE shopflow.clients_migration_reference_tp AS
+SELECT id,email,nom FROM shopflow.clients_migration_tp;
+--> Time: 16.061 ms
+
+[M] 01_preparation.sql
+SELECT current_database() AS base, version() AS version;
+-->    base   |                                                      version                                                       
+----------+--------------------------------------------------------------------------------------------------------------------
+ shopflow | PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+(1 row)
+
+Time: 0.560 ms
+
+[M] 01_preparation.sql
+SELECT count(*) AS nb_clients FROM shopflow.clients_migration_tp;
+-->  nb_clients 
+------------
+       1000
+(1 row)
+
+Time: 0.515 ms
+
+====================================================================================================
+02 : ajout compatible de la colonne (02_ajout_colonne.sql)
+====================================================================================================
+
+[M] 02_ajout_colonne.sql
+SET lock_timeout = '2s';
+--> Time: 0.209 ms
+
+[M] 02_ajout_colonne.sql
+ALTER TABLE shopflow.clients_migration_tp
+  ADD COLUMN newsletter_ok boolean;
+--> Time: 6.318 ms
+
+[M] 02_ajout_colonne.sql
+SELECT count(*) AS nb_null
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null 
+---------
+    1000
+(1 row)
+
+Time: 0.423 ms
+
+====================================================================================================
+03 : compatibilité des deux versions (03_compatibilite.sql)
+====================================================================================================
+
+[M] 03_compatibilite.sql
+SELECT id,email,nom FROM shopflow.clients_migration_tp ORDER BY id LIMIT 5;
+-->  id |         email          |   nom    
+----+------------------------+----------
+  1 | etudiant1@example.test | Client 1
+  2 | etudiant2@example.test | Client 2
+  3 | etudiant3@example.test | Client 3
+  4 | etudiant4@example.test | Client 4
+  5 | etudiant5@example.test | Client 5
+(5 rows)
+
+Time: 0.503 ms
+
+[M] 03_compatibilite.sql
+SELECT id,email,COALESCE(newsletter_ok,false) AS newsletter_autorisee
+FROM shopflow.clients_migration_tp ORDER BY id LIMIT 5;
+-->  id |         email          | newsletter_autorisee 
+----+------------------------+----------------------
+  1 | etudiant1@example.test | f
+  2 | etudiant2@example.test | f
+  3 | etudiant3@example.test | f
+  4 | etudiant4@example.test | f
+  5 | etudiant5@example.test | f
+(5 rows)
+
+Time: 0.297 ms
+
+[M] 03_compatibilite.sql
+BEGIN;
+--> Time: 0.136 ms
+
+[M] 03_compatibilite.sql
+INSERT INTO shopflow.clients_migration_tp (id,email,nom)
+VALUES (1001,'ancien@example.test','Client ancien');
+--> Time: 0.248 ms
+
+[M] 03_compatibilite.sql
+INSERT INTO shopflow.clients_migration_tp (id,email,nom,newsletter_ok)
+VALUES (1002,'nouveau@example.test','Client nouveau',false);
+--> Time: 0.175 ms
+
+[M] 03_compatibilite.sql
+SELECT id,newsletter_ok FROM shopflow.clients_migration_tp WHERE id IN (1001,1002);
+-->   id  | newsletter_ok 
+------+---------------
+ 1001 | 
+ 1002 | f
+(2 rows)
+
+Time: 0.314 ms
+
+[M] 03_compatibilite.sql
+ROLLBACK;
+--> Time: 0.118 ms
+
+[M] 03_compatibilite.sql
+ALTER TABLE shopflow.clients_migration_tp
+  ALTER COLUMN newsletter_ok SET DEFAULT false;
+--> Time: 17.366 ms
+
+[M] 03_compatibilite.sql
+SELECT count(*) AS nb_null
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null 
+---------
+    1000
+(1 row)
+
+Time: 0.912 ms
+
+====================================================================================================
+03 bis (ajout) : une valeur explicite survit au remplissage (BEGIN ... ROLLBACK)
+====================================================================================================
+
+[M] test valeur explicite
+BEGIN;
+--> Time: 0.155 ms
+
+[M] test valeur explicite
+UPDATE shopflow.clients_migration_tp SET newsletter_ok = true WHERE id = 7;
+--> Time: 0.495 ms
+
+[M] test valeur explicite
+WITH lot AS (SELECT id FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200), maj AS (UPDATE shopflow.clients_migration_tp c SET newsletter_ok = false FROM lot WHERE c.id = lot.id AND c.newsletter_ok IS NULL RETURNING c.id) SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 3.849 ms
+
+[M] test valeur explicite
+WITH lot AS (SELECT id FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200), maj AS (UPDATE shopflow.clients_migration_tp c SET newsletter_ok = false FROM lot WHERE c.id = lot.id AND c.newsletter_ok IS NULL RETURNING c.id) SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 2.798 ms
+
+[M] test valeur explicite
+WITH lot AS (SELECT id FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200), maj AS (UPDATE shopflow.clients_migration_tp c SET newsletter_ok = false FROM lot WHERE c.id = lot.id AND c.newsletter_ok IS NULL RETURNING c.id) SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 2.821 ms
+
+[M] test valeur explicite
+WITH lot AS (SELECT id FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200), maj AS (UPDATE shopflow.clients_migration_tp c SET newsletter_ok = false FROM lot WHERE c.id = lot.id AND c.newsletter_ok IS NULL RETURNING c.id) SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 2.682 ms
+
+[M] test valeur explicite
+WITH lot AS (SELECT id FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200), maj AS (UPDATE shopflow.clients_migration_tp c SET newsletter_ok = false FROM lot WHERE c.id = lot.id AND c.newsletter_ok IS NULL RETURNING c.id) SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             199
+(1 row)
+
+Time: 3.307 ms
+
+[M] test valeur explicite
+WITH lot AS (SELECT id FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200), maj AS (UPDATE shopflow.clients_migration_tp c SET newsletter_ok = false FROM lot WHERE c.id = lot.id AND c.newsletter_ok IS NULL RETURNING c.id) SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+               0
+(1 row)
+
+Time: 0.683 ms
+
+[M] test valeur explicite
+WITH lot AS (SELECT id FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200), maj AS (UPDATE shopflow.clients_migration_tp c SET newsletter_ok = false FROM lot WHERE c.id = lot.id AND c.newsletter_ok IS NULL RETURNING c.id) SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+               0
+(1 row)
+
+Time: 0.512 ms
+
+[M] test valeur explicite
+SELECT id, newsletter_ok FROM shopflow.clients_migration_tp WHERE id = 7;
+-->  id | newsletter_ok 
+----+---------------
+  7 | t
+(1 row)
+
+Time: 0.241 ms
+
+[M] test valeur explicite
+ROLLBACK;
+--> Time: 0.166 ms
+
+====================================================================================================
+04 : remplissage par lots (04_remplissage_lot.sql)
+====================================================================================================
+
+[M] lot 1
+WITH lot AS (
+  SELECT id FROM shopflow.clients_migration_tp
+  WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200
+), maj AS (
+  UPDATE shopflow.clients_migration_tp c
+  SET newsletter_ok = false FROM lot
+  WHERE c.id = lot.id AND c.newsletter_ok IS NULL
+  RETURNING c.id
+)
+SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 4.190 ms
+
+[M] suivi après lot 1
+SELECT count(*) AS nb_null_restants
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null_restants 
+------------------
+              800
+(1 row)
+
+Time: 0.446 ms
+
+[M] lot 2
+WITH lot AS (
+  SELECT id FROM shopflow.clients_migration_tp
+  WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200
+), maj AS (
+  UPDATE shopflow.clients_migration_tp c
+  SET newsletter_ok = false FROM lot
+  WHERE c.id = lot.id AND c.newsletter_ok IS NULL
+  RETURNING c.id
+)
+SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 5.347 ms
+
+[M] suivi après lot 2
+SELECT count(*) AS nb_null_restants
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null_restants 
+------------------
+              600
+(1 row)
+
+Time: 0.419 ms
+
+[M] lot 3
+WITH lot AS (
+  SELECT id FROM shopflow.clients_migration_tp
+  WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200
+), maj AS (
+  UPDATE shopflow.clients_migration_tp c
+  SET newsletter_ok = false FROM lot
+  WHERE c.id = lot.id AND c.newsletter_ok IS NULL
+  RETURNING c.id
+)
+SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 41.549 ms
+
+[M] suivi après lot 3
+SELECT count(*) AS nb_null_restants
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null_restants 
+------------------
+              400
+(1 row)
+
+Time: 0.476 ms
+
+[M] lot 4
+WITH lot AS (
+  SELECT id FROM shopflow.clients_migration_tp
+  WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200
+), maj AS (
+  UPDATE shopflow.clients_migration_tp c
+  SET newsletter_ok = false FROM lot
+  WHERE c.id = lot.id AND c.newsletter_ok IS NULL
+  RETURNING c.id
+)
+SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 38.517 ms
+
+[M] suivi après lot 4
+SELECT count(*) AS nb_null_restants
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null_restants 
+------------------
+              200
+(1 row)
+
+Time: 0.540 ms
+
+[M] lot 5
+WITH lot AS (
+  SELECT id FROM shopflow.clients_migration_tp
+  WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200
+), maj AS (
+  UPDATE shopflow.clients_migration_tp c
+  SET newsletter_ok = false FROM lot
+  WHERE c.id = lot.id AND c.newsletter_ok IS NULL
+  RETURNING c.id
+)
+SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+             200
+(1 row)
+
+Time: 39.177 ms
+
+[M] suivi après lot 5
+SELECT count(*) AS nb_null_restants
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null_restants 
+------------------
+                0
+(1 row)
+
+Time: 0.443 ms
+
+[M] lot 6
+WITH lot AS (
+  SELECT id FROM shopflow.clients_migration_tp
+  WHERE newsletter_ok IS NULL ORDER BY id LIMIT 200
+), maj AS (
+  UPDATE shopflow.clients_migration_tp c
+  SET newsletter_ok = false FROM lot
+  WHERE c.id = lot.id AND c.newsletter_ok IS NULL
+  RETURNING c.id
+)
+SELECT count(*) AS nb_mises_a_jour FROM maj;
+-->  nb_mises_a_jour 
+-----------------
+               0
+(1 row)
+
+Time: 0.553 ms
+
+[M] suivi après lot 6
+SELECT count(*) AS nb_null_restants
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null_restants 
+------------------
+                0
+(1 row)
+
+Time: 0.377 ms
+
+====================================================================================================
+05 : contrainte progressive (05_contrainte_progressive.sql)
+====================================================================================================
+
+[M] 05_contrainte_progressive.sql
+SELECT count(*) AS nb_null
+FROM shopflow.clients_migration_tp WHERE newsletter_ok IS NULL;
+-->  nb_null 
+---------
+       0
+(1 row)
+
+Time: 0.400 ms
+
+[M] 05_contrainte_progressive.sql
+ALTER TABLE shopflow.clients_migration_tp
+  ADD CONSTRAINT clients_newsletter_nn_tp
+  CHECK (newsletter_ok IS NOT NULL) NOT VALID;
+--> Time: 38.215 ms
+
+[M] 05_contrainte_progressive.sql
+SELECT conname,convalidated FROM pg_constraint
+WHERE conrelid = 'shopflow.clients_migration_tp'::regclass
+  AND conname = 'clients_newsletter_nn_tp';
+-->          conname          | convalidated 
+--------------------------+--------------
+ clients_newsletter_nn_tp | f
+(1 row)
+
+Time: 1.481 ms
+
+[M] NOT VALID refuse un NULL
+BEGIN;
+--> Time: 0.208 ms
+
+[M] NOT VALID refuse un NULL
+INSERT INTO shopflow.clients_migration_tp (id,email,nom,newsletter_ok) VALUES (1001,'t@example.test','t',NULL);
+--> ERROR:  23514: new row for relation "clients_migration_tp" violates check constraint "clients_newsletter_nn_tp"
+DETAIL:  Failing row contains (1001, t@example.test, t, null).
+SCHEMA NAME:  shopflow
+TABLE NAME:  clients_migration_tp
+CONSTRAINT NAME:  clients_newsletter_nn_tp
+LOCATION:  ExecConstraints, execMain.c:2076
+Time: 0.726 ms
+
+[M] NOT VALID refuse un NULL
+ROLLBACK;
+--> Time: 0.246 ms
+
+====================================================================================================
+06 : validation (06_validation.sql)
+====================================================================================================
+
+[M] VALIDATE CONSTRAINT
+ALTER TABLE shopflow.clients_migration_tp
+  VALIDATE CONSTRAINT clients_newsletter_nn_tp;
+--> Time: 38.203 ms
+
+[M] SET NOT NULL (avec traces DEBUG1)
+SET client_min_messages = debug1;
+--> Time: 0.327 ms
+
+[M] SET NOT NULL (avec traces DEBUG1)
+ALTER TABLE shopflow.clients_migration_tp
+  ALTER COLUMN newsletter_ok SET NOT NULL;
+--> DEBUG:  00000: existing constraints on column "clients_migration_tp.newsletter_ok" are sufficient to prove that it does not contain nulls
+LOCATION:  NotNullImpliedByRelConstraints, tablecmds.c:8116
+Time: 2.258 ms
+
+[M] retour des messages
+SET client_min_messages = notice;
+--> Time: 0.266 ms
+
+[M] état de la contrainte
+SELECT conname,convalidated FROM pg_constraint
+WHERE conrelid = 'shopflow.clients_migration_tp'::regclass
+  AND conname = 'clients_newsletter_nn_tp';
+-->          conname          | convalidated 
+--------------------------+--------------
+ clients_newsletter_nn_tp | t
+(1 row)
+
+Time: 0.577 ms
+
+[M] état de la colonne
+SELECT column_name,is_nullable,column_default FROM information_schema.columns
+WHERE table_schema='shopflow' AND table_name='clients_migration_tp'
+  AND column_name='newsletter_ok';
+-->   column_name  | is_nullable | column_default 
+---------------+-------------+----------------
+ newsletter_ok | NO          | false
+(1 row)
+
+Time: 10.328 ms
+
+====================================================================================================
+07 : contrôles finaux (07_controles.sql)
+====================================================================================================
+
+[M] défaut
+BEGIN;
+--> Time: 0.158 ms
+
+[M] défaut
+INSERT INTO shopflow.clients_migration_tp (id,email,nom)
+VALUES (1001,'defaut@example.test','Client défaut')
+RETURNING id,newsletter_ok;
+-->   id  | newsletter_ok 
+------+---------------
+ 1001 | f
+(1 row)
+
+Time: 0.310 ms
+
+[M] défaut
+ROLLBACK;
+--> Time: 0.140 ms
+
+[M] rejet de NULL (erreur attendue 23502)
+UPDATE shopflow.clients_migration_tp SET newsletter_ok=NULL WHERE id=1;
+--> Time: 0.342 ms
+ERROR:  23502: null value in column "newsletter_ok" of relation "clients_migration_tp" violates not-null constraint
+DETAIL:  Failing row contains (1, etudiant1@example.test, Client 1, null).
+SCHEMA NAME:  shopflow
+TABLE NAME:  clients_migration_tp
+COLUMN NAME:  newsletter_ok
+LOCATION:  ReportNotNullViolationError, execMain.c:2213
+
+[M] comptages
+SELECT count(*) AS nb_clients,
+       count(*) FILTER (WHERE newsletter_ok IS NULL) AS nb_null,
+       count(*) FILTER (WHERE newsletter_ok=false) AS nb_false
+FROM shopflow.clients_migration_tp;
+-->  nb_clients | nb_null | nb_false 
+------------+---------+----------
+       1000 |       0 |     1000
+(1 row)
+
+Time: 0.405 ms
+
+[M] comparaison historique (EXCEPT ALL dans les deux sens)
+WITH differences AS (
+ (SELECT id,email,nom FROM shopflow.clients_migration_tp
+  EXCEPT ALL SELECT id,email,nom FROM shopflow.clients_migration_reference_tp)
+ UNION ALL
+ (SELECT id,email,nom FROM shopflow.clients_migration_reference_tp
+  EXCEPT ALL SELECT id,email,nom FROM shopflow.clients_migration_tp)
+)
+SELECT count(*) AS ecarts_historiques FROM differences;
+-->  ecarts_historiques 
+--------------------
+                  0
+(1 row)
+
+Time: 1.551 ms
+
+====================================================================================================
+08 : attente de verrou en deux sessions (08_verrous_session_A / B.sql)
+====================================================================================================
+
+[A] A : transaction ouverte
+BEGIN;
+--> Time: 0.205 ms
+
+[A] A : SELECT (ACCESS SHARE détenu)
+SELECT id FROM shopflow.clients_migration_tp LIMIT 1;
+-->  id  
+-----
+ 201
+(1 row)
+
+Time: 0.809 ms
+
+[B] B : SET lock_timeout
+SET lock_timeout='2s';
+--> Time: 0.223 ms
+
+[B] B : ALTER TABLE (1re tentative)
+ALTER TABLE shopflow.clients_migration_tp ADD COLUMN test_verrou integer;
+--> Time: 2001.761 ms (00:02.002)
+ERROR:  55P03: canceling statement due to lock timeout
+LOCATION:  ProcessInterrupts, postgres.c:3437
+
+[A] A : COMMIT
+COMMIT;
+--> Time: 0.254 ms
+
+[B] B : le même ALTER TABLE (2e tentative)
+ALTER TABLE shopflow.clients_migration_tp ADD COLUMN test_verrou integer;
+--> Time: 2.298 ms
+
+[B] B : nettoyage de test_verrou
+ALTER TABLE shopflow.clients_migration_tp DROP COLUMN test_verrou;
+--> Time: 39.790 ms
+
+[B] B : RESET lock_timeout
+RESET lock_timeout;
+--> Time: 0.529 ms
+
+====================================================================================================
+08 bis (ajout) : la lecture C attend derrière l'ALTER de B (slide 31)
+====================================================================================================
+
+[A] A : BEGIN
+BEGIN;
+--> Time: 0.160 ms
+
+[A] A : SELECT
+SELECT id FROM shopflow.clients_migration_tp LIMIT 1;
+-->  id  
+-----
+ 201
+(1 row)
+
+Time: 0.798 ms
+
+[B] B : lock_timeout 4 s
+SET lock_timeout = '4s';
+--> Time: 0.213 ms
+
+[B] B : ALTER (attend 4 s)
+ALTER TABLE shopflow.clients_migration_tp ADD COLUMN test_verrou integer;
+--> ERROR:  55P03: canceling statement due to lock timeout
+LOCATION:  ProcessInterrupts, postgres.c:3437
+Time: 4001.733 ms (00:04.002)
+
+[C] C : SELECT simple
+SELECT count(*) FROM shopflow.clients_migration_tp;
+-->  count 
+-------
+  1000
+(1 row)
+
+Time: 2999.932 ms (00:03.000)
+
+[A] A : COMMIT
+COMMIT;
+--> Time: 0.812 ms
+
+====================================================================================================
+09 : retour arrière (09_retour_arriere.sql)
+====================================================================================================
+
+[M] 09 retour arrière
+SET lock_timeout='2s';
+--> Time: 0.238 ms
+
+[M] 09 retour arrière
+BEGIN;
+--> Time: 0.155 ms
+
+[M] 09 retour arrière
+ALTER TABLE shopflow.clients_migration_tp
+  DROP CONSTRAINT clients_newsletter_nn_tp;
+--> Time: 0.459 ms
+
+[M] 09 retour arrière
+ALTER TABLE shopflow.clients_migration_tp
+  ALTER COLUMN newsletter_ok DROP NOT NULL,
+  ALTER COLUMN newsletter_ok DROP DEFAULT;
+--> Time: 0.385 ms
+
+[M] 09 retour arrière
+COMMIT;
+--> Time: 0.988 ms
+
+[M] 09 retour arrière
+ALTER TABLE shopflow.clients_migration_tp DROP COLUMN newsletter_ok;
+--> Time: 38.256 ms
+
+[M] 09 retour arrière
+SELECT count(*) AS colonne_restante FROM information_schema.columns
+WHERE table_schema='shopflow' AND table_name='clients_migration_tp'
+  AND column_name='newsletter_ok';
+-->  colonne_restante 
+------------------
+                0
+(1 row)
+
+Time: 4.729 ms
+
+[M] 09 retour arrière
+WITH differences AS (
+ (SELECT id,email,nom FROM shopflow.clients_migration_tp
+  EXCEPT ALL SELECT id,email,nom FROM shopflow.clients_migration_reference_tp)
+ UNION ALL
+ (SELECT id,email,nom FROM shopflow.clients_migration_reference_tp
+  EXCEPT ALL SELECT id,email,nom FROM shopflow.clients_migration_tp)
+)
+SELECT count(*) AS ecarts_historiques FROM differences;
+-->  ecarts_historiques 
+--------------------
+                  0
+(1 row)
+
+Time: 3.400 ms
+
+[M] 09 retour arrière
+RESET lock_timeout;
+--> Time: 0.405 ms
+
+====================================================================================================
+Rejouabilité : 02 relancé sur la copie conservée après le retour arrière
+====================================================================================================
+
+[M] rejeu de 02
+ALTER TABLE shopflow.clients_migration_tp
+  ADD COLUMN newsletter_ok boolean;
+--> Time: 37.382 ms
+
+[M] rejeu de 01 (doit échouer : la table existe)
+CREATE TABLE shopflow.clients_migration_tp
+  (LIKE shopflow.clients INCLUDING ALL);
+--> ERROR:  42P07: relation "clients_migration_tp" already exists
+LOCATION:  heap_create_with_catalog, heap.c:1194
+Time: 0.349 ms
+
+====================================================================================================
+Nettoyage : suppression des deux tables de travail, retour à l'état initial du laboratoire
+====================================================================================================

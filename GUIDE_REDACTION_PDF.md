@@ -61,6 +61,17 @@ Livrable attendu : **SQL avant/après, contrôle du contenu, plans et interprét
 | Un **lot d'insertion** dans une transaction de laboratoire | Section G (SQL `BEGIN … ROLLBACK`, WAL, durées) et annexe 5.4 |
 | **Expliquer le gain ou l'absence de gain** | Sections C et I, encadré « Ce que j'ai compris de l'atelier 3 » |
 
+### Preuves de l'Atelier 4 bis (slide 43) : où les trouver dans le PDF
+| Trace demandée | Emplacement |
+|---|---|
+| 01 SQL d'ajout, défaut, lots et contrainte | Annexe 8.2 (fichiers 01 à 09 rejoués tels quels), `atelier4bis/resultats/transcript.txt` |
+| 02 Volumes et NULL avant, pendant, après ; nombre et durée de chaque lot | Section « Le remplissage lot par lot », annexe 8.3 |
+| 03 Compatibilité des lecteurs, défaut, rejet de NULL, comparaison historique à 0 écart | Annexe 8.4 (erreur 23502, md5 identiques) |
+| 04 État de la contrainte avant et après validation | Annexe 8.5 (`convalidated` false puis true, message DEBUG1 « pas de second scan ») |
+| 05 Verrou : erreur de B, COMMIT de A, réussite de B, avec la chronologie | Section « Verrous : A, B et C », annexe 8.6 (instantané `pg_locks`, scénario C derrière B) |
+| 06 SQL de retour arrière et contrôles ; limites et précautions | Annexe 8.7, note « Ce que j'ai compris de l'atelier 4 bis » (limites) |
+| Ancienne version → nouvelle version (à 3 000 000 lignes) | Section dédiée, annexe 8.8, `Optimisations.pdf` page 8 |
+
 ### Preuves de l'Atelier 4 (slide 26) : où les trouver dans le PDF
 | Exigence de la slide | Emplacement |
 |---|---|
@@ -99,6 +110,8 @@ Répondre aux 6 questions **avec un exemple et une condition d'application, pas 
 20. **Pour chaque solution : la situation, pourquoi on la choisit (et laquelle on écarte), et si elle fonctionne** (gain, résultat identique, limites vérifiées, verdict). Ne jamais présenter une solution sans dire si elle marche et dans quelles conditions.
 21. **Une optimisation = la transformation d'une ancienne requête en une nouvelle, avec le même résultat, moins coûteuse et plus rapide.** Ne pas présenter une comparaison de techniques (jointure contre EXISTS) mais la transformation de la requête d'origine. Toujours montrer l'*ancienne version* et la *nouvelle version* (SQL ou DDL), **prouver que le résultat est identique**, chiffrer le gain **et** le coût, et l'exprimer par un schéma (plan d'exécution) et un graphique avant/après, pas seulement par des tableaux. Une variante plus rapide mais au résultat différent n'est pas une optimisation.
 22. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
+23. **Pour une migration, l'optimisation est la réduction du blocage des autres utilisateurs, pas la durée totale.** Quand la nouvelle méthode est plus lente au total (remplissage ×2,7 à l'atelier 4 bis), le dire. Ne jamais présenter l'ajout d'une colonne comme un gain de vitesse de requête (le cours le dit). À 1 000 lignes tout est instantané : mesurer à plus grand volume sur une table jetable et signaler que c'est **une seule exécution**.
+24. **Un script de mesure se contrôle lui-même** : ne pas se fier à un tube unique pour les sorties et les erreurs de psql (une erreur peut arriver après la commande suivante) ; poser une sentinelle sur chaque flux, vérifier les contrôles attendus (le script s'arrête sur un écart) et relancer le script entier après toute correction.
 
 ## 5. Vérification de l'exactitude (à refaire à chaque modification)
 
@@ -144,7 +157,7 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 À chaque point pertinent (concept, résultat mesuré, piège, correction), l'ajouter dans la bonne section de `SYNTHESE.md`, en français, concis, avec les chiffres. Ne pas attendre qu'on le redemande.
 
 ## 7. Structure actuelle des PDF
-**`Atelier1_Diagnostic_compact.pdf` (38 pages, détail des ateliers 1 à 4, inchangé)**
+**`Atelier1_Diagnostic_compact.pdf` (46 pages, détail des ateliers 1 à 4 bis ; le contenu des 38 premières pages d'origine est conservé, l'atelier 4 bis a été **ajouté** à la demande de l'utilisateur)**
 
 | Pages | Contenu |
 |---|---|
@@ -153,18 +166,21 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 | 5 à 6 | Optimisations testées : le bilan (O1 `work_mem`, O2 statistique) |
 | 7 à 10 | **Atelier 3** : historique client (requêtes réelles de l'API, variantes, lecture, 5 clients, client très actif, piège de l'alias, écriture, `Heap Fetches`, décision, migration 001) |
 | 11 à 15 | **Atelier 4** : situation, puis pour chaque partie (A partiel, B GIN, C GiST) **situation, solution choisie et pourquoi, résultats, « est-ce que ça fonctionne ? »** ; livrable, migration 002, **Ce que j'ai compris** |
-| 16 | Questions de compréhension du cours |
-| 17 à 30 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
-| 31 à 35 | **Annexe 6** : plans de l'atelier 4 |
-| 36 à 38 | **Annexe 7** : preuves de l'atelier 4 |
+| 16 à 18 | **Atelier 4 bis** : situation, solution et pourquoi, est-ce que ça fonctionne ; déroulement étape par étape ; lots ; verrous A, B et C ; ancienne → nouvelle version à 3 000 000 lignes ; **Ce que j'ai compris** |
+| 19 | Questions de compréhension du cours |
+| 20 à 33 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
+| 34 à 38 | **Annexe 6** : plans de l'atelier 4 |
+| 39 à 41 | **Annexe 7** : preuves de l'atelier 4 |
+| 42 à 46 | **Annexe 8** : preuves de l'atelier 4 bis (les six traces de la slide 43, mesure à 3 000 000 lignes) |
 
-**`Optimisations.pdf` (9 pages, PDF séparé qui met en avant les optimisations)**
+**`Optimisations.pdf` (10 pages, PDF séparé qui met en avant les optimisations)**
 | Page | Contenu |
 |---|---|
-| 1 | Définition (ancienne version → nouvelle version, même résultat, plus rapide), **graphique des gains**, tableau récapitulatif avec preuve d'identité du résultat |
+| 1 | Définition (ancienne version → nouvelle version, même résultat, plus rapide), **graphique des gains**, tableau récapitulatif avec preuve d'identité du résultat (ligne 7 : temps sous verrou exclusif, une exécution) |
 | 2 à 7 | Une page par transformation : **ancienne version / nouvelle version** (SQL ou DDL), **schéma du plan d'exécution**, graphiques avant/après, résultat identique, pourquoi, coût : 1 agrégation (statistique), 2 clients avec commande payée (réécriture EXISTS), 3 historique client (index composé), 4 file en attente (index partiel), 5 filtre JSON (colonne typée), 6 chevauchement de périodes (GiST) |
-| 8 | Transformations écartées (résultat différent ou aucun gain) et prix d'un index à l'écriture |
-| 9 | Méthode de preuve et limites |
+| 8 | **7 Migration NOT NULL** : ancienne (un UPDATE + SET NOT NULL direct) → nouvelle (lots, CHECK NOT VALID, VALIDATE, SET NOT NULL sans scan) : temps sous verrou exclusif 3 324 → 46,3 ms, **mais** remplissage plus long |
+| 9 | Transformations écartées (résultat différent ou aucun gain) et prix d'un index à l'écriture |
+| 10 | Méthode de preuve et limites |
 
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].
