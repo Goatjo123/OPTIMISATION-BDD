@@ -1,0 +1,11 @@
+-- SELECT id::text AS id, to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD HH24:MI:SS.US') AS created_at, statut, total::text AS total FROM a7_tmp.commandes WHERE client_id = 42 AND (created_at, id) < (TIMESTAMPTZ '2026-11-09 12:00:00+00', 450000::bigint) ORDER BY commandes.created_at DESC, commandes.id DESC LIMIT 21
+Limit  (cost=0.42..2.02 rows=21 width=118) (actual time=0.095..0.125 rows=21.00 loops=1)
+  Buffers: shared hit=24
+  ->  Index Scan using idx_hist on commandes  (cost=0.42..68095.97 rows=899044 width=118) (actual time=0.093..0.122 rows=21.00 loops=1)
+        Index Cond: ((client_id = 42) AND (ROW(created_at, id) < ROW('2026-11-09 12:00:00+00'::timestamp with time zone, '450000'::bigint)))
+        Index Searches: 1
+        Buffers: shared hit=24
+Planning:
+  Buffers: shared hit=137
+Planning Time: 0.399 ms
+Execution Time: 0.174 ms

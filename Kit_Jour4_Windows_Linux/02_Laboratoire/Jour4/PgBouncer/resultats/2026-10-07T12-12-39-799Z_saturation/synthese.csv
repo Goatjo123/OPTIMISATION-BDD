@@ -1,0 +1,3 @@
+"essai","route","clients","secondes_demandees","mode","code_sortie","transactions","transactions_echouees","tps","latence_moyenne_ms","pic_connexions_echantillonne","nb_echantillons","duree_pilote_s"
+"1_direct","direct","80","20","persistant","1","","","","","0","2","2.931"
+"1_pool","pool","80","20","persistant","0","1609","0","90.651942","859.978","5","10","21.849"

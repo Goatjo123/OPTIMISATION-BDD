@@ -1,0 +1,7 @@
+"essai","route","clients","secondes_demandees","mode","code_sortie","transactions","transactions_echouees","tps","latence_moyenne_ms","pic_connexions_echantillonne","nb_echantillons","duree_pilote_s"
+"1_direct","direct","40","20","persistant","0","5200","0","261.806214","152.481","40","17","20.798"
+"1_pool","pool","40","20","persistant","0","1884","0","93.849622","422.164","5","15","20.741"
+"2_pool","pool","40","20","persistant","0","1900","0","94.720239","418.180","5","15","21.359"
+"2_direct","direct","40","20","persistant","0","5160","0","260.635244","152.997","40","17","20.633"
+"3_direct","direct","40","20","persistant","0","5187","0","260.687706","152.950","40","17","20.671"
+"3_pool","pool","40","20","persistant","0","1882","0","93.707147","422.593","5","15","21.197"

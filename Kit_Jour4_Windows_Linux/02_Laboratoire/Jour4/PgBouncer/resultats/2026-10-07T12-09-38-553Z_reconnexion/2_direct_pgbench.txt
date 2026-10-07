@@ -1,0 +1,19 @@
+pgbench (17.11 (Debian 17.11-1.pgdg12+2))
+transaction type: /lab/charge.sql
+scaling factor: 1
+query mode: simple
+number of clients: 10
+number of threads: 2
+maximum number of tries: 1
+duration: 20 s
+number of transactions actually processed: 456
+number of failed transactions: 0 (0.000%)
+latency average = 301.489 ms
+latency stddev = 96.510 ms
+average connection time = 57.197 ms
+tps = 22.625518 (including reconnection times)
+
+progress: 5.1 s, 21.4 tps, lat 298.219 ms stddev 96.845, 0 failed
+progress: 10.1 s, 23.0 tps, lat 311.314 ms stddev 91.447, 0 failed
+progress: 15.0 s, 22.7 tps, lat 303.788 ms stddev 105.785, 0 failed
+progress: 20.0 s, 22.8 tps, lat 294.990 ms stddev 90.315, 0 failed

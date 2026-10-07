@@ -1,0 +1,414 @@
+{
+  "debut": "2026-10-07 14:05:00",
+  "node": "v22.14.0",
+  "version_pg": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "avant": {
+    "index": [
+      "clients_email_key",
+      "clients_pkey",
+      "commandes_client_id_cle_idempotence_key",
+      "commandes_pkey",
+      "lignes_pkey",
+      "produits_pkey"
+    ],
+    "statistiques_etendues": 0,
+    "tables": [
+      "clients",
+      "commandes",
+      "lignes",
+      "produits"
+    ],
+    "lignes": {
+      "clients": 1000,
+      "produits": 200,
+      "commandes": 100000,
+      "lignes": 300000
+    },
+    "md5_dates_commandes": "8b3e4bf3d77c",
+    "md5_lignes": "e989d5bec39b"
+  },
+  "1_observations": {
+    "pool": {
+      "total": 0,
+      "inactives": 0,
+      "enAttente": 0
+    },
+    "redisPret": true
+  },
+  "1_nb_commandes_client42": 100,
+  "1_lignes_par_commande_min_max": "3-3",
+  "2_page20": {
+    "n1": {
+      "Status": 200,
+      "SqlCount": 21,
+      "HttpMs": 88.243,
+      "TraceId": "5aa4798c-5e06-4f81-8699-0f8f8d8805e3",
+      "journal": {
+        "trace": "5aa4798c-5e06-4f81-8699-0f8f8d8805e3",
+        "route": "/commandes?limit=20&pagination=curseur&relations=n1",
+        "status": 200,
+        "sqlCount": 21,
+        "sqlMs": 40.853,
+        "durationMs": 43.243,
+        "poolWaiting": 0
+      }
+    },
+    "groupe": {
+      "Status": 200,
+      "SqlCount": 2,
+      "HttpMs": 46.782,
+      "TraceId": "41f80089-e4cc-4c19-8b20-64bcdabeb2af",
+      "journal": {
+        "trace": "41f80089-e4cc-4c19-8b20-64bcdabeb2af",
+        "route": "/commandes?limit=20&pagination=curseur&relations=groupe",
+        "status": 200,
+        "sqlCount": 2,
+        "sqlMs": 3.505,
+        "durationMs": 5.117,
+        "poolWaiting": 0
+      }
+    },
+    "reponses_identiques": true
+  },
+  "2_tailles": {
+    "5": {
+      "n1_sql": 6,
+      "groupe_sql": 2,
+      "commandes": 5
+    },
+    "20": {
+      "n1_sql": 21,
+      "groupe_sql": 2,
+      "commandes": 20
+    },
+    "50": {
+      "n1_sql": 51,
+      "groupe_sql": 2,
+      "commandes": 50
+    },
+    "100": {
+      "n1_sql": 101,
+      "groupe_sql": 2,
+      "commandes": 100
+    }
+  },
+  "2_page_vide": {
+    "n1_sql": 1,
+    "groupe_sql": 1
+  },
+  "2_repetition": {
+    "20": {
+      "n1": {
+        "tours": 30,
+        "http_mediane": 55.275,
+        "http_p95": 64.166,
+        "http_min": 51.063,
+        "sqlMs_mediane": 14.212,
+        "duree_serveur_mediane": 14.554,
+        "http_brut": [
+          55.336,
+          54.684,
+          56.976,
+          52.23,
+          56.63,
+          60.708,
+          55.021,
+          52.996,
+          53.476,
+          54.077,
+          57.138,
+          57.087,
+          58.477,
+          53.989,
+          51.063,
+          54.395,
+          53.792,
+          61.091,
+          67.053,
+          55.213,
+          56.905,
+          54.81,
+          55.845,
+          55.577,
+          52.712,
+          61.405,
+          56.237,
+          51.403,
+          53.466,
+          64.166
+        ]
+      },
+      "groupe": {
+        "tours": 30,
+        "http_mediane": 43.898,
+        "http_p95": 51.136,
+        "http_min": 40.033,
+        "sqlMs_mediane": 2.188,
+        "duree_serveur_mediane": 2.524,
+        "http_brut": [
+          45.426,
+          40.697,
+          42.086,
+          47.817,
+          40.033,
+          42.657,
+          43.433,
+          43.691,
+          42.473,
+          43.364,
+          46.77,
+          45.708,
+          48.856,
+          45.092,
+          42.742,
+          43.262,
+          51.136,
+          56.575,
+          43.08,
+          44.265,
+          42.438,
+          44.789,
+          44.36,
+          41.995,
+          49.256,
+          41.701,
+          44.104,
+          41.655,
+          45.045,
+          46.226
+        ]
+      }
+    },
+    "50": {
+      "n1": {
+        "tours": 30,
+        "http_mediane": 68.519,
+        "http_p95": 80.008,
+        "http_min": 65.328,
+        "sqlMs_mediane": 28.966,
+        "duree_serveur_mediane": 29.492,
+        "http_brut": [
+          80.008,
+          67.799,
+          72.976,
+          76.922,
+          71.66,
+          65.328,
+          67.754,
+          67.791,
+          65.59,
+          68.021,
+          71.503,
+          75.003,
+          71.035,
+          68.076,
+          65.334,
+          70.229,
+          93.498,
+          68.556,
+          68.482,
+          76.499,
+          68.27,
+          66.108,
+          71.705,
+          79.344,
+          74.939,
+          67.073,
+          66.88,
+          66.908,
+          68.978,
+          67.997
+        ]
+      },
+      "groupe": {
+        "tours": 30,
+        "http_mediane": 44.215,
+        "http_p95": 52.807,
+        "http_min": 40.229,
+        "sqlMs_mediane": 2.575,
+        "duree_serveur_mediane": 3.021,
+        "http_brut": [
+          44.754,
+          43.795,
+          44.951,
+          44.682,
+          44.355,
+          45.507,
+          43.564,
+          83.011,
+          43.578,
+          44.072,
+          41.292,
+          42.601,
+          44.228,
+          44.207,
+          44.092,
+          43.429,
+          40.395,
+          43.274,
+          45.76,
+          45.685,
+          45.99,
+          46.609,
+          44.224,
+          45.326,
+          44.303,
+          44.191,
+          52.807,
+          41.173,
+          41.469,
+          40.229
+        ]
+      }
+    }
+  },
+  "3_page2": {
+    "curseur": {
+      "Status": 200,
+      "SqlCount": 2,
+      "HttpMs": 42.575,
+      "TraceId": "bfa5e2ed-25ee-4b7d-ab24-033e11d3b37f",
+      "journal": {
+        "trace": "bfa5e2ed-25ee-4b7d-ab24-033e11d3b37f",
+        "route": "/commandes?limit=20&cursor=eyJ2IjoxLCJjbGllbnRJZCI6IjQyIiwiZGF0ZSI6IjIwMjYtMDktMTJUMDg6MDQ6MDIuMDAwMDAwWiIsImlkIjoiMjkwNDIifQ.-8akB0gWWnMKadehIh_owEhG5gkmQREIWKs9j8hbO0M&relations=groupe",
+        "status": 200,
+        "sqlCount": 2,
+        "sqlMs": 2.081,
+        "durationMs": 2.735,
+        "poolWaiting": 0
+      }
+    },
+    "offset": {
+      "Status": 200,
+      "SqlCount": 2,
+      "HttpMs": 42.372,
+      "TraceId": "c44b64ce-4f68-4a02-ae74-300939a09265",
+      "journal": {
+        "trace": "c44b64ce-4f68-4a02-ae74-300939a09265",
+        "route": "/commandes?limit=20&pagination=offset&offset=20&relations=groupe",
+        "status": 200,
+        "sqlCount": 2,
+        "sqlMs": 2.044,
+        "durationMs": 2.451,
+        "poolWaiting": 0
+      }
+    },
+    "reponses_identiques": true,
+    "nextCursor_p1": "eyJ2IjoxLCJjbGllbnRJZCI6IjQyIiwiZGF0ZSI6IjIwMjYtMDktMTJUMDg6MDQ6MDIuMDAwMDAwWiIsImlkIjoiMjkwNDIifQ.-8akB0gWWnMKadehIh_owEhG5gkmQREIWKs9j8hbO0M",
+    "premiers_ids": [
+      "26042",
+      "23042",
+      "20042"
+    ]
+  },
+  "3_contrat": {
+    "cles": [
+      "data",
+      "hasNextPage",
+      "nextCursor"
+    ],
+    "limite_defaut": 20,
+    "limite_max": 100,
+    "exemple_ligne": {
+      "id": "86042",
+      "created_at": "2026-09-12T23:54:02.000000Z",
+      "statut": "payee",
+      "total": "720.00",
+      "lignes": [
+        {
+          "commande_id": "86042",
+          "produit_id": "43",
+          "qte": 3,
+          "prix_unitaire": "58.75"
+        },
+        {
+          "commande_id": "86042",
+          "produit_id": "60",
+          "qte": 3,
+          "prix_unitaire": "80.00"
+        },
+        {
+          "commande_id": "86042",
+          "produit_id": "77",
+          "qte": 3,
+          "prix_unitaire": "101.25"
+        }
+      ]
+    },
+    "ordre_ok": true,
+    "limit_101": 400,
+    "limit_0": 400
+  },
+  "4_sortie_sql": "2042|2026-09-13 23:54:02+00\n1042|2026-09-13 23:54:02+00\n42|2026-09-13 23:54:02+00",
+  "4_pages": {
+    "page1": {
+      "ids": [
+        "2042",
+        "1042"
+      ],
+      "hasNextPage": true,
+      "nextCursor": "eyJ2IjoxLCJjbGllbnRJZCI6IjQyIiwiZGF0ZSI6IjIwMjYtMDktMTNUMjM6NTQ6MDIuMDAwMDAwWiIsImlkIjoiMTA0MiJ9.mZMzRKkTUumXjBzdZaAnxFBTeVdJSN7egwtYDCl1Ork",
+      "TraceId": "486259ea-d891-440d-86cc-ba9040c3f9b3"
+    },
+    "page2": {
+      "ids": [
+        "42",
+        "86042"
+      ],
+      "nextCursor": "eyJ2IjoxLCJjbGllbnRJZCI6IjQyIiwiZGF0ZSI6IjIwMjYtMDktMTJUMjM6NTQ6MDIuMDAwMDAwWiIsImlkIjoiODYwNDIifQ.oyiz7nwDInJ1sB2RYNVyL7hSbKy5RGemicnC3kYU2i4",
+      "TraceId": "d6c69d85-2388-40f8-b3d4-509a8f2666e5"
+    },
+    "page2_par_offset_identique": true,
+    "date_commune": "2026-09-13 23:54:02.000000"
+  },
+  "4_defaut_date_seule": {
+    "created_at_<_date_seule_page_suivante": "86042,83042",
+    "tuple_(created_at,id)_page_suivante": "42,86042"
+  },
+  "5_parcours": {
+    "pages": 5,
+    "total": 100,
+    "uniques": 100,
+    "meme_ordre_que_postgresql": true,
+    "trois_egalites_une_fois": [
+      1,
+      1,
+      1
+    ]
+  },
+  "5_droits": {
+    "sans_jeton": 401,
+    "client_id_injecte": 400,
+    "curseur_falsifie": 400,
+    "mode_inconnu": 400
+  },
+  "5_sortie_restauration": "3\n42|2026-02-24 00:00:42+00\n1042|2026-06-04 00:17:22+00\n2042|2026-09-12 00:34:02+00",
+  "5_sauvegarde_vide": true,
+  "apres": {
+    "index": [
+      "clients_email_key",
+      "clients_pkey",
+      "commandes_client_id_cle_idempotence_key",
+      "commandes_pkey",
+      "lignes_pkey",
+      "produits_pkey"
+    ],
+    "statistiques_etendues": 0,
+    "tables": [
+      "clients",
+      "commandes",
+      "lignes",
+      "produits"
+    ],
+    "lignes": {
+      "clients": 1000,
+      "produits": 200,
+      "commandes": 100000,
+      "lignes": 300000
+    },
+    "md5_dates_commandes": "8b3e4bf3d77c",
+    "md5_lignes": "e989d5bec39b"
+  },
+  "laboratoire_identique": true,
+  "fin": "2026-10-07 14:05:24"
+}

@@ -61,6 +61,19 @@ Livrable attendu : **SQL avant/après, contrôle du contenu, plans et interprét
 | Un **lot d'insertion** dans une transaction de laboratoire | Section G (SQL `BEGIN … ROLLBACK`, WAL, durées) et annexe 5.4 |
 | **Expliquer le gain ou l'absence de gain** | Sections C et I, encadré « Ce que j'ai compris de l'atelier 3 » |
 
+### Preuves de l'Atelier 7 (slide 13 et fiche) : où les trouver dans le PDF
+| Exigence | Emplacement |
+|---|---|
+| Contrat de l'endpoint (data / hasNextPage / nextCursor, limites 20 et 100, ordre, formats) | Section « Atelier 7 », annexe 9.2 et 9.6 |
+| SQL expliqué (OFFSET, curseur, N+1, groupé) | Annexe 9.2 (extraits de `commandes.mjs`) |
+| Comptage des requêtes (21 contre 2, 6/51/101) | Section « N+1 contre chargement groupé », annexe 9.3 et 9.4 |
+| Trace (TraceId, journal de l'API) | Annexe 9.3, `atelier7/resultats/api_extraits_par_traceid.txt` |
+| Contrôle des résultats (réponses identiques) | Étapes 2 et 3 du tableau, annexe 9.3 |
+| Dates identiques (2042, 1042, 42) | Section dédiée, annexe 9.5 |
+| Parcours 100 / 100 / 5, droits, restauration | Annexe 9.6 |
+| OFFSET contre curseur à grande profondeur (ajout) | Section dédiée, annexe 9.7, `Optimisations.pdf` page 10 |
+| PgBouncer : connexions, attente, refus, TPS, limites | Section « Partie B », annexe 9.8 |
+
 ### Preuves de l'Atelier 4 bis (slide 43) : où les trouver dans le PDF
 | Trace demandée | Emplacement |
 |---|---|
@@ -112,6 +125,8 @@ Répondre aux 6 questions **avec un exemple et une condition d'application, pas 
 22. Pas de valeurs inventées : les exemples fictifs du cours (slide 8) sont signalés comme **fictifs**.
 23. **Pour une migration, l'optimisation est la réduction du blocage des autres utilisateurs, pas la durée totale.** Quand la nouvelle méthode est plus lente au total (remplissage ×2,7 à l'atelier 4 bis), le dire. Ne jamais présenter l'ajout d'une colonne comme un gain de vitesse de requête (le cours le dit). À 1 000 lignes tout est instantané : mesurer à plus grand volume sur une table jetable et signaler que c'est **une seule exécution**.
 24. **Un script de mesure se contrôle lui-même** : ne pas se fier à un tube unique pour les sorties et les erreurs de psql (une erreur peut arriver après la commande suivante) ; poser une sentinelle sur chaque flux, vérifier les contrôles attendus (le script s'arrête sur un écart) et relancer le script entier après toute correction.
+25. **Compter les requêtes avant de parler de durée, et ne pas annoncer un gain non mesuré** : séparer le nombre de requêtes SQL (X-SQL-Count), la durée côté client (HttpMs) et la durée SQL (sqlMs). Quand le jeu fourni est trop petit pour un effet (100 commandes), le dire et mesurer sur une table de travail jetable. Un outil qui limite une ressource (PgBouncer : connexions) n'est pas une optimisation de vitesse : l'écrire si le débit baisse.
+26. **Un test instable n'est pas conclu** : le relancer, présenter toutes les campagnes (même quand l'ordre s'inverse) et écrire « aucune conclusion ». Un essai interrompu a des mesures « non mesurables », pas zéro.
 
 ## 5. Vérification de l'exactitude (à refaire à chaque modification)
 
@@ -157,7 +172,7 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 À chaque point pertinent (concept, résultat mesuré, piège, correction), l'ajouter dans la bonne section de `SYNTHESE.md`, en français, concis, avec les chiffres. Ne pas attendre qu'on le redemande.
 
 ## 7. Structure actuelle des PDF
-**`Atelier1_Diagnostic_compact.pdf` (46 pages, détail des ateliers 1 à 4 bis ; le contenu des 38 premières pages d'origine est conservé, l'atelier 4 bis a été **ajouté** à la demande de l'utilisateur)**
+**`Atelier1_Diagnostic_compact.pdf` (53 pages, détail des ateliers 1 à 4 bis et 7 ; le contenu des 38 premières pages d'origine est conservé, l'atelier 4 bis a été **ajouté** à la demande de l'utilisateur)**
 
 | Pages | Contenu |
 |---|---|
@@ -167,20 +182,24 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 | 7 à 10 | **Atelier 3** : historique client (requêtes réelles de l'API, variantes, lecture, 5 clients, client très actif, piège de l'alias, écriture, `Heap Fetches`, décision, migration 001) |
 | 11 à 15 | **Atelier 4** : situation, puis pour chaque partie (A partiel, B GIN, C GiST) **situation, solution choisie et pourquoi, résultats, « est-ce que ça fonctionne ? »** ; livrable, migration 002, **Ce que j'ai compris** |
 | 16 à 18 | **Atelier 4 bis** : situation, solution et pourquoi, est-ce que ça fonctionne ; déroulement étape par étape ; lots ; verrous A, B et C ; ancienne → nouvelle version à 3 000 000 lignes ; **Ce que j'ai compris** |
-| 19 | Questions de compréhension du cours |
-| 20 à 33 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
-| 34 à 38 | **Annexe 6** : plans de l'atelier 4 |
-| 39 à 41 | **Annexe 7** : preuves de l'atelier 4 |
-| 42 à 46 | **Annexe 8** : preuves de l'atelier 4 bis (les six traces de la slide 43, mesure à 3 000 000 lignes) |
+| 19 à 21 | **Atelier 7** (Jour 4) : situation, solution et pourquoi, est-ce que ça fonctionne ; N+1 contre groupé ; OFFSET contre curseur à 1 000 000 de commandes ; dates identiques ; PgBouncer ; **Ce que j'ai compris** |
+| 22 | Questions de compréhension du cours |
+| 23 à 36 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
+| 37 à 41 | **Annexe 6** : plans de l'atelier 4 |
+| 42 à 44 | **Annexe 7** : preuves de l'atelier 4 |
+| 45 à 49 | **Annexe 8** : preuves de l'atelier 4 bis (les six traces de la slide 43, mesure à 3 000 000 lignes) |
+| 50 à 53 | **Annexe 9** : preuves de l'atelier 7 (SQL, traces par TraceId, mesures, dates identiques, droits, OFFSET / curseur à grande échelle, campagnes PgBouncer) |
 
-**`Optimisations.pdf` (10 pages, PDF séparé qui met en avant les optimisations)**
+**`Optimisations.pdf` (12 pages, PDF séparé qui met en avant les optimisations)**
 | Page | Contenu |
 |---|---|
 | 1 | Définition (ancienne version → nouvelle version, même résultat, plus rapide), **graphique des gains**, tableau récapitulatif avec preuve d'identité du résultat (ligne 7 : temps sous verrou exclusif, une exécution) |
 | 2 à 7 | Une page par transformation : **ancienne version / nouvelle version** (SQL ou DDL), **schéma du plan d'exécution**, graphiques avant/après, résultat identique, pourquoi, coût : 1 agrégation (statistique), 2 clients avec commande payée (réécriture EXISTS), 3 historique client (index composé), 4 file en attente (index partiel), 5 filtre JSON (colonne typée), 6 chevauchement de périodes (GiST) |
 | 8 | **7 Migration NOT NULL** : ancienne (un UPDATE + SET NOT NULL direct) → nouvelle (lots, CHECK NOT VALID, VALIDATE, SET NOT NULL sans scan) : temps sous verrou exclusif 3 324 → 46,3 ms, **mais** remplissage plus long |
-| 9 | Transformations écartées (résultat différent ou aucun gain) et prix d'un index à l'écriture |
-| 10 | Méthode de preuve et limites |
+| 9 | **8 Page avec ses lignes** : N+1 (21 requêtes) → chargement groupé (2), réponse identique |
+| 10 | **9 Pagination profonde** : OFFSET → curseur, même page, 944 → 0,18 ms à 1 000 000 de commandes (table de travail), aucun gain à petite profondeur |
+| 11 | Transformations écartées (dont PgBouncer : pas plus rapide) et prix d'un index à l'écriture |
+| 12 | Méthode de preuve et limites |
 
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].

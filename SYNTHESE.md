@@ -266,6 +266,27 @@ Détail complet pour l'oral : [`ATELIER4BIS_DE_A_A_Z.md`](ATELIER4BIS_DE_A_A_Z.m
 - **Le retour arrière est partiel** : `DROP COLUMN` détruit les valeurs.
 - **À grand volume la nouvelle méthode est plus lente au total mais bloque presque personne** ; je le dis au lieu de ne montrer que le bon chiffre. Limites : copie de 1 000 lignes, une seule exécution à 3 millions.
 
+## 3sexies. Atelier 7 : la page et ses relations, puis PgBouncer (Jour 4)
+
+Détail pour comprendre et expliquer : [`ATELIER7_DE_A_A_Z.md`](ATELIER7_DE_A_A_Z.md). Scripts et résultats : `atelier7/`. Cours Jour 4 (slides 1 à 12) : [`COURS_JOUR4_SIMPLE.md`](COURS_JOUR4_SIMPLE.md).
+
+- **Trois problèmes différents, trois corrections séparées** : N+1 (nombre de requêtes), OFFSET (lignes parcourues), connexions (PgBouncer).
+- **N+1 → chargement groupé** : 1 + N requêtes (6, 21, 51, 101 pour 5, 20, 50, 100 commandes) → **2**, **réponse JSON identique** (lignes comprises). Durée HTTP médiane (30 tours alternés) : 55,3 → 43,9 ms pour 20 commandes, 68,5 → 44,2 ms pour 50 : gain **modeste** en base locale ; une baisse du nombre de requêtes n'est pas à elle seule un gain mesuré. Page vide : 1 requête.
+- **OFFSET contre curseur** : le curseur est la paire **(created_at, id)** de la dernière ligne ; `LIMIT 21` donne `hasNextPage` sans `COUNT(*)`. Page 2 identique par les deux méthodes (2 SQL chacune). Avec 100 commandes on ne peut pas conclure sur la vitesse (consigne de la fiche) : **table de travail de 1 000 000 de commandes**, même page à chaque profondeur (md5) : OFFSET 0,171 → 99,7 → **944 ms** (décalages 0, 100 000, 999 000 ; ≈ 1 page lue par ligne sautée), curseur **0,15 à 0,2 ms et 24 pages partout**. **Aucun gain à petite profondeur** ; le curseur ne sert qu'à « suivant ».
+- **Dates identiques** (commandes 2042, 1042, 42, limite 2) : page 1 = 2042, 1042 ; page 2 = 42, 86042 ; avec **la seule date** la page suivante donne 86042, 83042 (**42 perdue**) : l'id départage les dates égales.
+- **Droits** : 401 sans jeton, 400 avec `client_id` dans l'URL, 400 avec un curseur falsifié. Un curseur **signé n'est pas une autorisation** : le client vient du contexte (`LAB_CLIENT_ID`), jamais de l'URL. Un curseur n'est pas un instantané. Parcours : 5 pages, 100 ids uniques, même ordre que PostgreSQL.
+- **PgBouncer** (labo séparé, 5 connexions serveur, mode transaction) : 40 clients : connexions PostgreSQL **40 → 5**, mais débit **261 → 94 transactions/s** et latence 153 → 422 ms (5 × 20 transactions/s = 100 au plus) : **moins de connexions ne signifie pas moins de latence**. 80 clients : refus en direct (« remaining connection slots are reserved ») ; avec PgBouncer tous servis, `cl_waiting` 66 à 69 : **un refus devient de l'attente**. Test avec reconnexion (`-C`) : **instable**, ordre inversé entre deux campagnes, aucune conclusion. PgBouncer ne corrige ni le N+1 ni les index.
+- **Pièges rencontrés** : `ORDER BY` sur les alias de sortie (texte) neutralise l'index (qualifier `commandes.created_at`, 3 s au lieu de 0,2 ms) ; ma première mesure ne lisait que l'index et sous-estimait OFFSET (colonnes de l'API ajoutées).
+- **Laboratoire** : dates restaurées (empreinte md5 identique), table de sauvegarde du kit supprimée, état initial retrouvé.
+
+### Ce que j'ai compris (Atelier 7)
+- Je **compte les requêtes avant de parler de durée** : N+1 se reconnaît au nombre qui croît avec N.
+- Je **corrige séparément** requêtes, lignes parcourues et connexions.
+- Le curseur contient **la date et l'id**, et **ne sert qu'à « suivant »** ; il n'apporte rien à petite profondeur.
+- Un curseur signé **n'est pas** un contrôle d'accès.
+- **PgBouncer limite les connexions, il n'accélère pas** ; il transforme un refus en attente.
+- Un test **instable** se relance et se dit. Limites : base locale, 100 commandes, campagnes de 20 secondes.
+
 ---
 
 ## 4. Réponses aux questions de compréhension (slide 33)

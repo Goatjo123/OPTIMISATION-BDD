@@ -1,0 +1,12 @@
+2_page20.n1 (TraceId 5aa4798c-5e06-4f81-8699-0f8f8d8805e3)
+  {"trace":"5aa4798c-5e06-4f81-8699-0f8f8d8805e3","route":"/commandes?limit=20&pagination=curseur&relations=n1","status":200,"sqlCount":21,"sqlMs":40.853,"durationMs":43.243,"poolWaiting":0}
+2_page20.groupe (TraceId 41f80089-e4cc-4c19-8b20-64bcdabeb2af)
+  {"trace":"41f80089-e4cc-4c19-8b20-64bcdabeb2af","route":"/commandes?limit=20&pagination=curseur&relations=groupe","status":200,"sqlCount":2,"sqlMs":3.505,"durationMs":5.117,"poolWaiting":0}
+3_page2.curseur (TraceId bfa5e2ed-25ee-4b7d-ab24-033e11d3b37f)
+  {"trace":"bfa5e2ed-25ee-4b7d-ab24-033e11d3b37f","route":"/commandes?limit=20&cursor=eyJ2IjoxLCJjbGllbnRJZCI6IjQyIiwiZGF0ZSI6IjIwMjYtMDktMTJUMDg6MDQ6MDIuMDAwMDAwWiIsImlkIjoiMjkwNDIifQ.-8akB0gWWnMKadehIh_owEhG5gkmQREIWKs9j8hbO0M&relations=groupe","status":200,"sqlCount":2,"sqlMs":2.081,"durationMs":2.735,"poolWaiting":0}
+3_page2.offset (TraceId c44b64ce-4f68-4a02-ae74-300939a09265)
+  {"trace":"c44b64ce-4f68-4a02-ae74-300939a09265","route":"/commandes?limit=20&pagination=offset&offset=20&relations=groupe","status":200,"sqlCount":2,"sqlMs":2.044,"durationMs":2.451,"poolWaiting":0}
+4_pages.page1 (TraceId 486259ea-d891-440d-86cc-ba9040c3f9b3)
+  {"trace":"486259ea-d891-440d-86cc-ba9040c3f9b3","route":"/commandes?limit=2","status":200,"sqlCount":2,"sqlMs":1.735,"durationMs":2.031,"poolWaiting":0}
+4_pages.page2 (TraceId d6c69d85-2388-40f8-b3d4-509a8f2666e5)
+  {"trace":"d6c69d85-2388-40f8-b3d4-509a8f2666e5","route":"/commandes?limit=2&cursor=eyJ2IjoxLCJjbGllbnRJZCI6IjQyIiwiZGF0ZSI6IjIwMjYtMDktMTNUMjM6NTQ6MDIuMDAwMDAwWiIsImlkIjoiMTA0MiJ9.mZMzRKkTUumXjBzdZaAnxFBTeVdJSN7egwtYDCl1Ork","status":200,"sqlCount":2,"sqlMs":2.256,"durationMs":3.041,"poolWaiting":0}

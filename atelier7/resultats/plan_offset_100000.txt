@@ -1,0 +1,11 @@
+-- SELECT id::text AS id, to_char(created_at AT TIME ZONE 'UTC','YYYY-MM-DD HH24:MI:SS.US') AS created_at, statut, total::text AS total FROM a7_tmp.commandes WHERE client_id = 42 ORDER BY commandes.created_at DESC, commandes.id DESC LIMIT 21 OFFSET 100000
+Limit  (cost=7160.63..7162.13 rows=21 width=118) (actual time=101.352..101.370 rows=21.00 loops=1)
+  Buffers: shared hit=100516
+  ->  Index Scan using idx_hist on commandes  (cost=0.42..71602.49 rows=1000000 width=118) (actual time=0.101..98.254 rows=100021.00 loops=1)
+        Index Cond: (client_id = 42)
+        Index Searches: 1
+        Buffers: shared hit=100516
+Planning:
+  Buffers: shared hit=138
+Planning Time: 0.455 ms
+Execution Time: 101.396 ms
