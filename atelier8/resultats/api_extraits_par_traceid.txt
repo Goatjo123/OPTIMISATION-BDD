@@ -1,0 +1,22 @@
+2_miss (TraceId 989627b7-921d-4144-9017-8bfc0f9493e1)
+  {"trace":"989627b7-921d-4144-9017-8bfc0f9493e1","route":"/produits/42","status":200,"sqlCount":1,"sqlMs":1.641,"durationMs":4.749,"poolWaiting":0,"cache":"miss"}
+2_hit (TraceId 775396e5-bda2-4050-a4d6-92abbee3f5dc)
+  {"trace":"775396e5-bda2-4050-a4d6-92abbee3f5dc","route":"/produits/42","status":200,"sqlCount":0,"sqlMs":0,"durationMs":2.31,"poolWaiting":0,"cache":"hit"}
+3_apres_update_direct (TraceId 109f82c6-c421-47d1-8097-89560b6b2d96)
+  {"trace":"109f82c6-c421-47d1-8097-89560b6b2d96","route":"/produits/42","status":200,"sqlCount":0,"sqlMs":0,"durationMs":1.037,"poolWaiting":0,"cache":"hit"}
+3_apres_del (TraceId 873ddadb-6758-4bf1-9839-aee2fd657a98)
+  {"trace":"873ddadb-6758-4bf1-9839-aee2fd657a98","route":"/produits/42","status":200,"sqlCount":1,"sqlMs":2.225,"durationMs":3.92,"poolWaiting":0,"cache":"miss"}
+4_patch (TraceId dc23a08a-ab60-4703-b8a7-cc0460619e58)
+  {"trace":"dc23a08a-ab60-4703-b8a7-cc0460619e58","route":"/produits/42","status":200,"sqlCount":1,"sqlMs":4.301,"durationMs":6.694,"poolWaiting":0}
+4_get_miss (TraceId 6341aee1-d6e7-41ea-95c9-693bc492a3ac)
+  {"trace":"6341aee1-d6e7-41ea-95c9-693bc492a3ac","route":"/produits/42","status":200,"sqlCount":1,"sqlMs":0.836,"durationMs":2.341,"poolWaiting":0,"cache":"miss"}
+4_get_hit (TraceId 4a02cd0b-9177-4034-a183-096fe4dcc980)
+  {"trace":"4a02cd0b-9177-4034-a183-096fe4dcc980","route":"/produits/42","status":200,"sqlCount":0,"sqlMs":0,"durationMs":0.887,"poolWaiting":0,"cache":"hit"}
+5_apres_expiration (TraceId d4c5b091-9007-4267-84af-debc05ed93ef)
+  {"trace":"d4c5b091-9007-4267-84af-debc05ed93ef","route":"/produits/42","status":200,"sqlCount":1,"sqlMs":12.323,"durationMs":13.803,"poolWaiting":0,"cache":"miss"}
+5_panne (TraceId efb2db3e-1521-433f-85a4-e2ac2e69e8cb)
+  {"trace":"efb2db3e-1521-433f-85a4-e2ac2e69e8cb","route":"/produits/42","status":200,"sqlCount":1,"sqlMs":1.025,"durationMs":1.48,"poolWaiting":0,"cache":"indisponible"}
+ajout_patch_en_panne (TraceId db9e1c20-a566-472f-8ae6-b4e6bb64d6e3)
+  {"trace":"db9e1c20-a566-472f-8ae6-b4e6bb64d6e3","route":"/produits/42","status":200,"sqlCount":1,"sqlMs":2.731,"durationMs":3.416,"poolWaiting":0}
+ajout_course (TraceId ca7af0c7-2fae-44b0-afd7-9e9143211e21)
+  {"trace":"ca7af0c7-2fae-44b0-afd7-9e9143211e21","route":"/produits/42","status":200,"sqlCount":0,"sqlMs":0,"durationMs":0.938,"poolWaiting":0,"cache":"hit"}

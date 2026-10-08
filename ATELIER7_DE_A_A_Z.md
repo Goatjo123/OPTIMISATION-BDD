@@ -289,7 +289,7 @@ Je l'ai lancé **deux fois** parce que la première campagne était **bizarre** 
 | `atelier7/resultats/api_journal.log`, `api_extraits_par_traceid.txt` | journal de l'API (une ligne par appel) et extraits rattachés par identifiant de trace |
 | `atelier7/resultats/offset_curseur_volume.json`, `plan_*.txt` | mesures à grande échelle et plans d'exécution |
 | `atelier7/resultats/pgbouncer/` | les 4 campagnes (synthèse, sorties `pgbench`, connexions, `SHOW POOLS`, configuration) |
-| `Atelier1_Diagnostic_compact.pdf` | section **Atelier 7 (pages 19 à 21)** et **annexe 9 (pages 50 à 53)** |
+| `Atelier1_Diagnostic_compact.pdf` | section **Atelier 7 (pages 19 à 21)** et **annexe 9 (pages 53 à 56)** |
 | `Optimisations.pdf` | **pages 9 et 10** (N+1 → groupé, OFFSET → curseur) et deux lignes du tableau d'ensemble ; PgBouncer dans « transformations écartées » |
 
 **Rejouer la partie A :** `python3 atelier7/run_partie_a.py` (conteneurs `api-postgres-1` et `api-redis-1` démarrés ; environ 2 minutes). **Mesure à grande échelle :** `python3 atelier7/bench_offset_curseur.py` (environ 1 minute). **PgBouncer :** depuis `Kit_Jour4_Windows_Linux/02_Laboratoire/Jour4/PgBouncer`, `node pooling.mjs up`, puis `compare`, `saturation`, et `down` pour arrêter.

@@ -324,7 +324,7 @@ Non, elle est plus lente au total (≈ ×2,7 sur le remplissage). Elle est **moi
 | `atelier4bis/resultats/transcript.txt` | sortie brute de psql, commande par commande |
 | `atelier4bis/resultats/volume.json` | mesures à 3 000 000 lignes |
 | `atelier4bis/README.md` | résumé court : situation, solution, est-ce que ça fonctionne |
-| `Atelier1_Diagnostic_compact.pdf` | **section Atelier 4 bis (pages 16 à 18)** et **annexe 8 (pages 45 à 49)** |
+| `Atelier1_Diagnostic_compact.pdf` | **section Atelier 4 bis (pages 16 à 18)** et **annexe 8 (pages 48 à 52)** |
 | `Optimisations.pdf` | **page 8** : « ancienne version → nouvelle version » de la migration, plus la ligne 7 du tableau d'ensemble |
 | `Atelier_4bis/` | fichiers du cours, **non modifiés** |
 

@@ -237,3 +237,173 @@ Chiffres **théoriques** de la slide (à remplacer par des mesures réelles) :
 | **Projection** | ne sélectionner que les colonnes utiles |
 | **Trace SQL** | journal des requêtes réellement envoyées à la base |
 | **Contrat de pagination** | description de ce que renvoie l'API (taille, ordre, curseur, `hasNextPage`) et de ses règles |
+
+---
+---
+
+# Partie 2 : ce qu'il y a entre l'Atelier 7 et l'Atelier 8 (slides 14 à 33)
+
+Ces slides préparent l'**Atelier 8** (slide 34). Elles couvrent trois sujets : **le pool de connexions** (slides 14 à 19), **deux protections de l'API** (slides 21 et 22) et **le cache Redis** (slides 23 à 33). La slide 20 est la fiche de l'Atelier 7 (déjà faite).
+
+---
+
+## A. Le pool de connexions et PgBouncer (slides 14 à 19)
+
+*(Déjà vu en pratique à l'Atelier 7, partie B.)*
+
+### Le pool de connexions (slide 14)
+Ouvrir une connexion à PostgreSQL **coûte des ressources**. Un **pool** garde un ensemble de connexions **déjà ouvertes** et les **prête** aux requêtes qui en ont besoin. Quand toutes sont prises, les demandes suivantes **attendent**.
+
+- **Pool trop petit** : les requêtes font la queue (de l'attente).
+- **Pool trop grand** : on peut **saturer la base**.
+- La taille se raisonne pour **toutes les instances de l'API ensemble**, avec une réserve pour l'exploitation. Exemple de la slide : **4 instances × 30 connexions = 120 connexions demandées**, avant même les autres utilisateurs.
+
+### PgBouncer (slide 15)
+Si chaque instance de l'API a son propre pool, le total grossit vite. **PgBouncer** est un **processus à part** placé **entre l'API et PostgreSQL**. Il accepte beaucoup de connexions clientes et n'en réutilise qu'un **nombre borné** côté PostgreSQL. Une demande peut **attendre** qu'une connexion se libère.
+
+**Il limite les connexions. Il ne rend aucune requête plus rapide** et ne remplace ni l'optimisation SQL ni la maîtrise de la charge.
+
+### Le mode transaction (slide 16)
+Deux API (A et B) gardent chacune une connexion avec PgBouncer. Quand A **démarre une transaction**, PgBouncer lui **prête** une connexion serveur S **jusqu'au `COMMIT` ou `ROLLBACK`**. Une fois S libre, B peut l'emprunter. Si toutes les connexions serveur sont prises, B **attend dans PgBouncer**.
+
+### Les trois modes (slide 17)
+| Mode | Quand la connexion serveur est rendue | Conséquence |
+|---|---|---|
+| **Session** | à la **déconnexion** du client | l'état de session (LISTEN, tables temporaires) est conservé ; peu de mutualisation |
+| **Transaction** | à la fin de la **transaction** | le serveur **peut changer** entre deux transactions : ne pas supposer que l'état de session persiste |
+| **Instruction** (statement) | après **chaque requête** | une transaction sur plusieurs instructions est **interdite** |
+
+Notre API utilise le **mode transaction** : il faut vérifier `LISTEN`, les `SET` de session, les tables temporaires et les requêtes préparées.
+
+### La configuration (slide 18)
+```ini
+pool_mode = transaction
+default_pool_size = 20     # connexions serveur par couple base/utilisateur
+max_client_conn = 120      # connexions clientes acceptées
+```
+L'API se connecte au **port 6432** (PgBouncer), pas au 5432 (PostgreSQL). On observe avec `SHOW POOLS` (clients actifs/en attente, serveurs actifs/libres). Ce sont des **valeurs d'illustration**, pas universelles.
+
+### Temps d'attente et délais (slide 19)
+- Un appel peut **consommer son budget de temps avant même d'exécuter le SQL**, en attendant une connexion. On sépare donc trois mesures : **acquisition** (attendre une connexion), **exécution** (le SQL) et **réponse**.
+- Le **délai maximal global** doit rester cohérent avec les délais de chaque couche.
+- Une requête **abandonnée par le client peut continuer sur le serveur** si l'annulation ne se propage pas.
+- **Un timeout limite l'attente. Il ne prouve pas que l'écriture n'a jamais été validée.** (Si une écriture « expire », elle a peut-être quand même réussi.)
+
+---
+
+## B. Deux protections de l'API (slides 21 et 22)
+
+### Le rate limiting et l'erreur 429 (slide 21)
+Le **rate limiting** fixe un **quota** de requêtes **par client** (utilisateur ou clé API) sur une durée. Exemple : **10 appels par minute et par clé**. Au-delà, l'API **refuse** pour protéger ses ressources. Un quota **global** seul pénaliserait des clients qui n'ont rien à voir entre eux.
+
+- **HTTP 429 « Too Many Requests »** = quota dépassé, l'appel est refusé.
+- L'en-tête **`Retry-After`** (s'il est fourni) dit **combien attendre** avant de réessayer. Il faut **éviter les relances immédiates**.
+- **Fenêtre fixe** : le quota est remis à zéro **à chaque minute pile**. Si un client envoie **10 appels à 12:00:59** puis **10 à 12:01:00**, **les 20 sont acceptés en environ 2 secondes** : chaque lot tombe dans une minute différente. C'est la **« rafale à la frontière »**.
+- **Token bucket** (seau de jetons) : on a un seau qui contient un nombre limité de jetons, **rechargé progressivement**. Chaque appel consomme un jeton. Cela **borne la rafale**.
+
+### La compression (slide 22)
+La réponse JSON se **compresse côté API (ou proxy), pas en SQL**. Le client annonce `Accept-Encoding: gzip, br` ; le serveur répond avec `Content-Encoding` indiquant le format. Ça **réduit les octets transférés**, au prix de **calcul CPU**. À ne pas confondre avec **TOAST** de PostgreSQL (compression des valeurs **stockées**), qui ne compresse **pas** le JSON envoyé en HTTP. À mesurer : octets, latence, CPU.
+
+---
+
+## C. Le cache Redis (slides 23 à 33)
+
+C'est **le sujet de l'Atelier 8**. Un **cache** garde une **copie** d'un résultat pour **éviter de refaire le travail**. L'idée est simple ; tout le sujet est de **garder la copie correcte** (« la fraîcheur »).
+
+### Le cache et la source de vérité (slide 23)
+**PostgreSQL reste la source de vérité.** Le cache peut **perdre une valeur** ou fournir une **ancienne valeur** selon sa politique. La décision précise : les **clés**, la **portée**, la **durée de validité**, l'**invalidation** et le **comportement en cas de panne**.
+
+Dans notre cas : **une fiche catalogue peut tolérer un court retard** (un prix affiché quelques secondes périmé n'est pas grave), mais **la confirmation de stock garde son contrôle transactionnel** dans la base.
+
+### Cache-aside (slide 24) : celui qu'on utilise
+C'est **l'application** qui gère le cache :
+1. elle demande la fiche à **Redis** ;
+2. **hit** (la copie est là) → elle la renvoie, **sans toucher PostgreSQL** ;
+3. **miss** (la copie n'est pas là) → elle lit **PostgreSQL**, **range une copie dans Redis avec une durée de vie (TTL)**, puis répond.
+
+Le pattern **n'apporte pas tout seul la cohérence** entre Redis et PostgreSQL : c'est à l'écriture de **mettre à jour ou supprimer** la copie. Et **une erreur Redis ne doit pas transformer une valeur de base valide en réponse inventée**.
+
+### Read-through (slide 25)
+Une **couche de cache** sait **charger elle-même** la donnée depuis la source quand elle manque ; l'API ne gère pas le détail du miss. Attention : **`GET` Redis seul ne lit pas PostgreSQL**, un composant doit implémenter le chargement. La différence avec cache-aside, c'est **qui porte la responsabilité**, pas une commande Redis magique.
+
+### Les clés de cache (slide 26)
+Une clé décrit **la ressource et sa représentation** : `produit:v1:42` = la fiche publique du produit 42, **format v1**. Une réponse qui dépend du **client, de la langue ou des droits** doit avoir **un périmètre correspondant**, sinon on risque de **servir à un utilisateur la réponse d'un autre**. La **version de format** (`v1`) permet de faire évoluer les valeurs sans mélanger.
+
+### Le TTL (slide 27)
+Le **TTL** (Time To Live) = combien de temps une clé peut vivre avant **d'expirer**.
+```
+SET produit:v1:42 '{"id":42,"prix":19.90}' EX 60   # EX = secondes
+GET produit:v1:42
+TTL produit:v1:42     # temps restant
+DEL produit:v1:42     # suppression
+```
+- **TTL court** : moins de vieilles copies, mais **plus de miss** et plus de charge sur la base.
+- La **validité métier** peut être plus stricte que le TTL : après un changement de prix, l'application peut **invalider tout de suite**.
+- Une clé peut disparaître **avant** son TTL (éviction).
+
+### Expiration contre éviction (slide 28)
+| Mécanisme | Déclencheur |
+|---|---|
+| **Expiration** | le TTL est atteint |
+| **Éviction** | la **limite de mémoire** est atteinte (Redis retire des clés selon une politique) |
+| **Invalidation métier** | la source a changé |
+| **Suppression manuelle** | action explicite (`DEL`) |
+
+Les politiques d'éviction : `allkeys-lru` (favorise les clés récemment utilisées), `allkeys-lfu` (tient compte d'une fréquence approximative), `noeviction` (refuse certaines écritures quand la limite est atteinte). Les deux mécanismes provoquent un **miss**, mais **pour des raisons différentes**.
+
+### L'invalidation après une écriture (slide 29)
+Stratégie simple : **1.** valider l'écriture dans PostgreSQL, **2.** **supprimer** la copie Redis, **3.** la prochaine lecture **reconstruit** la fiche.
+
+**Risque :** si la suppression Redis **échoue**, une **ancienne copie reste jusqu'au TTL**. Et l'opération touche **deux systèmes sans transaction commune** (pas atomique). Un événement durable ou une **outbox** peut aider à rejouer l'invalidation. Le prix **affiché** peut être temporairement ancien ; le prix **validé pour une commande** est contrôlé dans la source.
+
+### La course entre lecture et invalidation (slide 30)
+C'est **la slide citée par l'Atelier 8**. Le scénario :
+
+| Instant | Lecture A | Écriture B |
+|---|---|---|
+| t1 | **lit l'ancienne valeur** (miss) | |
+| t2 | | **valide la nouvelle valeur** dans PostgreSQL |
+| t3 | | **supprime** la clé Redis |
+| t4 | **remet l'ancienne valeur** dans Redis | |
+
+Résultat : Redis contient **l'ancien prix** alors que la base a le nouveau, **jusqu'à expiration du TTL**. **Supprimer la clé après l'écriture ne règle donc pas toutes les courses.** Pistes : des **versions** (n'écrire dans le cache que si la version est plus récente), un **protocole de chargement**, une **invalidation rejouée**. On choisit selon la **fraîcheur exigée** et la **complexité acceptable**. Le laboratoire ne simule que le cas simple, mais **le scénario doit apparaître dans l'analyse**.
+
+### Le cache stampede (slide 31)
+Quand **beaucoup de requêtes** trouvent **la même clé absente en même temps** (par exemple une valeur populaire qui vient d'expirer), **toutes** relancent le calcul ou le SQL : une **rafale** sur la base. Parades : **un seul chargement par clé** (les autres attendent), un **TTL avec une petite variation aléatoire** (les expirations ne tombent pas toutes ensemble), un **rafraîchissement anticipé**. Un verrou distribué demande un **propriétaire**, une **libération sûre**, une **attente bornée** et un **chemin d'échec**. Un TTL avec variation **ne résout pas à lui seul** tous les miss simultanés.
+
+### La panne du cache et le repli (slide 32)
+Quand **Redis tombe**, le service peut **relire PostgreSQL**, avec un **timeout court** pour ne pas bloquer tous les appels. Mais ce **repli augmente la charge sur la base** et peut créer **une seconde panne** (tous les hits deviennent des lectures SQL). Protections : **limites de concurrence**, **priorités**, **capacité réservée**, **circuit breaker** (couper temporairement les tentatives vers un composant en panne). Et : **une valeur absente ou une erreur de cache ne signifie pas que le produit n'existe pas.**
+
+### Le taux de hit (slide 33)
+Le **taux de hit** = accès servis par le cache ÷ accès au cache. Un taux élevé peut cacher un **mauvais endpoint** (réponse trop grosse, misses très lents). On suit aussi : durées hit et miss, évictions, mémoire, erreurs, charge SQL.
+
+**Durée moyenne (modèle simple) :** **90 % × 5 ms + 10 % × 105 ms = 15 ms** (calcul **fictif** du cours). Ce modèle donne une **moyenne**, pas un **p95**.
+
+---
+
+## Ce que tu dois faire à l'Atelier 8 (slide 34 et fiche étudiant, 1 h 15)
+
+**Objectif :** vérifier le **cache-aside** d'une fiche catalogue (le **produit 42**, clé `shopflow:produit:v1:42`), sa **fraîcheur après modification**, et le **repli** quand Redis est indisponible. **L'API contient déjà le cache et l'invalidation** (`produits.mjs`) : ton travail est de **prouver leur comportement** avec les valeurs, le comptage SQL, les durées et les traces.
+
+| Étape | Ce qu'on fait | Résultat attendu |
+|---|---|---|
+| **1 Préparation** | `CACHE_TTL_SECONDS=60` dans `.env`, redémarrer l'API, noter le **prix initial** | TTL affiché = 60 |
+| **2 Miss et hit** | vider la clé, 2 lectures de suite ; puis **5 paires** miss/hit | **miss = 1 SELECT**, **hit = 0 SQL**, même contenu |
+| **3 UPDATE direct en SQL** | modifier le prix **directement dans PostgreSQL**, relire | l'API renvoie **l'ancien prix** (hit, 0 SQL) : la copie est **périmée** ; après un `DEL` → nouveau prix (miss) |
+| **4 PATCH par l'API** | modifier le prix **via l'API** | réponse `invalidation=ok` ; 1er GET = nouveau prix (miss) ; 2e GET = hit |
+| **5 Expiration et panne** | attendre 61 s ; puis **arrêter Redis** | miss après expiration (TTL = -2) ; Redis arrêté : l'API répond quand même (`Cache=indisponible`, 1 SELECT) |
+| **6 Restauration et dossier** | remettre le **prix initial** (via le CSV si besoin), redémarrer Redis | « Prix restauré », `invalidation=ok` |
+
+**Les points à comprendre derrière chaque étape :**
+- **Étape 2** : un **hit évite le SELECT**. Une clé absente ne veut pas dire que le produit n'existe pas.
+- **Étape 3** : c'est **la preuve que le cache peut mentir** : une écriture qui **ne passe pas par l'API** ne supprime pas la copie. Le **TTL ne l'actualise pas immédiatement**. Il faut **déclarer la fraîcheur tolérée** pour le catalogue (de quelques secondes à une minute) et rappeler que **la validation d'un achat exige un contrôle dans la source**.
+- **Étape 4** : l'API fait l'`UPDATE` **puis** le `DEL`. `invalidation=echouee` voudrait dire que **le prix est enregistré mais que la copie reste ancienne** : une erreur d'invalidation ne prouve **pas** que l'écriture a été annulée.
+- **Étape 5** : le **repli** protège la disponibilité mais **augmente les lectures PostgreSQL** : **risque sous forte charge** (slide 32).
+
+**À rendre (dossier `Atelier08_Nom`) :** le **pattern et la clé justifiés**, le prix initial, le CSV, les valeurs avant/après, les sorties SQL et les traces liées par TraceId ; les durées **expliquées en distinguant hit, miss et panne**.
+
+**Une analyse écrite à ajouter (sans simulation) : la course de reconstruction** (slide 30). Décrire : A lit un ancien prix sur un miss ; B valide un nouveau prix ; B supprime la clé ; A remet l'ancien prix dans Redis. Expliquer **pourquoi `DEL` après l'écriture ne supprime pas ce risque** et **proposer une piste** (version, protocole de chargement, invalidation rejouée).
+
+**Critères de réussite :** miss à 1 SELECT, hit à 0 SQL ; copie ancienne **prouvée** après un UPDATE direct ; nouvelle valeur après invalidation ; expiration et repli **testés** ; **prix initial restauré** ; fraîcheur acceptée **déclarée**.
+
+**Attention comme à l'Atelier 7 :** l'atelier **modifie temporairement le prix du produit 42** dans la vraie base. Il faut **restaurer le prix initial** (et vérifier), puis **remettre le TTL de départ** dans `.env` si demandé.

@@ -1,0 +1,794 @@
+{
+  "debut": "2026-10-08 09:30:28",
+  "node": "v22.14.0",
+  "version_pg": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "redis_version": "8.10.2",
+  "redis_politique": "allkeys-lru",
+  "redis_save": "3600 1 300 100 60 10000",
+  "env_empreinte_avant": "e5c484b46831",
+  "avant": {
+    "index": [
+      "clients_email_key",
+      "clients_pkey",
+      "commandes_client_id_cle_idempotence_key",
+      "commandes_pkey",
+      "lignes_pkey",
+      "produits_pkey"
+    ],
+    "statistiques_etendues": 0,
+    "tables": [
+      "clients",
+      "commandes",
+      "lignes",
+      "produits"
+    ],
+    "lignes": {
+      "clients": 1000,
+      "produits": 200,
+      "commandes": 100000,
+      "lignes": 300000
+    },
+    "md5_produits": "98aee3515f87",
+    "md5_dates_commandes": "8b3e4bf3d77c",
+    "produit42": "57.50 / stock 100",
+    "cle_redis_presente": false
+  },
+  "1_preparation": {
+    "prix_initial": "57.50",
+    "prix_cible_sql": "19.90",
+    "ttl_clef_apres_chargement": 60,
+    "premier_appel": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 123.649,
+      "TraceId": "66e088df-2c9f-4e88-be9f-b9011c5ade11",
+      "prix": "57.50",
+      "journal": {
+        "trace": "66e088df-2c9f-4e88-be9f-b9011c5ade11",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 60.078,
+        "durationMs": 75.968,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "cle": "shopflow:produit:v1:42",
+    "ttl_configure": 60
+  },
+  "2_miss_hit": {
+    "miss": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 53.619,
+      "TraceId": "989627b7-921d-4144-9017-8bfc0f9493e1",
+      "prix": "57.50",
+      "journal": {
+        "trace": "989627b7-921d-4144-9017-8bfc0f9493e1",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 1.641,
+        "durationMs": 4.749,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "hit": {
+      "Status": 200,
+      "Cache": "hit",
+      "SqlCount": 0,
+      "HttpMs": 50.394,
+      "TraceId": "775396e5-bda2-4050-a4d6-92abbee3f5dc",
+      "prix": "57.50",
+      "journal": {
+        "trace": "775396e5-bda2-4050-a4d6-92abbee3f5dc",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 0,
+        "sqlMs": 0,
+        "durationMs": 2.31,
+        "poolWaiting": 0,
+        "cache": "hit"
+      }
+    },
+    "data_identique": true,
+    "ttl_apres": 60,
+    "data": {
+      "id": "42",
+      "nom": "Produit 42",
+      "prix": "57.50",
+      "stock": 100,
+      "attributs": {
+        "couleur": "bleu",
+        "categorie": "materiel"
+      }
+    }
+  },
+  "2_cinq_paires": [
+    {
+      "paire": 1,
+      "miss": {
+        "Status": 200,
+        "Cache": "miss",
+        "SqlCount": 1,
+        "HttpMs": 60.639,
+        "TraceId": "0f314d09-eeef-4c18-811f-a18466b763ae",
+        "prix": "57.50",
+        "journal": {
+          "trace": "0f314d09-eeef-4c18-811f-a18466b763ae",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 1,
+          "sqlMs": 1.643,
+          "durationMs": 3.982,
+          "poolWaiting": 0,
+          "cache": "miss"
+        }
+      },
+      "hit": {
+        "Status": 200,
+        "Cache": "hit",
+        "SqlCount": 0,
+        "HttpMs": 50.315,
+        "TraceId": "211be1c1-b49f-430e-b4cb-7bdb963dac87",
+        "prix": "57.50",
+        "journal": {
+          "trace": "211be1c1-b49f-430e-b4cb-7bdb963dac87",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 0,
+          "sqlMs": 0,
+          "durationMs": 1.249,
+          "poolWaiting": 0,
+          "cache": "hit"
+        }
+      }
+    },
+    {
+      "paire": 2,
+      "miss": {
+        "Status": 200,
+        "Cache": "miss",
+        "SqlCount": 1,
+        "HttpMs": 46.431,
+        "TraceId": "412a3c39-a2fe-48f6-84f9-aeea457d7dde",
+        "prix": "57.50",
+        "journal": {
+          "trace": "412a3c39-a2fe-48f6-84f9-aeea457d7dde",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 1,
+          "sqlMs": 1.392,
+          "durationMs": 4.179,
+          "poolWaiting": 0,
+          "cache": "miss"
+        }
+      },
+      "hit": {
+        "Status": 200,
+        "Cache": "hit",
+        "SqlCount": 0,
+        "HttpMs": 44.58,
+        "TraceId": "c9847039-ea9f-4b0c-adbf-39d38280857d",
+        "prix": "57.50",
+        "journal": {
+          "trace": "c9847039-ea9f-4b0c-adbf-39d38280857d",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 0,
+          "sqlMs": 0,
+          "durationMs": 1.535,
+          "poolWaiting": 0,
+          "cache": "hit"
+        }
+      }
+    },
+    {
+      "paire": 3,
+      "miss": {
+        "Status": 200,
+        "Cache": "miss",
+        "SqlCount": 1,
+        "HttpMs": 42.695,
+        "TraceId": "88677c40-b7de-45ee-8c19-fc3e26f2612c",
+        "prix": "57.50",
+        "journal": {
+          "trace": "88677c40-b7de-45ee-8c19-fc3e26f2612c",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 1,
+          "sqlMs": 1.378,
+          "durationMs": 3.406,
+          "poolWaiting": 0,
+          "cache": "miss"
+        }
+      },
+      "hit": {
+        "Status": 200,
+        "Cache": "hit",
+        "SqlCount": 0,
+        "HttpMs": 41.971,
+        "TraceId": "be309dce-2fb2-484e-b184-c09fe05cfdee",
+        "prix": "57.50",
+        "journal": {
+          "trace": "be309dce-2fb2-484e-b184-c09fe05cfdee",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 0,
+          "sqlMs": 0,
+          "durationMs": 1.221,
+          "poolWaiting": 0,
+          "cache": "hit"
+        }
+      }
+    },
+    {
+      "paire": 4,
+      "miss": {
+        "Status": 200,
+        "Cache": "miss",
+        "SqlCount": 1,
+        "HttpMs": 50.072,
+        "TraceId": "af62d32a-7db8-4803-9d76-06cce92cff77",
+        "prix": "57.50",
+        "journal": {
+          "trace": "af62d32a-7db8-4803-9d76-06cce92cff77",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 1,
+          "sqlMs": 1.143,
+          "durationMs": 3.09,
+          "poolWaiting": 0,
+          "cache": "miss"
+        }
+      },
+      "hit": {
+        "Status": 200,
+        "Cache": "hit",
+        "SqlCount": 0,
+        "HttpMs": 44.794,
+        "TraceId": "eae9fd75-64f9-41d4-b0ee-6aab947571d5",
+        "prix": "57.50",
+        "journal": {
+          "trace": "eae9fd75-64f9-41d4-b0ee-6aab947571d5",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 0,
+          "sqlMs": 0,
+          "durationMs": 1.105,
+          "poolWaiting": 0,
+          "cache": "hit"
+        }
+      }
+    },
+    {
+      "paire": 5,
+      "miss": {
+        "Status": 200,
+        "Cache": "miss",
+        "SqlCount": 1,
+        "HttpMs": 47.768,
+        "TraceId": "459ab763-d48f-4473-8077-e7d3f2dc61ce",
+        "prix": "57.50",
+        "journal": {
+          "trace": "459ab763-d48f-4473-8077-e7d3f2dc61ce",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 1,
+          "sqlMs": 1.02,
+          "durationMs": 2.843,
+          "poolWaiting": 0,
+          "cache": "miss"
+        }
+      },
+      "hit": {
+        "Status": 200,
+        "Cache": "hit",
+        "SqlCount": 0,
+        "HttpMs": 42.51,
+        "TraceId": "ed1e8c67-56c5-4821-a3a9-5a4c87459263",
+        "prix": "57.50",
+        "journal": {
+          "trace": "ed1e8c67-56c5-4821-a3a9-5a4c87459263",
+          "route": "/produits/42",
+          "status": 200,
+          "sqlCount": 0,
+          "sqlMs": 0,
+          "durationMs": 1.22,
+          "poolWaiting": 0,
+          "cache": "hit"
+        }
+      }
+    }
+  ],
+  "3_update_direct": {
+    "avant": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 42.153,
+      "TraceId": "8ed8b9fc-687a-4d42-99e6-782e4b9c3b0d",
+      "prix": "57.50",
+      "journal": {
+        "trace": "8ed8b9fc-687a-4d42-99e6-782e4b9c3b0d",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 1.053,
+        "durationMs": 2.608,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "sortie_update": "42|19.90",
+    "apres_update_avant_del": {
+      "Status": 200,
+      "Cache": "hit",
+      "SqlCount": 0,
+      "HttpMs": 43.366,
+      "TraceId": "109f82c6-c421-47d1-8097-89560b6b2d96",
+      "prix": "57.50",
+      "journal": {
+        "trace": "109f82c6-c421-47d1-8097-89560b6b2d96",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 0,
+        "sqlMs": 0,
+        "durationMs": 1.037,
+        "poolWaiting": 0,
+        "cache": "hit"
+      }
+    },
+    "apres_del": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 43.392,
+      "TraceId": "873ddadb-6758-4bf1-9839-aee2fd657a98",
+      "prix": "19.90",
+      "journal": {
+        "trace": "873ddadb-6758-4bf1-9839-aee2fd657a98",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 2.225,
+        "durationMs": 3.92,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "postgres_prix": "19.90"
+  },
+  "4_patch": {
+    "patch": {
+      "Status": 200,
+      "SqlCount": 1,
+      "HttpMs": 55.705,
+      "TraceId": "dc23a08a-ab60-4703-b8a7-cc0460619e58",
+      "Body": {
+        "data": {
+          "id": "42",
+          "prix": "29.90"
+        },
+        "invalidation": "ok"
+      },
+      "journal": {
+        "trace": "dc23a08a-ab60-4703-b8a7-cc0460619e58",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 4.301,
+        "durationMs": 6.694,
+        "poolWaiting": 0
+      }
+    },
+    "get_apres": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 41.041,
+      "TraceId": "6341aee1-d6e7-41ea-95c9-693bc492a3ac",
+      "prix": "29.90",
+      "journal": {
+        "trace": "6341aee1-d6e7-41ea-95c9-693bc492a3ac",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 0.836,
+        "durationMs": 2.341,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "get_hit": {
+      "Status": 200,
+      "Cache": "hit",
+      "SqlCount": 0,
+      "HttpMs": 40.014,
+      "TraceId": "4a02cd0b-9177-4034-a183-096fe4dcc980",
+      "prix": "29.90",
+      "journal": {
+        "trace": "4a02cd0b-9177-4034-a183-096fe4dcc980",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 0,
+        "sqlMs": 0,
+        "durationMs": 0.887,
+        "poolWaiting": 0,
+        "cache": "hit"
+      }
+    }
+  },
+  "5_expiration": {
+    "charge": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 41.277,
+      "TraceId": "e9fae130-d076-47bf-a4a5-f0a16ac76a82",
+      "prix": "29.90",
+      "journal": {
+        "trace": "e9fae130-d076-47bf-a4a5-f0a16ac76a82",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 0.983,
+        "durationMs": 2.58,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "ttl_apres_chargement": 60,
+    "ttl_apres_attente": -2,
+    "apres_expiration": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 53.015,
+      "TraceId": "d4c5b091-9007-4267-84af-debc05ed93ef",
+      "prix": "29.90",
+      "journal": {
+        "trace": "d4c5b091-9007-4267-84af-debc05ed93ef",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 12.323,
+        "durationMs": 13.803,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "attente_s": 61
+  },
+  "5_panne": {
+    "Status": 200,
+    "Cache": "indisponible",
+    "SqlCount": 1,
+    "HttpMs": 41.234,
+    "TraceId": "efb2db3e-1521-433f-85a4-e2ac2e69e8cb",
+    "prix": "29.90",
+    "journal": {
+      "trace": "efb2db3e-1521-433f-85a4-e2ac2e69e8cb",
+      "route": "/produits/42",
+      "status": 200,
+      "sqlCount": 1,
+      "sqlMs": 1.025,
+      "durationMs": 1.48,
+      "poolWaiting": 0,
+      "cache": "indisponible"
+    }
+  },
+  "5_repli_30": {
+    "http": {
+      "tours": 30,
+      "mediane": 42.231,
+      "p95": 49.369,
+      "min": 38.237,
+      "max": 58.714
+    },
+    "sqlMs": {
+      "tours": 30,
+      "mediane": 0.976,
+      "p95": 1.41,
+      "min": 0.788,
+      "max": 1.612
+    },
+    "durationMs": {
+      "tours": 30,
+      "mediane": 1.363,
+      "p95": 1.859,
+      "min": 1.098,
+      "max": 2.609
+    },
+    "http_brut": [
+      45.56,
+      42.211,
+      44.07,
+      58.714,
+      42.251,
+      46.325,
+      40.308,
+      41.086,
+      43.186,
+      46.081,
+      42.911,
+      41.904,
+      49.369,
+      43.354,
+      43.263,
+      41.94,
+      42.251,
+      41.154,
+      38.423,
+      38.237,
+      39.229,
+      40.896,
+      42.053,
+      40.392,
+      45.312,
+      42.643,
+      41.922,
+      42.84,
+      41.522,
+      40.348
+    ]
+  },
+  "ajout_invalidation_echouee": {
+    "patch": {
+      "Body": {
+        "data": {
+          "id": "42",
+          "prix": "34.90"
+        },
+        "invalidation": "echouee"
+      },
+      "SqlCount": 1,
+      "TraceId": "db9e1c20-a566-472f-8ae6-b4e6bb64d6e3"
+    },
+    "postgres_prix_apres_patch": "34.90",
+    "cle_redis_survit_au_redemarrage": true,
+    "relecture": {
+      "Status": 200,
+      "Cache": "hit",
+      "SqlCount": 0,
+      "HttpMs": 40.233,
+      "TraceId": "18cd840c-d72b-4401-a1d7-b87d775c4835",
+      "prix": "29.90",
+      "journal": {
+        "trace": "18cd840c-d72b-4401-a1d7-b87d775c4835",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 0,
+        "sqlMs": 0,
+        "durationMs": 0.822,
+        "poolWaiting": 0,
+        "cache": "hit"
+      }
+    },
+    "copie_ancienne_servie": true
+  },
+  "ajout_course": {
+    "t1_A_lit": "34.90",
+    "t2_B_ecrit": "39.90",
+    "t3_B_supprime_la_cle": true,
+    "t4_A_remet_la_copie": "34.90",
+    "api_apres": {
+      "Status": 200,
+      "Cache": "hit",
+      "SqlCount": 0,
+      "HttpMs": 42.756,
+      "TraceId": "ca7af0c7-2fae-44b0-afd7-9e9143211e21",
+      "prix": "34.90",
+      "journal": {
+        "trace": "ca7af0c7-2fae-44b0-afd7-9e9143211e21",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 0,
+        "sqlMs": 0,
+        "durationMs": 0.938,
+        "poolWaiting": 0,
+        "cache": "hit"
+      }
+    },
+    "postgres_apres": "39.90"
+  },
+  "ajout_stampede": {
+    "rafale_cle_absente": {
+      "requetes": 20,
+      "miss": 6,
+      "hit": 14,
+      "select_total": 6,
+      "statuts": [
+        200
+      ],
+      "ms_mediane": 42.55,
+      "ms_max": 66.4
+    },
+    "rafale_cle_presente": {
+      "requetes": 20,
+      "miss": 0,
+      "hit": 20,
+      "select_total": 0,
+      "ms_mediane": 33.35
+    }
+  },
+  "ajout_30_paires": {
+    "miss": {
+      "http": {
+        "tours": 30,
+        "mediane": 43.015,
+        "p95": 49.495,
+        "min": 40.105,
+        "max": 55.489
+      },
+      "sqlMs": {
+        "tours": 30,
+        "mediane": 0.875,
+        "p95": 1.098,
+        "min": 0.75,
+        "max": 1.454
+      },
+      "durationMs": {
+        "tours": 30,
+        "mediane": 2.409,
+        "p95": 2.746,
+        "min": 2.001,
+        "max": 3.831
+      },
+      "http_brut": [
+        44.2,
+        55.489,
+        44.056,
+        43.412,
+        43.213,
+        46.997,
+        41.7,
+        43.502,
+        43.238,
+        42.902,
+        45.602,
+        41.616,
+        42.449,
+        43.031,
+        49.495,
+        48.295,
+        42.76,
+        40.698,
+        42.561,
+        43.386,
+        42.724,
+        42.527,
+        41.84,
+        40.105,
+        42.07,
+        43.444,
+        40.973,
+        48.18,
+        42.999,
+        42.187
+      ]
+    },
+    "hit": {
+      "http": {
+        "tours": 30,
+        "mediane": 41.957,
+        "p95": 50.337,
+        "min": 39.716,
+        "max": 52.427
+      },
+      "sqlMs": {
+        "tours": 30,
+        "mediane": 0.0,
+        "p95": 0,
+        "min": 0,
+        "max": 0
+      },
+      "durationMs": {
+        "tours": 30,
+        "mediane": 0.979,
+        "p95": 2.067,
+        "min": 0.8,
+        "max": 2.645
+      },
+      "http_brut": [
+        40.63,
+        45.471,
+        43.099,
+        43.861,
+        39.886,
+        40.389,
+        40.831,
+        42.938,
+        40.342,
+        45.82,
+        42.418,
+        42.103,
+        41.479,
+        46.909,
+        41.228,
+        40.951,
+        41.812,
+        50.337,
+        40.386,
+        42.561,
+        39.885,
+        39.716,
+        40.559,
+        40.934,
+        44.637,
+        46.119,
+        40.467,
+        45.723,
+        42.291,
+        52.427
+      ]
+    }
+  },
+  "6_restauration": {
+    "patch": {
+      "Body": {
+        "data": {
+          "id": "42",
+          "prix": "57.50"
+        },
+        "invalidation": "ok"
+      },
+      "TraceId": "b2f25256-e90c-4f72-bc81-4e434c20f81d"
+    },
+    "controle": {
+      "Status": 200,
+      "Cache": "miss",
+      "SqlCount": 1,
+      "HttpMs": 41.962,
+      "TraceId": "fd34d0c8-ed55-4e37-9a2a-46911b3253b0",
+      "prix": "57.50",
+      "journal": {
+        "trace": "fd34d0c8-ed55-4e37-9a2a-46911b3253b0",
+        "route": "/produits/42",
+        "status": 200,
+        "sqlCount": 1,
+        "sqlMs": 0.738,
+        "durationMs": 2.076,
+        "poolWaiting": 0,
+        "cache": "miss"
+      }
+    },
+    "message": "Prix restauré"
+  },
+  "apres": {
+    "index": [
+      "clients_email_key",
+      "clients_pkey",
+      "commandes_client_id_cle_idempotence_key",
+      "commandes_pkey",
+      "lignes_pkey",
+      "produits_pkey"
+    ],
+    "statistiques_etendues": 0,
+    "tables": [
+      "clients",
+      "commandes",
+      "lignes",
+      "produits"
+    ],
+    "lignes": {
+      "clients": 1000,
+      "produits": 200,
+      "commandes": 100000,
+      "lignes": 300000
+    },
+    "md5_produits": "98aee3515f87",
+    "md5_dates_commandes": "8b3e4bf3d77c",
+    "produit42": "57.50 / stock 100",
+    "cle_redis_presente": false
+  },
+  "env_empreinte_apres": "e5c484b46831",
+  "env_inchange": true,
+  "redis_demarre": true,
+  "laboratoire_identique": true,
+  "fin": "2026-10-08 09:31:57"
+}

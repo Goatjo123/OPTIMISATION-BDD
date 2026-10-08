@@ -287,6 +287,27 @@ Détail pour comprendre et expliquer : [`ATELIER7_DE_A_A_Z.md`](ATELIER7_DE_A_A_
 - **PgBouncer limite les connexions, il n'accélère pas** ; il transforme un refus en attente.
 - Un test **instable** se relance et se dit. Limites : base locale, 100 commandes, campagnes de 20 secondes.
 
+## 3septies. Atelier 8 : cache Redis et fraîcheur (Jour 4)
+
+Détail pour comprendre et expliquer : [`ATELIER8_DE_A_A_Z.md`](ATELIER8_DE_A_A_Z.md). Scripts et résultats : `atelier8/`. Cours (slides 14 à 33) : partie 2 de [`COURS_JOUR4_SIMPLE.md`](COURS_JOUR4_SIMPLE.md).
+
+- **Cache-aside** (slide 24) : l'API lit Redis ; **hit** = 0 SQL ; **miss** = 1 SELECT puis une copie avec **TTL 60 s** ; le PATCH fait l'UPDATE puis supprime la clé. PostgreSQL reste la source de vérité. Clé `shopflow:produit:v1:42` (version de format incluse).
+- **Miss/hit** : 1 SELECT contre 0, données identiques (5 paires + 100 paires). Mesure sur **connexion persistante** : **2,709 → 0,988 ms (×2,7)** ; temps dans l'API 2,08 → 0,671 ms. L'aide du kit (un processus Node par appel, ≈ 40 ms fixes) **noie** la différence (43,0 contre 42,0 ms). Gain **petit** en local ; le vrai gain est la **charge évitée sur PostgreSQL**.
+- **Un cache peut mentir** : après un **UPDATE direct** en SQL (19,90), l'API a servi l'**ancien prix 57,50** (hit, 0 SQL) ; après `DEL` : 19,90 (miss). Le **TTL n'actualise pas la copie après une écriture**, il borne sa durée. Par l'API (PATCH) : `invalidation=ok`, GET suivant correct.
+- **Invalidation échouée** (PATCH pendant que Redis est arrêté) : `invalidation=echouee`, **PostgreSQL = 34,90**, la copie ancienne (29,90) a survécu au redémarrage (Redis sauvegarde à l'arrêt) : **une erreur d'invalidation n'annule pas l'écriture**.
+- **Course (slide 30)** reproduite à la main : A lit 34,90 ; B écrit 39,90 et supprime la clé ; A remet 34,90 : l'API sert 34,90, PostgreSQL a 39,90. Le `DEL` de B est avant le `SET` de A. Pistes : **version** (écriture conditionnelle), **invalidation rejouée** (outbox), TTL court.
+- **Expiration** : TTL 60 → −2 après 61 s, puis miss à 1 SELECT. **Panne de Redis** : l'API répond (200, `indisponible`, 1 SELECT) mais **chaque lecture devient un SELECT** (30 appels : 30 SELECT contre 0) : risque de surcharge de la base (slide 32). Une erreur de cache ne signifie pas que le produit n'existe pas.
+- **Rafale (slide 31)** : 20 lectures simultanées, clé absente : **6 miss, 6 SELECT** (au lieu d'un) ; clé présente : 20 hit, 0 SQL (une mesure, non reproductible à l'unité).
+- **Fraîcheur déclarée** : catalogue : **quelques secondes à une minute** ; **achat/stock : pas de cache**, contrôle dans PostgreSQL dans la transaction.
+- **Écart avec la fiche** : TTL passé par variable d'environnement, `.env` intact (empreinte vérifiée). Prix initial 57,50 **restauré**, table `produits` identique, Redis redémarré.
+
+### Ce que j'ai compris (Atelier 8)
+- Hit = 0 SQL, miss = 1 SELECT ; le gain de durée est **petit en local**, le gain réel est la **charge évitée**, et il faut le **mesurer avec le bon outil**.
+- **Un cache peut mentir** : TTL ≠ fraîcheur après une écriture ; une écriture hors du chemin qui invalide laisse une copie périmée.
+- **Invalider = supprimer la clé après l'écriture validée** ; si ça échoue, l'écriture reste et la copie reste ancienne ; supprimer la clé ne règle pas toutes les courses.
+- **Redis en panne** : l'API se replie sur la base, au prix de plus de SQL ; **on ne cache pas ce qui engage** (achat, stock).
+- Limites : un produit, tout en local, course reproduite à la main, rafale = une mesure.
+
 ---
 
 ## 4. Réponses aux questions de compréhension (slide 33)

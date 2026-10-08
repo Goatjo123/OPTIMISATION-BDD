@@ -61,6 +61,22 @@ Livrable attendu : **SQL avant/après, contrôle du contenu, plans et interprét
 | Un **lot d'insertion** dans une transaction de laboratoire | Section G (SQL `BEGIN … ROLLBACK`, WAL, durées) et annexe 5.4 |
 | **Expliquer le gain ou l'absence de gain** | Sections C et I, encadré « Ce que j'ai compris de l'atelier 3 » |
 
+### Preuves de l'Atelier 8 (slide 34 et fiche) : où les trouver dans le PDF
+| Exigence | Emplacement |
+|---|---|
+| Pattern et clé justifiés | Section « Atelier 8 » (Solution choisie et pourquoi), annexe 10.2 |
+| Prix initial, valeurs avant/après, CSV | Annexe 10.1, 10.4, `atelier8/resultats/mesures_atelier8.csv` |
+| Miss à 1 SELECT, hit à 0 SQL (5 paires) | Étape 2, annexe 10.3 |
+| Copie ancienne prouvée après UPDATE direct, nouvelle valeur après DEL | Étape 3, annexe 10.4 et 10.5 |
+| PATCH et invalidation automatique | Étape 4, annexe 10.4 et 10.5 |
+| Expiration (TTL puis −2) et repli (Redis arrêté) | Étape 5, annexe 10.4 et 10.5 |
+| Prix initial restauré | Étape 6, annexe 10.1 et 10.5 |
+| Traces liées par TraceId | Annexe 10.4, `atelier8/resultats/api_extraits_par_traceid.txt` |
+| Durées hit / miss / panne | Section « Miss contre hit », annexe 10.6 |
+| Course de reconstruction (analyse + reproduction) | Section « La fraîcheur », annexe 10.4 |
+| Fraîcheur acceptée et contrôle transactionnel de l'achat | Section « La fraîcheur » |
+| Rafale (ajout) | Section « Panne, rafale et repli », annexe 10.7 |
+
 ### Preuves de l'Atelier 7 (slide 13 et fiche) : où les trouver dans le PDF
 | Exigence | Emplacement |
 |---|---|
@@ -127,6 +143,8 @@ Répondre aux 6 questions **avec un exemple et une condition d'application, pas 
 24. **Un script de mesure se contrôle lui-même** : ne pas se fier à un tube unique pour les sorties et les erreurs de psql (une erreur peut arriver après la commande suivante) ; poser une sentinelle sur chaque flux, vérifier les contrôles attendus (le script s'arrête sur un écart) et relancer le script entier après toute correction.
 25. **Compter les requêtes avant de parler de durée, et ne pas annoncer un gain non mesuré** : séparer le nombre de requêtes SQL (X-SQL-Count), la durée côté client (HttpMs) et la durée SQL (sqlMs). Quand le jeu fourni est trop petit pour un effet (100 commandes), le dire et mesurer sur une table de travail jetable. Un outil qui limite une ressource (PgBouncer : connexions) n'est pas une optimisation de vitesse : l'écrire si le débit baisse.
 26. **Un test instable n'est pas conclu** : le relancer, présenter toutes les campagnes (même quand l'ordre s'inverse) et écrire « aucune conclusion ». Un essai interrompu a des mesures « non mesurables », pas zéro.
+27. **Un cache se présente avec sa limite de fraîcheur** : chiffrer le gain (avec un outil de mesure qui ne le noie pas : un processus par appel ajoute un coût fixe qui masque une différence de quelques ms), mais montrer aussi que la copie peut être périmée (UPDATE direct, invalidation échouée, course), déclarer la fraîcheur acceptée et préciser ce qui n'est jamais caché (achat, stock). Le gain principal d'un hit est la charge évitée sur la base, pas toujours la durée.
+28. **Distinguer miss, hit et repli** dans chaque tableau de durées, et dire quand une panne du cache déplace la charge sur la base (une lecture = un SELECT).
 
 ## 5. Vérification de l'exactitude (à refaire à chaque modification)
 
@@ -172,7 +190,7 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 À chaque point pertinent (concept, résultat mesuré, piège, correction), l'ajouter dans la bonne section de `SYNTHESE.md`, en français, concis, avec les chiffres. Ne pas attendre qu'on le redemande.
 
 ## 7. Structure actuelle des PDF
-**`Atelier1_Diagnostic_compact.pdf` (53 pages, détail des ateliers 1 à 4 bis et 7 ; le contenu des 38 premières pages d'origine est conservé, l'atelier 4 bis a été **ajouté** à la demande de l'utilisateur)**
+**`Atelier1_Diagnostic_compact.pdf` (59 pages, détail des ateliers 1 à 4 bis, 7 et 8 ; le contenu des 38 premières pages d'origine est conservé, l'atelier 4 bis a été **ajouté** à la demande de l'utilisateur)**
 
 | Pages | Contenu |
 |---|---|
@@ -183,14 +201,16 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 | 11 à 15 | **Atelier 4** : situation, puis pour chaque partie (A partiel, B GIN, C GiST) **situation, solution choisie et pourquoi, résultats, « est-ce que ça fonctionne ? »** ; livrable, migration 002, **Ce que j'ai compris** |
 | 16 à 18 | **Atelier 4 bis** : situation, solution et pourquoi, est-ce que ça fonctionne ; déroulement étape par étape ; lots ; verrous A, B et C ; ancienne → nouvelle version à 3 000 000 lignes ; **Ce que j'ai compris** |
 | 19 à 21 | **Atelier 7** (Jour 4) : situation, solution et pourquoi, est-ce que ça fonctionne ; N+1 contre groupé ; OFFSET contre curseur à 1 000 000 de commandes ; dates identiques ; PgBouncer ; **Ce que j'ai compris** |
-| 22 | Questions de compréhension du cours |
-| 23 à 36 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
-| 37 à 41 | **Annexe 6** : plans de l'atelier 4 |
-| 42 à 44 | **Annexe 7** : preuves de l'atelier 4 |
-| 45 à 49 | **Annexe 8** : preuves de l'atelier 4 bis (les six traces de la slide 43, mesure à 3 000 000 lignes) |
-| 50 à 53 | **Annexe 9** : preuves de l'atelier 7 (SQL, traces par TraceId, mesures, dates identiques, droits, OFFSET / curseur à grande échelle, campagnes PgBouncer) |
+| 22 à 24 | **Atelier 8** (Jour 4) : situation, solution et pourquoi, est-ce que ça fonctionne ; miss contre hit ; fraîcheur (UPDATE direct, invalidation échouée, course) ; panne, rafale et repli ; **Ce que j'ai compris** |
+| 25 | Questions de compréhension du cours |
+| 26 à 39 | Annexes 1 à 5 : plans (ateliers 1 à 3, O1 et O2) et preuves de l'atelier 3 |
+| 40 à 44 | **Annexe 6** : plans de l'atelier 4 |
+| 45 à 47 | **Annexe 7** : preuves de l'atelier 4 |
+| 48 à 52 | **Annexe 8** : preuves de l'atelier 4 bis (les six traces de la slide 43, mesure à 3 000 000 lignes) |
+| 53 à 56 | **Annexe 9** : preuves de l'atelier 7 (SQL, traces par TraceId, mesures, dates identiques, droits, OFFSET / curseur à grande échelle, campagnes PgBouncer) |
+| 57 à 59 | **Annexe 10** : preuves de l'atelier 8 (code du cache, paires miss/hit, appels par TraceId, TTL, mesures répétées, rafale) |
 
-**`Optimisations.pdf` (12 pages, PDF séparé qui met en avant les optimisations)**
+**`Optimisations.pdf` (13 pages, PDF séparé qui met en avant les optimisations)**
 | Page | Contenu |
 |---|---|
 | 1 | Définition (ancienne version → nouvelle version, même résultat, plus rapide), **graphique des gains**, tableau récapitulatif avec preuve d'identité du résultat (ligne 7 : temps sous verrou exclusif, une exécution) |
@@ -198,8 +218,9 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 | 8 | **7 Migration NOT NULL** : ancienne (un UPDATE + SET NOT NULL direct) → nouvelle (lots, CHECK NOT VALID, VALIDATE, SET NOT NULL sans scan) : temps sous verrou exclusif 3 324 → 46,3 ms, **mais** remplissage plus long |
 | 9 | **8 Page avec ses lignes** : N+1 (21 requêtes) → chargement groupé (2), réponse identique |
 | 10 | **9 Pagination profonde** : OFFSET → curseur, même page, 944 → 0,18 ms à 1 000 000 de commandes (table de travail), aucun gain à petite profondeur |
-| 11 | Transformations écartées (dont PgBouncer : pas plus rapide) et prix d'un index à l'écriture |
-| 12 | Méthode de preuve et limites |
+| 11 | **10 Fiche produit** : lecture SQL → cache Redis, même contenu, 2,7 → 0,99 ms, avec son coût de fraîcheur (copie périmée mesurée) |
+| 12 | Transformations écartées (dont TTL qui ne rafraîchit pas un UPDATE direct, PgBouncer qui n'accélère pas) et prix d'un index à l'écriture |
+| 13 | Méthode de preuve et limites |
 
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].
