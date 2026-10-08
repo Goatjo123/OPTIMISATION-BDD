@@ -1,0 +1,2249 @@
+{
+  "debut": "2026-10-08 12:07:43",
+  "machine": {
+    "cpu": "Intel(R) Core(TM) i5-10310U CPU @ 1.70GHz",
+    "coeurs": 8,
+    "memoire_mo": 7827,
+    "noyau": "6.18.33.2-microsoft-standard-WSL2"
+  },
+  "version": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "duree_s": 10,
+  "echauffement_s": 3,
+  "repetitions": 3,
+  "A_sql_index": {
+    "1": {
+      "sans_index": {
+        "essais": [
+          {
+            "clients": 1,
+            "tps": 2498.875946,
+            "transactions": 24982,
+            "echecs": 0,
+            "mediane_ms": 0.356,
+            "p95_ms": 0.615,
+            "p99_ms": 0.759,
+            "max_ms": 7.874,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 15.3,
+              "cpu_pct_max": 18.2,
+              "charge_1min_max": 0.73
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 1",
+              "number of threads: 1",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 24982",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.400 ms",
+              "initial connection time = 3.013 ms",
+              "tps = 2498.875946 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 1,
+            "tps": 2420.635957,
+            "transactions": 24202,
+            "echecs": 0,
+            "mediane_ms": 0.36,
+            "p95_ms": 0.641,
+            "p99_ms": 0.79,
+            "max_ms": 37.001,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 15.8,
+              "cpu_pct_max": 19.3,
+              "charge_1min_max": 1.14
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 1",
+              "number of threads: 1",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 24202",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.413 ms",
+              "initial connection time = 2.565 ms",
+              "tps = 2420.635957 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 1,
+            "tps": 2539.741605,
+            "transactions": 25390,
+            "echecs": 0,
+            "mediane_ms": 0.348,
+            "p95_ms": 0.612,
+            "p99_ms": 0.747,
+            "max_ms": 9.628,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 15.0,
+              "cpu_pct_max": 16.6,
+              "charge_1min_max": 1.19
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 1",
+              "number of threads: 1",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 25390",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.394 ms",
+              "initial connection time = 3.195 ms",
+              "tps = 2539.741605 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 2498.876,
+          "mediane_ms": 0.356,
+          "p95_ms": 0.615,
+          "p99_ms": 0.759
+        }
+      },
+      "avec_index": {
+        "essais": [
+          {
+            "clients": 1,
+            "tps": 3669.154913,
+            "transactions": 36683,
+            "echecs": 0,
+            "mediane_ms": 0.241,
+            "p95_ms": 0.427,
+            "p99_ms": 0.541,
+            "max_ms": 2.602,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 14.9,
+              "cpu_pct_max": 17.0,
+              "charge_1min_max": 0.79
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 1",
+              "number of threads: 1",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 36683",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.273 ms",
+              "initial connection time = 2.838 ms",
+              "tps = 3669.154913 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 1,
+            "tps": 3695.249679,
+            "transactions": 36943,
+            "echecs": 0,
+            "mediane_ms": 0.234,
+            "p95_ms": 0.446,
+            "p99_ms": 0.561,
+            "max_ms": 9.144,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 17.5,
+              "cpu_pct_max": 36.2,
+              "charge_1min_max": 0.99
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 1",
+              "number of threads: 1",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 36943",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.271 ms",
+              "initial connection time = 2.755 ms",
+              "tps = 3695.249679 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 1,
+            "tps": 3501.044802,
+            "transactions": 35002,
+            "echecs": 0,
+            "mediane_ms": 0.251,
+            "p95_ms": 0.458,
+            "p99_ms": 0.554,
+            "max_ms": 2.108,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 14.6,
+              "cpu_pct_max": 16.1,
+              "charge_1min_max": 1.3
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 1",
+              "number of threads: 1",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 35002",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.286 ms",
+              "initial connection time = 2.678 ms",
+              "tps = 3501.044802 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 3669.155,
+          "mediane_ms": 0.241,
+          "p95_ms": 0.446,
+          "p99_ms": 0.554
+        }
+      }
+    },
+    "5": {
+      "sans_index": {
+        "essais": [
+          {
+            "clients": 5,
+            "tps": 13385.341285,
+            "transactions": 133730,
+            "echecs": 0,
+            "mediane_ms": 0.351,
+            "p95_ms": 0.504,
+            "p99_ms": 0.763,
+            "max_ms": 11.438,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 5,
+              "cpu_pct_moyen": 60.9,
+              "cpu_pct_max": 66.0,
+              "charge_1min_max": 2.2
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 5",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 133730",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.374 ms",
+              "initial connection time = 11.870 ms",
+              "tps = 13385.341285 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 5,
+            "tps": 10211.918176,
+            "transactions": 102002,
+            "echecs": 0,
+            "mediane_ms": 0.452,
+            "p95_ms": 0.698,
+            "p99_ms": 1.213,
+            "max_ms": 35.467,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 4,
+              "cpu_pct_moyen": 60.3,
+              "cpu_pct_max": 69.4,
+              "charge_1min_max": 4.28
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 5",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 102002",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.490 ms",
+              "initial connection time = 13.495 ms",
+              "tps = 10211.918176 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 5,
+            "tps": 10261.881692,
+            "transactions": 102539,
+            "echecs": 0,
+            "mediane_ms": 0.458,
+            "p95_ms": 0.645,
+            "p99_ms": 1.025,
+            "max_ms": 12.223,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 5,
+              "cpu_pct_moyen": 58.1,
+              "cpu_pct_max": 66.2,
+              "charge_1min_max": 4.59
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 5",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 102539",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.487 ms",
+              "initial connection time = 8.502 ms",
+              "tps = 10261.881692 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 10261.882,
+          "mediane_ms": 0.452,
+          "p95_ms": 0.645,
+          "p99_ms": 1.025
+        }
+      },
+      "avec_index": {
+        "essais": [
+          {
+            "clients": 5,
+            "tps": 13553.066047,
+            "transactions": 135434,
+            "echecs": 0,
+            "mediane_ms": 0.327,
+            "p95_ms": 0.553,
+            "p99_ms": 0.979,
+            "max_ms": 30.608,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 5,
+              "cpu_pct_moyen": 56.5,
+              "cpu_pct_max": 63.7,
+              "charge_1min_max": 3.5
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 5",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 135434",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.369 ms",
+              "initial connection time = 7.478 ms",
+              "tps = 13553.066047 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 5,
+            "tps": 15337.605091,
+            "transactions": 153222,
+            "echecs": 0,
+            "mediane_ms": 0.302,
+            "p95_ms": 0.451,
+            "p99_ms": 0.737,
+            "max_ms": 22.726,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 5,
+              "cpu_pct_moyen": 57.2,
+              "cpu_pct_max": 63.9,
+              "charge_1min_max": 4.14
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 5",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 153222",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.326 ms",
+              "initial connection time = 10.801 ms",
+              "tps = 15337.605091 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 5,
+            "tps": 14117.63788,
+            "transactions": 141141,
+            "echecs": 0,
+            "mediane_ms": 0.317,
+            "p95_ms": 0.497,
+            "p99_ms": 0.872,
+            "max_ms": 34.381,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 4,
+              "cpu_pct_moyen": 63.2,
+              "cpu_pct_max": 67.3,
+              "charge_1min_max": 4.98
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 5",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 141141",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.354 ms",
+              "initial connection time = 10.856 ms",
+              "tps = 14117.637880 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 14117.638,
+          "mediane_ms": 0.317,
+          "p95_ms": 0.497,
+          "p99_ms": 0.872
+        }
+      }
+    },
+    "10": {
+      "sans_index": {
+        "essais": [
+          {
+            "clients": 10,
+            "tps": 14950.510354,
+            "transactions": 149337,
+            "echecs": 0,
+            "mediane_ms": 0.496,
+            "p95_ms": 1.296,
+            "p99_ms": 2.277,
+            "max_ms": 35.226,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 9,
+              "cpu_pct_moyen": 90.6,
+              "cpu_pct_max": 94.4,
+              "charge_1min_max": 6.31
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 10",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 149337",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.669 ms",
+              "initial connection time = 12.636 ms",
+              "tps = 14950.510354 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 10,
+            "tps": 14336.007866,
+            "transactions": 143244,
+            "echecs": 0,
+            "mediane_ms": 0.512,
+            "p95_ms": 1.333,
+            "p99_ms": 2.546,
+            "max_ms": 34.914,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 8,
+              "cpu_pct_moyen": 89.0,
+              "cpu_pct_max": 92.6,
+              "charge_1min_max": 9.41
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 10",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 143244",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.698 ms",
+              "initial connection time = 14.872 ms",
+              "tps = 14336.007866 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 10,
+            "tps": 10766.157183,
+            "transactions": 107703,
+            "echecs": 0,
+            "mediane_ms": 0.552,
+            "p95_ms": 2.227,
+            "p99_ms": 6.219,
+            "max_ms": 42.648,
+            "machine": {
+              "echantillons": 7,
+              "pool_attente_max": null,
+              "pg_actives_max": 6,
+              "cpu_pct_moyen": 88.6,
+              "cpu_pct_max": 91.2,
+              "charge_1min_max": 9.65
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 10",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 107703",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.929 ms",
+              "initial connection time = 11.603 ms",
+              "tps = 10766.157183 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 14336.008,
+          "mediane_ms": 0.512,
+          "p95_ms": 1.333,
+          "p99_ms": 2.546
+        }
+      },
+      "avec_index": {
+        "essais": [
+          {
+            "clients": 10,
+            "tps": 19496.115197,
+            "transactions": 194690,
+            "echecs": 0,
+            "mediane_ms": 0.401,
+            "p95_ms": 0.96,
+            "p99_ms": 1.901,
+            "max_ms": 35.915,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 8,
+              "cpu_pct_moyen": 71.8,
+              "cpu_pct_max": 89.9,
+              "charge_1min_max": 6.99
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 10",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 194690",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.513 ms",
+              "initial connection time = 15.375 ms",
+              "tps = 19496.115197 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 10,
+            "tps": 19404.463388,
+            "transactions": 193933,
+            "echecs": 0,
+            "mediane_ms": 0.424,
+            "p95_ms": 0.922,
+            "p99_ms": 1.552,
+            "max_ms": 11.639,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": null,
+              "pg_actives_max": 7,
+              "cpu_pct_moyen": 71.1,
+              "cpu_pct_max": 83.1,
+              "charge_1min_max": 8.69
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 10",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 193933",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.515 ms",
+              "initial connection time = 13.902 ms",
+              "tps = 19404.463388 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 10,
+            "tps": 21361.254866,
+            "transactions": 213254,
+            "echecs": 0,
+            "mediane_ms": 0.376,
+            "p95_ms": 0.807,
+            "p99_ms": 1.294,
+            "max_ms": 36.239,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 5,
+              "cpu_pct_moyen": 80.5,
+              "cpu_pct_max": 85.6,
+              "charge_1min_max": 9.62
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 10",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 213254",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.468 ms",
+              "initial connection time = 18.108 ms",
+              "tps = 21361.254866 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 19496.115,
+          "mediane_ms": 0.401,
+          "p95_ms": 0.922,
+          "p99_ms": 1.552
+        }
+      }
+    },
+    "20": {
+      "sans_index": {
+        "essais": [
+          {
+            "clients": 20,
+            "tps": 14570.189903,
+            "transactions": 144941,
+            "echecs": 0,
+            "mediane_ms": 1.114,
+            "p95_ms": 2.78,
+            "p99_ms": 5.866,
+            "max_ms": 72.823,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 9,
+              "cpu_pct_moyen": 82.7,
+              "cpu_pct_max": 97.3,
+              "charge_1min_max": 10.72
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 20",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 144941",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 1.373 ms",
+              "initial connection time = 70.013 ms",
+              "tps = 14570.189903 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 20,
+            "tps": 14840.301379,
+            "transactions": 148106,
+            "echecs": 0,
+            "mediane_ms": 1.114,
+            "p95_ms": 2.755,
+            "p99_ms": 5.484,
+            "max_ms": 39.167,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 9,
+              "cpu_pct_moyen": 85.9,
+              "cpu_pct_max": 97.2,
+              "charge_1min_max": 12.45
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 20",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 148106",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 1.348 ms",
+              "initial connection time = 29.467 ms",
+              "tps = 14840.301379 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 20,
+            "tps": 15555.28918,
+            "transactions": 154685,
+            "echecs": 0,
+            "mediane_ms": 1.089,
+            "p95_ms": 2.497,
+            "p99_ms": 4.576,
+            "max_ms": 65.624,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 8,
+              "cpu_pct_moyen": 86.2,
+              "cpu_pct_max": 97.8,
+              "charge_1min_max": 13.85
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 20",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 154685",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 1.286 ms",
+              "initial connection time = 67.375 ms",
+              "tps = 15555.289180 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 14840.301,
+          "mediane_ms": 1.114,
+          "p95_ms": 2.755,
+          "p99_ms": 5.484
+        }
+      },
+      "avec_index": {
+        "essais": [
+          {
+            "clients": 20,
+            "tps": 24007.848508,
+            "transactions": 240014,
+            "echecs": 0,
+            "mediane_ms": 0.669,
+            "p95_ms": 1.616,
+            "p99_ms": 3.611,
+            "max_ms": 46.856,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 7,
+              "cpu_pct_moyen": 83.5,
+              "cpu_pct_max": 95.5,
+              "charge_1min_max": 12.19
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 20",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 240014",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.833 ms",
+              "initial connection time = 25.277 ms",
+              "tps = 24007.848508 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 20,
+            "tps": 25569.842432,
+            "transactions": 255114,
+            "echecs": 0,
+            "mediane_ms": 0.633,
+            "p95_ms": 1.443,
+            "p99_ms": 2.785,
+            "max_ms": 41.222,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 8,
+              "cpu_pct_moyen": 87.8,
+              "cpu_pct_max": 97.1,
+              "charge_1min_max": 12.89
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 20",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 255114",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.782 ms",
+              "initial connection time = 27.245 ms",
+              "tps = 25569.842432 (without initial connection time)"
+            ]
+          },
+          {
+            "clients": 20,
+            "tps": 25132.996764,
+            "transactions": 251029,
+            "echecs": 0,
+            "mediane_ms": 0.646,
+            "p95_ms": 1.475,
+            "p99_ms": 2.897,
+            "max_ms": 26.466,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": null,
+              "pg_actives_max": 7,
+              "cpu_pct_moyen": 84.9,
+              "cpu_pct_max": 95.6,
+              "charge_1min_max": 14.32
+            },
+            "code": 0,
+            "sortie_brute": [
+              "transaction type: /tmp/a9_hist.sql",
+              "scaling factor: 1",
+              "query mode: simple",
+              "number of clients: 20",
+              "number of threads: 4",
+              "maximum number of tries: 1",
+              "duration: 10 s",
+              "number of transactions actually processed: 251029",
+              "number of failed transactions: 0 (0.000%)",
+              "latency average = 0.796 ms",
+              "initial connection time = 28.295 ms",
+              "tps = 25132.996764 (without initial connection time)"
+            ]
+          }
+        ],
+        "mediane": {
+          "tps": 25132.997,
+          "mediane_ms": 0.646,
+          "p95_ms": 1.475,
+          "p99_ms": 2.897
+        }
+      }
+    }
+  },
+  "B_http_n1_groupe": {
+    "1": {
+      "n1": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 1,
+            "termines": 691,
+            "erreurs": 0,
+            "statuts": {
+              "200": 691
+            },
+            "secondes": 10,
+            "debit_termine": 69.1,
+            "mediane_ms": 12.68,
+            "p95_ms": 23.246,
+            "p99_ms": 33.709,
+            "max_ms": 57.499,
+            "moyenne_ms": 14.473,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 19.1,
+              "cpu_pct_max": 22.3,
+              "charge_1min_max": 12.27
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 1,
+            "termines": 771,
+            "erreurs": 0,
+            "statuts": {
+              "200": 771
+            },
+            "secondes": 10,
+            "debit_termine": 77.1,
+            "mediane_ms": 11.979,
+            "p95_ms": 18.656,
+            "p99_ms": 21.511,
+            "max_ms": 29.283,
+            "moyenne_ms": 12.968,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 19.0,
+              "cpu_pct_max": 22.1,
+              "charge_1min_max": 6.87
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 1,
+            "termines": 770,
+            "erreurs": 0,
+            "statuts": {
+              "200": 770
+            },
+            "secondes": 10,
+            "debit_termine": 77,
+            "mediane_ms": 11.873,
+            "p95_ms": 18.844,
+            "p99_ms": 25.287,
+            "max_ms": 33.333,
+            "moyenne_ms": 12.989,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 19.2,
+              "cpu_pct_max": 23.4,
+              "charge_1min_max": 5.57
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 77,
+          "mediane_ms": 11.979,
+          "p95_ms": 18.844,
+          "p99_ms": 25.287,
+          "erreurs": 0
+        }
+      },
+      "groupe": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 1,
+            "termines": 3133,
+            "erreurs": 0,
+            "statuts": {
+              "200": 3133
+            },
+            "secondes": 10.03,
+            "debit_termine": 312.21,
+            "mediane_ms": 2.934,
+            "p95_ms": 4.521,
+            "p99_ms": 5.994,
+            "max_ms": 48.548,
+            "moyenne_ms": 3.191,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 19.9,
+              "cpu_pct_max": 22.4,
+              "charge_1min_max": 10.68
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 1,
+            "termines": 3218,
+            "erreurs": 0,
+            "statuts": {
+              "200": 3218
+            },
+            "secondes": 10,
+            "debit_termine": 321.8,
+            "mediane_ms": 2.959,
+            "p95_ms": 4.257,
+            "p99_ms": 5.134,
+            "max_ms": 9.844,
+            "moyenne_ms": 3.106,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 19.1,
+              "cpu_pct_max": 20.8,
+              "charge_1min_max": 8.53
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 1,
+            "termines": 3132,
+            "erreurs": 0,
+            "statuts": {
+              "200": 3132
+            },
+            "secondes": 10,
+            "debit_termine": 313.19,
+            "mediane_ms": 2.984,
+            "p95_ms": 4.643,
+            "p99_ms": 5.323,
+            "max_ms": 17.072,
+            "moyenne_ms": 3.191,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 19.4,
+              "cpu_pct_max": 21.5,
+              "charge_1min_max": 4.86
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 313.19,
+          "mediane_ms": 2.959,
+          "p95_ms": 4.521,
+          "p99_ms": 5.323,
+          "erreurs": 0
+        }
+      }
+    },
+    "5": {
+      "n1": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 5,
+            "termines": 2881,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2881
+            },
+            "secondes": 10,
+            "debit_termine": 288.08,
+            "mediane_ms": 16.668,
+            "p95_ms": 21.839,
+            "p99_ms": 26.835,
+            "max_ms": 52.772,
+            "moyenne_ms": 17.355,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 49.0,
+              "cpu_pct_max": 52.9,
+              "charge_1min_max": 4.49
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 5,
+            "termines": 2325,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2325
+            },
+            "secondes": 10,
+            "debit_termine": 232.49,
+            "mediane_ms": 20.277,
+            "p95_ms": 29.007,
+            "p99_ms": 39.167,
+            "max_ms": 73.832,
+            "moyenne_ms": 21.511,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 48.8,
+              "cpu_pct_max": 55.0,
+              "charge_1min_max": 4.01
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 5,
+            "termines": 2394,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2394
+            },
+            "secondes": 10,
+            "debit_termine": 239.4,
+            "mediane_ms": 19.837,
+            "p95_ms": 27.322,
+            "p99_ms": 36.112,
+            "max_ms": 57.793,
+            "moyenne_ms": 20.895,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 49.0,
+              "cpu_pct_max": 53.9,
+              "charge_1min_max": 4.03
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 239.4,
+          "mediane_ms": 19.837,
+          "p95_ms": 27.322,
+          "p99_ms": 36.112,
+          "erreurs": 0
+        }
+      },
+      "groupe": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 5,
+            "termines": 9254,
+            "erreurs": 0,
+            "statuts": {
+              "200": 9254
+            },
+            "secondes": 10.01,
+            "debit_termine": 924.85,
+            "mediane_ms": 4.748,
+            "p95_ms": 9.044,
+            "p99_ms": 17.825,
+            "max_ms": 47.613,
+            "moyenne_ms": 5.408,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 44.7,
+              "cpu_pct_max": 53.4,
+              "charge_1min_max": 4.49
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 5,
+            "termines": 10365,
+            "erreurs": 0,
+            "statuts": {
+              "200": 10365
+            },
+            "secondes": 10,
+            "debit_termine": 1036.1,
+            "mediane_ms": 4.469,
+            "p95_ms": 6.976,
+            "p99_ms": 11.551,
+            "max_ms": 65.154,
+            "moyenne_ms": 4.824,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 46.3,
+              "cpu_pct_max": 51.9,
+              "charge_1min_max": 4.1
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 5,
+            "termines": 10914,
+            "erreurs": 0,
+            "statuts": {
+              "200": 10914
+            },
+            "secondes": 10,
+            "debit_termine": 1091.4,
+            "mediane_ms": 4.337,
+            "p95_ms": 6.437,
+            "p99_ms": 9.141,
+            "max_ms": 22.323,
+            "moyenne_ms": 4.58,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 4,
+              "cpu_pct_moyen": 46.7,
+              "cpu_pct_max": 51.4,
+              "charge_1min_max": 3.9
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 1036.1,
+          "mediane_ms": 4.469,
+          "p95_ms": 6.976,
+          "p99_ms": 11.551,
+          "erreurs": 0
+        }
+      }
+    },
+    "10": {
+      "n1": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 10,
+            "termines": 2525,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2525
+            },
+            "secondes": 10,
+            "debit_termine": 252.48,
+            "mediane_ms": 38.111,
+            "p95_ms": 48.81,
+            "p99_ms": 54.676,
+            "max_ms": 71.528,
+            "moyenne_ms": 39.607,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 5,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 50.7,
+              "cpu_pct_max": 55.0,
+              "charge_1min_max": 4.38
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 10,
+            "termines": 2345,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2345
+            },
+            "secondes": 10,
+            "debit_termine": 234.47,
+            "mediane_ms": 39.971,
+            "p95_ms": 57.243,
+            "p99_ms": 72.646,
+            "max_ms": 90.497,
+            "moyenne_ms": 42.623,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 5,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 50.3,
+              "cpu_pct_max": 57.0,
+              "charge_1min_max": 5.47
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 10,
+            "termines": 2513,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2513
+            },
+            "secondes": 10,
+            "debit_termine": 251.29,
+            "mediane_ms": 37.638,
+            "p95_ms": 49.894,
+            "p99_ms": 64.681,
+            "max_ms": 91.328,
+            "moyenne_ms": 39.8,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 5,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 50.5,
+              "cpu_pct_max": 55.2,
+              "charge_1min_max": 5.46
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 251.29,
+          "mediane_ms": 38.111,
+          "p95_ms": 49.894,
+          "p99_ms": 64.681,
+          "erreurs": 0
+        }
+      },
+      "groupe": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 10,
+            "termines": 10677,
+            "erreurs": 0,
+            "statuts": {
+              "200": 10677
+            },
+            "secondes": 10,
+            "debit_termine": 1067.62,
+            "mediane_ms": 8.87,
+            "p95_ms": 13.526,
+            "p99_ms": 17.184,
+            "max_ms": 77.394,
+            "moyenne_ms": 9.366,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 3,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 50.4,
+              "cpu_pct_max": 56.3,
+              "charge_1min_max": 4.64
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 10,
+            "termines": 10158,
+            "erreurs": 0,
+            "statuts": {
+              "200": 10158
+            },
+            "secondes": 10,
+            "debit_termine": 1015.71,
+            "mediane_ms": 8.996,
+            "p95_ms": 14.96,
+            "p99_ms": 20.743,
+            "max_ms": 75.097,
+            "moyenne_ms": 9.841,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 5,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 50.0,
+              "cpu_pct_max": 54.9,
+              "charge_1min_max": 5.25
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 10,
+            "termines": 10261,
+            "erreurs": 0,
+            "statuts": {
+              "200": 10261
+            },
+            "secondes": 10,
+            "debit_termine": 1026.08,
+            "mediane_ms": 9.224,
+            "p95_ms": 13.787,
+            "p99_ms": 17.619,
+            "max_ms": 45.897,
+            "moyenne_ms": 9.745,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 4,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 49.6,
+              "cpu_pct_max": 55.5,
+              "charge_1min_max": 4.84
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 1026.08,
+          "mediane_ms": 8.996,
+          "p95_ms": 13.787,
+          "p99_ms": 17.619,
+          "erreurs": 0
+        }
+      }
+    },
+    "20": {
+      "n1": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 20,
+            "termines": 2532,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2532
+            },
+            "secondes": 10,
+            "debit_termine": 253.17,
+            "mediane_ms": 75.794,
+            "p95_ms": 98.013,
+            "p99_ms": 111.826,
+            "max_ms": 171.279,
+            "moyenne_ms": 79.196,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 15,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 50.2,
+              "cpu_pct_max": 55.7,
+              "charge_1min_max": 4.91
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 20,
+            "termines": 2469,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2469
+            },
+            "secondes": 10,
+            "debit_termine": 246.89,
+            "mediane_ms": 79.053,
+            "p95_ms": 96.316,
+            "p99_ms": 102.298,
+            "max_ms": 111.848,
+            "moyenne_ms": 80.929,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 15,
+              "pg_actives_max": 4,
+              "cpu_pct_moyen": 50.7,
+              "cpu_pct_max": 57.2,
+              "charge_1min_max": 4.81
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=n1",
+            "clients": 20,
+            "termines": 2385,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2385
+            },
+            "secondes": 10,
+            "debit_termine": 238.5,
+            "mediane_ms": 79.023,
+            "p95_ms": 109.265,
+            "p99_ms": 139.987,
+            "max_ms": 156.671,
+            "moyenne_ms": 83.773,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 15,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 50.1,
+              "cpu_pct_max": 54.9,
+              "charge_1min_max": 4.69
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 246.89,
+          "mediane_ms": 79.023,
+          "p95_ms": 98.013,
+          "p99_ms": 111.826,
+          "erreurs": 0
+        }
+      },
+      "groupe": {
+        "essais": [
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 20,
+            "termines": 10815,
+            "erreurs": 0,
+            "statuts": {
+              "200": 10815
+            },
+            "secondes": 10,
+            "debit_termine": 1081.53,
+            "mediane_ms": 17.668,
+            "p95_ms": 24.613,
+            "p99_ms": 29.903,
+            "max_ms": 56.377,
+            "moyenne_ms": 18.49,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 14,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 50.4,
+              "cpu_pct_max": 56.8,
+              "charge_1min_max": 5.01
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 20,
+            "termines": 10321,
+            "erreurs": 0,
+            "statuts": {
+              "200": 10321
+            },
+            "secondes": 10,
+            "debit_termine": 1032.07,
+            "mediane_ms": 18.198,
+            "p95_ms": 26.818,
+            "p99_ms": 34.212,
+            "max_ms": 59.856,
+            "moyenne_ms": 19.373,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 14,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 50.1,
+              "cpu_pct_max": 56.1,
+              "charge_1min_max": 5.02
+            }
+          },
+          {
+            "mode": "closed",
+            "path": "/commandes?limit=20&relations=groupe",
+            "clients": 20,
+            "termines": 9778,
+            "erreurs": 0,
+            "statuts": {
+              "200": 9778
+            },
+            "secondes": 10,
+            "debit_termine": 977.76,
+            "mediane_ms": 18.572,
+            "p95_ms": 29.06,
+            "p99_ms": 45.051,
+            "max_ms": 121.338,
+            "moyenne_ms": 20.379,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 14,
+              "pg_actives_max": 4,
+              "cpu_pct_moyen": 48.9,
+              "cpu_pct_max": 56.2,
+              "charge_1min_max": 5.04
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 1032.07,
+          "mediane_ms": 18.198,
+          "p95_ms": 26.818,
+          "p99_ms": 34.212,
+          "erreurs": 0
+        }
+      }
+    }
+  },
+  "C_pool_api": {
+    "5": {
+      "essais": [
+        {
+          "mode": "closed",
+          "path": "/commandes?limit=20&relations=n1",
+          "clients": 20,
+          "termines": 2160,
+          "erreurs": 0,
+          "statuts": {
+            "200": 2160
+          },
+          "secondes": 10,
+          "debit_termine": 215.97,
+          "mediane_ms": 86.111,
+          "p95_ms": 125.012,
+          "p99_ms": 190.366,
+          "max_ms": 207.035,
+          "moyenne_ms": 92.616,
+          "machine": {
+            "echantillons": 9,
+            "pool_attente_max": 15,
+            "pg_actives_max": 2,
+            "cpu_pct_moyen": 50.1,
+            "cpu_pct_max": 61.8,
+            "charge_1min_max": 4.64
+          }
+        },
+        {
+          "mode": "closed",
+          "path": "/commandes?limit=20&relations=n1",
+          "clients": 20,
+          "termines": 1374,
+          "erreurs": 0,
+          "statuts": {
+            "200": 1374
+          },
+          "secondes": 10,
+          "debit_termine": 137.4,
+          "mediane_ms": 133.542,
+          "p95_ms": 234.179,
+          "p99_ms": 272.16,
+          "max_ms": 289.342,
+          "moyenne_ms": 145.664,
+          "machine": {
+            "echantillons": 7,
+            "pool_attente_max": 15,
+            "pg_actives_max": 2,
+            "cpu_pct_moyen": 53.3,
+            "cpu_pct_max": 55.7,
+            "charge_1min_max": 4.97
+          }
+        }
+      ],
+      "mediane": {
+        "debit_termine": 176.685,
+        "mediane_ms": 109.827,
+        "p95_ms": 179.596,
+        "p99_ms": 231.263,
+        "erreurs": 0.0
+      },
+      "pool_attente_max": 15,
+      "pg_actives_max": 2
+    },
+    "10": {
+      "essais": [
+        {
+          "mode": "closed",
+          "path": "/commandes?limit=20&relations=n1",
+          "clients": 20,
+          "termines": 2376,
+          "erreurs": 0,
+          "statuts": {
+            "200": 2376
+          },
+          "secondes": 10,
+          "debit_termine": 237.6,
+          "mediane_ms": 79.821,
+          "p95_ms": 112.878,
+          "p99_ms": 125.798,
+          "max_ms": 170.273,
+          "moyenne_ms": 84.18,
+          "machine": {
+            "echantillons": 9,
+            "pool_attente_max": 10,
+            "pg_actives_max": 4,
+            "cpu_pct_moyen": 52.5,
+            "cpu_pct_max": 57.4,
+            "charge_1min_max": 5.89
+          }
+        },
+        {
+          "mode": "closed",
+          "path": "/commandes?limit=20&relations=n1",
+          "clients": 20,
+          "termines": 2549,
+          "erreurs": 0,
+          "statuts": {
+            "200": 2549
+          },
+          "secondes": 10,
+          "debit_termine": 254.89,
+          "mediane_ms": 75.062,
+          "p95_ms": 105.088,
+          "p99_ms": 120.347,
+          "max_ms": 132.867,
+          "moyenne_ms": 78.445,
+          "machine": {
+            "echantillons": 9,
+            "pool_attente_max": 10,
+            "pg_actives_max": 2,
+            "cpu_pct_moyen": 54.3,
+            "cpu_pct_max": 62.4,
+            "charge_1min_max": 6.63
+          }
+        }
+      ],
+      "mediane": {
+        "debit_termine": 246.245,
+        "mediane_ms": 77.441,
+        "p95_ms": 108.983,
+        "p99_ms": 123.072,
+        "erreurs": 0.0
+      },
+      "pool_attente_max": 10,
+      "pg_actives_max": 4
+    },
+    "20": {
+      "essais": [
+        {
+          "mode": "closed",
+          "path": "/commandes?limit=20&relations=n1",
+          "clients": 20,
+          "termines": 2757,
+          "erreurs": 0,
+          "statuts": {
+            "200": 2757
+          },
+          "secondes": 10,
+          "debit_termine": 275.68,
+          "mediane_ms": 70.464,
+          "p95_ms": 97.206,
+          "p99_ms": 119.492,
+          "max_ms": 171.704,
+          "moyenne_ms": 72.521,
+          "machine": {
+            "echantillons": 9,
+            "pool_attente_max": 0,
+            "pg_actives_max": 2,
+            "cpu_pct_moyen": 55.0,
+            "cpu_pct_max": 61.7,
+            "charge_1min_max": 6.69
+          }
+        },
+        {
+          "mode": "closed",
+          "path": "/commandes?limit=20&relations=n1",
+          "clients": 20,
+          "termines": 2990,
+          "erreurs": 0,
+          "statuts": {
+            "200": 2990
+          },
+          "secondes": 10,
+          "debit_termine": 298.99,
+          "mediane_ms": 66.152,
+          "p95_ms": 83.491,
+          "p99_ms": 91.932,
+          "max_ms": 106.075,
+          "moyenne_ms": 66.81,
+          "machine": {
+            "echantillons": 9,
+            "pool_attente_max": 0,
+            "pg_actives_max": 5,
+            "cpu_pct_moyen": 56.0,
+            "cpu_pct_max": 61.3,
+            "charge_1min_max": 7.1
+          }
+        }
+      ],
+      "mediane": {
+        "debit_termine": 287.335,
+        "mediane_ms": 68.308,
+        "p95_ms": 90.349,
+        "p99_ms": 105.712,
+        "erreurs": 0.0
+      },
+      "pool_attente_max": 0,
+      "pg_actives_max": 5
+    }
+  },
+  "D_fermee_ouverte": {
+    "capacite_fermee_20_clients_req_s": 246.89,
+    "fermee": {
+      "debit_termine": 246.89,
+      "mediane_ms": 79.023,
+      "p95_ms": 98.013,
+      "p99_ms": 111.826,
+      "erreurs": 0
+    },
+    "ouvertes": [
+      {
+        "fraction_capacite": 0.5,
+        "cadence_req_s": 123,
+        "essais": [
+          {
+            "mode": "open",
+            "path": "/commandes?limit=20&relations=n1",
+            "rate": 123,
+            "termines": 1230,
+            "erreurs": 0,
+            "statuts": {
+              "200": 1230
+            },
+            "secondes": 10,
+            "debit_termine": 123,
+            "mediane_ms": 12.814,
+            "p95_ms": 21.465,
+            "p99_ms": 24.772,
+            "max_ms": 36.841,
+            "moyenne_ms": 14.22,
+            "arrivees_prevues": 1230,
+            "non_terminees": 0,
+            "en_vol_max": 26,
+            "retard_envoi_max_ms": 2.13,
+            "retard_envoi_p95_ms": 0.56,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 28.3,
+              "cpu_pct_max": 36.0,
+              "charge_1min_max": 6.61
+            }
+          },
+          {
+            "mode": "open",
+            "path": "/commandes?limit=20&relations=n1",
+            "rate": 123,
+            "termines": 1230,
+            "erreurs": 0,
+            "statuts": {
+              "200": 1230
+            },
+            "secondes": 10,
+            "debit_termine": 123,
+            "mediane_ms": 12.738,
+            "p95_ms": 18.818,
+            "p99_ms": 23.681,
+            "max_ms": 33.571,
+            "moyenne_ms": 13.719,
+            "arrivees_prevues": 1230,
+            "non_terminees": 0,
+            "en_vol_max": 8,
+            "retard_envoi_max_ms": 1.84,
+            "retard_envoi_p95_ms": 0.51,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 0,
+              "pg_actives_max": 1,
+              "cpu_pct_moyen": 27.8,
+              "cpu_pct_max": 32.5,
+              "charge_1min_max": 5.54
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 123.0,
+          "mediane_ms": 12.776,
+          "p95_ms": 20.142,
+          "p99_ms": 24.227,
+          "erreurs": 0.0,
+          "non_terminees": 0.0,
+          "retard_envoi_p95_ms": 0.535
+        }
+      },
+      {
+        "fraction_capacite": 0.9,
+        "cadence_req_s": 222,
+        "essais": [
+          {
+            "mode": "open",
+            "path": "/commandes?limit=20&relations=n1",
+            "rate": 222,
+            "termines": 2220,
+            "erreurs": 0,
+            "statuts": {
+              "200": 2220
+            },
+            "secondes": 10,
+            "debit_termine": 222,
+            "mediane_ms": 38.612,
+            "p95_ms": 358.544,
+            "p99_ms": 392.886,
+            "max_ms": 401.616,
+            "moyenne_ms": 108.449,
+            "arrivees_prevues": 2220,
+            "non_terminees": 0,
+            "en_vol_max": 90,
+            "retard_envoi_max_ms": 12.46,
+            "retard_envoi_p95_ms": 0.65,
+            "machine": {
+              "echantillons": 9,
+              "pool_attente_max": 72,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 47.6,
+              "cpu_pct_max": 55.1,
+              "charge_1min_max": 5.33
+            }
+          },
+          {
+            "mode": "open",
+            "path": "/commandes?limit=20&relations=n1",
+            "rate": 222,
+            "termines": 70,
+            "erreurs": 2150,
+            "statuts": {
+              "200": 70,
+              "503": 2150
+            },
+            "secondes": 10,
+            "debit_termine": 7,
+            "mediane_ms": 3894.224,
+            "p95_ms": 9132.734,
+            "p99_ms": 11193.726,
+            "max_ms": 11193.726,
+            "moyenne_ms": 4784.39,
+            "arrivees_prevues": 2220,
+            "non_terminees": 0,
+            "en_vol_max": 1567,
+            "retard_envoi_max_ms": 401.17,
+            "retard_envoi_p95_ms": 233.42,
+            "machine": {
+              "echantillons": 7,
+              "pool_attente_max": 1476,
+              "pg_actives_max": 2,
+              "cpu_pct_moyen": 42.1,
+              "cpu_pct_max": 55.1,
+              "charge_1min_max": 5.38
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 114.5,
+          "mediane_ms": 1966.418,
+          "p95_ms": 4745.639,
+          "p99_ms": 5793.306,
+          "erreurs": 1075.0,
+          "non_terminees": 0.0,
+          "retard_envoi_p95_ms": 117.035
+        }
+      },
+      {
+        "fraction_capacite": 1.3,
+        "cadence_req_s": 321,
+        "essais": [
+          {
+            "mode": "open",
+            "path": "/commandes?limit=20&relations=n1",
+            "rate": 321,
+            "termines": 169,
+            "erreurs": 3041,
+            "statuts": {
+              "200": 169,
+              "503": 3041
+            },
+            "secondes": 10,
+            "debit_termine": 16.9,
+            "mediane_ms": 3807.645,
+            "p95_ms": 5232.248,
+            "p99_ms": 7072.608,
+            "max_ms": 10648.83,
+            "moyenne_ms": 4049.331,
+            "arrivees_prevues": 3210,
+            "non_terminees": 0,
+            "en_vol_max": 1278,
+            "retard_envoi_max_ms": 749.11,
+            "retard_envoi_p95_ms": 382.34,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": 1203,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 39.8,
+              "cpu_pct_max": 51.1,
+              "charge_1min_max": 5.67
+            }
+          },
+          {
+            "mode": "open",
+            "path": "/commandes?limit=20&relations=n1",
+            "rate": 321,
+            "termines": 278,
+            "erreurs": 2932,
+            "statuts": {
+              "200": 278,
+              "503": 2932
+            },
+            "secondes": 10,
+            "debit_termine": 27.8,
+            "mediane_ms": 5646.942,
+            "p95_ms": 6969.488,
+            "p99_ms": 8877.201,
+            "max_ms": 8895.004,
+            "moyenne_ms": 5778.544,
+            "arrivees_prevues": 3210,
+            "non_terminees": 0,
+            "en_vol_max": 1490,
+            "retard_envoi_max_ms": 845.11,
+            "retard_envoi_p95_ms": 648.84,
+            "machine": {
+              "echantillons": 8,
+              "pool_attente_max": 1099,
+              "pg_actives_max": 3,
+              "cpu_pct_moyen": 42.8,
+              "cpu_pct_max": 48.2,
+              "charge_1min_max": 5.41
+            }
+          }
+        ],
+        "mediane": {
+          "debit_termine": 22.35,
+          "mediane_ms": 4727.293,
+          "p95_ms": 6100.868,
+          "p99_ms": 7974.904,
+          "erreurs": 2986.5,
+          "non_terminees": 0.0,
+          "retard_envoi_p95_ms": 515.59
+        }
+      }
+    ]
+  },
+  "E_oltp_rapport": {
+    "seul": {
+      "essais": [
+        {
+          "clients": 10,
+          "tps": 8487.402964,
+          "transactions": 84989,
+          "echecs": 0,
+          "mediane_ms": 0.382,
+          "p95_ms": 5.03,
+          "p99_ms": 14.156,
+          "max_ms": 61.676,
+          "machine": {
+            "echantillons": 7,
+            "pool_attente_max": null,
+            "pg_actives_max": 6,
+            "cpu_pct_moyen": 67.6,
+            "cpu_pct_max": 79.6,
+            "charge_1min_max": 6.13
+          },
+          "code": 0,
+          "sortie_brute": [
+            "transaction type: /tmp/a9_hist.sql",
+            "scaling factor: 1",
+            "query mode: simple",
+            "number of clients: 10",
+            "number of threads: 4",
+            "maximum number of tries: 1",
+            "duration: 10 s",
+            "number of transactions actually processed: 84989",
+            "number of failed transactions: 0 (0.000%)",
+            "latency average = 1.178 ms",
+            "initial connection time = 27.588 ms",
+            "tps = 8487.402964 (without initial connection time)"
+          ]
+        },
+        {
+          "clients": 10,
+          "tps": 10929.252908,
+          "transactions": 109124,
+          "echecs": 0,
+          "mediane_ms": 0.628,
+          "p95_ms": 2.205,
+          "p99_ms": 5.074,
+          "max_ms": 35.032,
+          "machine": {
+            "echantillons": 8,
+            "pool_attente_max": null,
+            "pg_actives_max": 6,
+            "cpu_pct_moyen": 65.1,
+            "cpu_pct_max": 73.4,
+            "charge_1min_max": 9.0
+          },
+          "code": 0,
+          "sortie_brute": [
+            "transaction type: /tmp/a9_hist.sql",
+            "scaling factor: 1",
+            "query mode: simple",
+            "number of clients: 10",
+            "number of threads: 4",
+            "maximum number of tries: 1",
+            "duration: 10 s",
+            "number of transactions actually processed: 109124",
+            "number of failed transactions: 0 (0.000%)",
+            "latency average = 0.915 ms",
+            "initial connection time = 20.837 ms",
+            "tps = 10929.252908 (without initial connection time)"
+          ]
+        },
+        {
+          "clients": 10,
+          "tps": 13221.623002,
+          "transactions": 132305,
+          "echecs": 0,
+          "mediane_ms": 0.562,
+          "p95_ms": 1.668,
+          "p99_ms": 3.588,
+          "max_ms": 22.447,
+          "machine": {
+            "echantillons": 8,
+            "pool_attente_max": null,
+            "pg_actives_max": 6,
+            "cpu_pct_moyen": 70.2,
+            "cpu_pct_max": 75.5,
+            "charge_1min_max": 10.15
+          },
+          "code": 0,
+          "sortie_brute": [
+            "transaction type: /tmp/a9_hist.sql",
+            "scaling factor: 1",
+            "query mode: simple",
+            "number of clients: 10",
+            "number of threads: 4",
+            "maximum number of tries: 1",
+            "duration: 10 s",
+            "number of transactions actually processed: 132305",
+            "number of failed transactions: 0 (0.000%)",
+            "latency average = 0.756 ms",
+            "initial connection time = 14.529 ms",
+            "tps = 13221.623002 (without initial connection time)"
+          ]
+        }
+      ],
+      "mediane": {
+        "tps": 10929.253,
+        "mediane_ms": 0.562,
+        "p95_ms": 2.205,
+        "p99_ms": 5.074
+      }
+    },
+    "avec_rapports": {
+      "essais": [
+        {
+          "clients": 10,
+          "tps": 10005.401978,
+          "transactions": 100110,
+          "echecs": 0,
+          "mediane_ms": 0.365,
+          "p95_ms": 3.616,
+          "p99_ms": 11.999,
+          "max_ms": 95.646,
+          "machine": {
+            "echantillons": 7,
+            "pool_attente_max": null,
+            "pg_actives_max": 8,
+            "cpu_pct_moyen": 83.3,
+            "cpu_pct_max": 92.6,
+            "charge_1min_max": 7.72
+          },
+          "code": 0,
+          "sortie_brute": [
+            "transaction type: /tmp/a9_hist.sql",
+            "scaling factor: 1",
+            "query mode: simple",
+            "number of clients: 10",
+            "number of threads: 4",
+            "maximum number of tries: 1",
+            "duration: 10 s",
+            "number of transactions actually processed: 100110",
+            "number of failed transactions: 0 (0.000%)",
+            "latency average = 0.999 ms",
+            "initial connection time = 25.532 ms",
+            "tps = 10005.401978 (without initial connection time)"
+          ],
+          "rapports_termines": 156
+        },
+        {
+          "clients": 10,
+          "tps": 9911.574779,
+          "transactions": 99389,
+          "echecs": 0,
+          "mediane_ms": 0.382,
+          "p95_ms": 3.77,
+          "p99_ms": 11.167,
+          "max_ms": 73.805,
+          "machine": {
+            "echantillons": 7,
+            "pool_attente_max": null,
+            "pg_actives_max": 7,
+            "cpu_pct_moyen": 88.2,
+            "cpu_pct_max": 91.6,
+            "charge_1min_max": 8.25
+          },
+          "code": 0,
+          "sortie_brute": [
+            "transaction type: /tmp/a9_hist.sql",
+            "scaling factor: 1",
+            "query mode: simple",
+            "number of clients: 10",
+            "number of threads: 4",
+            "maximum number of tries: 1",
+            "duration: 10 s",
+            "number of transactions actually processed: 99389",
+            "number of failed transactions: 0 (0.000%)",
+            "latency average = 1.009 ms",
+            "initial connection time = 15.544 ms",
+            "tps = 9911.574779 (without initial connection time)"
+          ],
+          "rapports_termines": 171
+        },
+        {
+          "clients": 10,
+          "tps": 18642.873745,
+          "transactions": 186246,
+          "echecs": 0,
+          "mediane_ms": 0.415,
+          "p95_ms": 1.013,
+          "p99_ms": 3.166,
+          "max_ms": 34.135,
+          "machine": {
+            "echantillons": 8,
+            "pool_attente_max": null,
+            "pg_actives_max": 8,
+            "cpu_pct_moyen": 90.0,
+            "cpu_pct_max": 96.3,
+            "charge_1min_max": 10.71
+          },
+          "code": 0,
+          "sortie_brute": [
+            "transaction type: /tmp/a9_hist.sql",
+            "scaling factor: 1",
+            "query mode: simple",
+            "number of clients: 10",
+            "number of threads: 4",
+            "maximum number of tries: 1",
+            "duration: 10 s",
+            "number of transactions actually processed: 186246",
+            "number of failed transactions: 0 (0.000%)",
+            "latency average = 0.536 ms",
+            "initial connection time = 15.388 ms",
+            "tps = 18642.873745 (without initial connection time)"
+          ],
+          "rapports_termines": 236
+        }
+      ],
+      "mediane": {
+        "tps": 10005.402,
+        "mediane_ms": 0.382,
+        "p95_ms": 3.616,
+        "p99_ms": 11.167
+      }
+    }
+  },
+  "fin": "2026-10-08 12:23:50",
+  "duree_totale_min": 16.1
+}

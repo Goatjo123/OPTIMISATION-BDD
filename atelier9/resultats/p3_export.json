@@ -1,0 +1,59 @@
+{
+  "debut": "2026-10-08 12:27:31",
+  "requete": "SELECT (created_at AT TIME ZONE 'UTC')::date AS jour, count(*) AS nb_commandes, sum(total) AS montant FROM shopflow.commandes WHERE statut = 'payee' GROUP BY 1 ORDER BY 1",
+  "lignes_export": 240,
+  "premier_jour": "2026-01-02",
+  "dernier_jour": "2026-10-27",
+  "md5_export_1": "e17cb331709a",
+  "md5_export_2": "e17cb331709a",
+  "reproductible": true,
+  "jours_distincts": 240,
+  "somme_nb_commandes": 80000,
+  "somme_montant_csv": "23750126.25",
+  "commandes_payees_table": 80000,
+  "somme_total_payees_table": "23750126.25",
+  "invariant_nb": true,
+  "invariant_montant": true,
+  "valeurs_nulles_ou_negatives": 0,
+  "statuts": [
+    "annulee 10000",
+    "en_attente 10000",
+    "payee 80000"
+  ],
+  "date_max_commande": "2026-10-27 23:58:47+00",
+  "date_min_commande": "2026-01-01 00:00:00+00",
+  "somme_montant_avec_jointure_lignes": "71250378.75",
+  "nb_commandes_avec_jointure_lignes": 240000,
+  "commandes_jour_UTC_different_jour_Paris": 4896,
+  "plan_export": [
+    "GroupAggregate  (cost=9868.78..11888.91 rows=69541 width=44) (actual time=51.238..69.979 rows=240.00 loops=1)",
+    "  Group Key: (((created_at AT TIME ZONE 'UTC'::text))::date)",
+    "  Buffers: shared hit=1677, temp read=200 written=201",
+    "  ->  Sort  (cost=9868.78..10069.57 rows=80317 width=10) (actual time=51.152..58.540 rows=80000.00 loops=1)",
+    "        Sort Key: (((created_at AT TIME ZONE 'UTC'::text))::date)",
+    "        Sort Method: external merge  Disk: 1600kB",
+    "        Buffers: shared hit=1677, temp read=200 written=201",
+    "        ->  Seq Scan on commandes  (cost=0.00..3325.59 rows=80317 width=10) (actual time=0.020..25.089 rows=80000.00 loops=1)",
+    "              Filter: (statut = 'payee'::text)",
+    "              Rows Removed by Filter: 20000",
+    "              Buffers: shared hit=1674",
+    "Planning:",
+    "  Buffers: shared hit=145",
+    "Planning Time: 0.433 ms",
+    "Execution Time: 70.465 ms"
+  ],
+  "correction_jour": {
+    "jour": "2026-06-01",
+    "commande_modifiee": "223",
+    "avant": [
+      "333 / 137287.50"
+    ],
+    "apres_annulation_tardive": [
+      "332 / 136950.00"
+    ],
+    "apres_rollback": [
+      "333 / 137287.50"
+    ]
+  },
+  "fin": "2026-10-08 12:27:33"
+}

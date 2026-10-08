@@ -308,6 +308,27 @@ Détail pour comprendre et expliquer : [`ATELIER8_DE_A_A_Z.md`](ATELIER8_DE_A_A_
 - **Redis en panne** : l'API se replie sur la base, au prix de plus de SQL ; **on ne cache pas ce qui engage** (achat, stock).
 - Limites : un produit, tout en local, course reproduite à la main, rafale = une mesure.
 
+## 3octies. Jour 5 : monitorer et prouver (document `test.pdf`, dossier `atelier9/`)
+
+Chapitre ajouté au PDF principal dans **`test.pdf`** (71 pages : 59 identiques + pages 60 à 71). Détail : [`atelier9/README.md`](atelier9/README.md). Tests sur une **copie jetable** (mêmes données, md5 identiques) ; laboratoire intact.
+
+- **`pg_stat_statements`** : le classement par temps cumulé montre le rapport mensuel (10 appels, 1 117 ms) ; le N+1 (20 000 appels × 0,018 ms = 369 ms) est invisible alors que l'API mesure 14,2 ms de `sqlMs` par page de 20 (×38 le temps vu par PostgreSQL) : le coût est dans les allers-retours. Le signal est le **nombre d'appels**. Le N+1 est **absent du journal des requêtes lentes** (`log_min_duration_statement`). L'extension coûte ×1,01 (mesure alternée).
+- **`work_mem`** : budget **par opération** (calcul théorique 32 MB × 4 × 100 connexions = 12,5 Go) ; la requête de la slide 13 ne déborde pas (aucun effet) ; l'agrégation mensuelle passe de 84,0 à 53,5 ms (tri disque 3 040 kB → mémoire). **`effective_cache_size`** : aucun changement de plan observé, non modifié.
+- **VACUUM** : bloqué par une transaction longue (0 supprimée, 200 000 mortes non supprimables) ; 200 000 supprimées après son COMMIT ; l'espace est réutilisable, pas rendu.
+- **Atelier 9 (1/5/10/20 clients, un seul changement par série, 3 essais alternés)** : index composé 14 840 → 25 133 tps (×1,7), p95 2,8 → 1,5 ms ; chargement groupé 246,9 → 1 032,1 req/s (×4,2), p95 98,0 → 26,8 ms, 0 erreur, CPU constant (50 %) : gain = travail évité. Le N+1 plafonne dès 5 clients (≈ 247 req/s), la file du pool monte à 15.
+- **Pool** (2 essais, indicatif) : 5 → 20 supprime l'attente et relève le débit, la base n'est pas saturée ; **corriger le N+1 vaut mieux qu'agrandir le pool** (1 032 contre ≈ 287 req/s).
+- **Charge fermée / ouverte** : la fermée (0 erreur) **masque** la saturation ; l'ouverte est instable à 90 % et s'effondre à 130 % (503 : le pool abandonne après 1 s). **Rapports concurrents** sur la même instance : p95 des commandes +64 %, p99 ×2,2, médiane inchangée.
+- **Export et contrat** : 240 lignes (jours UTC), Σ nb = 80 000 et Σ montant = 23 750 126,25 exacts, reproductible (même md5) ; une jointure aux lignes multiplie le montant par 3 ; 4 896 commandes changent de jour entre UTC et Paris ; une annulation tardive modifie une journée déjà publiée (333 / 137 287,50 → 332 / 136 950,00) : règle de republication. Lakehouse / Data Mesh : conçus, non déployés.
+- **Classification (slide 2)** : reproductibles (index, groupé), variation de mesure (pool), instable (charge ouverte à 90 %), **déplacement du coût** (écriture de l'index +35 % de WAL, rapports concurrents, fraîcheur du cache).
+- **Pièges** : mesure `work_mem` non alternée donnait 42 contre 31 ms pour un même plan (effet d'ordre) : refaite en tours alternés ; la taille de pool et la charge ouverte ne se résument pas par une médiane.
+
+### Ce que j'ai compris (Jour 5)
+- J'**observe avant de régler** : `pg_stat_statements` (cumulé, appels), journal lent, `pg_stat_activity`, et je recoupe plusieurs sources (le N+1 n'apparaît dans aucune seule).
+- Un réglage a un **périmètre** (`work_mem` par opération) ; sans preuve (plan, mesure) je **ne change pas** (`effective_cache_size`).
+- Une **transaction longue** bloque le nettoyage.
+- Je mesure la **courbe de charge** avec **un seul changement par série**, en distinguant **reproductible**, **variation de mesure** et **déplacement du coût**, et j'écris des conclusions **bornées** à la machine, au jeu et à la charge.
+- Charge **fermée** et **ouverte** ne se comparent pas : la fermée masque la saturation.
+
 ---
 
 ## 4. Réponses aux questions de compréhension (slide 33)
@@ -358,3 +379,10 @@ Explication simple du cours (jusqu'à l'atelier 3) : voir [`COURS_JOUR2_SIMPLE.m
 ## 6. À venir
 - Appliquer les migrations 001 (index composé, `atelier3/migration/`) et 002 (index partiel, `atelier4/migration/`) au labo quand le cours le demandera (non appliquées : le labo est resté à l'état initial). L'atelier 4 bis est fait (copie supprimée à la fin ; relancer `atelier4bis/run_atelier.py` pour le rejouer).
 - Les optimisations O1 (`work_mem`) et O2 (statistique) ne sont testées que sur une copie ; les refaire dans le labo si besoin.
+
+## Présentation orale de 5 minutes (Atelier 10, partie 8)
+- `Presentation_V1_structure.pdf` : suit le plan de la fiche (besoin, mécanisme, mesures, correction et fraîcheur, décision), 5 diapos + 1 diapo de réserve (questions).
+- `Presentation_V2_histoire.pdf` : même contenu raconté en 5 actes autour d'une problématique (« Pourquoi ça plafonne ? » jusqu'à « Quel est le prix ? »), avec une phrase de transition par diapo.
+- Chaque diapo a un cadre « À DIRE » avec le texte à prononcer. Durée estimée à 130 mots/min : V1 5 min 12 s, V2 4 min 36 s.
+- Tous les chiffres viennent des fichiers de mesures (atelier7, atelier8, atelier9/resultats). Source : `presentation/build_presentations.py`.
+- Réserve à dire : les mesures utilisent 3 s d'échauffement et 10 s par essai, la fiche cite 10 s et 30 s en exemple.

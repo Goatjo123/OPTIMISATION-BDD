@@ -1,0 +1,256 @@
+{
+  "debut": "2026-10-08 12:05:36",
+  "machine": {
+    "cpu": "Intel(R) Core(TM) i5-10310U CPU @ 1.70GHz",
+    "coeurs": 8,
+    "memoire_mo": 7827,
+    "noyau": "6.18.33.2-microsoft-standard-WSL2"
+  },
+  "version": "PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+  "pgss_preload": "pg_stat_statements",
+  "pgss_duree_charge_api_s": 14.5,
+  "pgss_top": [
+    {
+      "requete": "SELECT date_trunc($1, created_at) AS mois, statut, count(*) AS nb_commandes, s",
+      "appels": "10",
+      "total_ms": "1116.8",
+      "moyenne_ms": "111.676",
+      "lignes": "300"
+    },
+    {
+      "requete": "SELECT (created_at AT TIME ZONE $1)::date AS jour, count(*) AS nb_commandes, s",
+      "appels": "10",
+      "total_ms": "650.7",
+      "moyenne_ms": "65.066",
+      "lignes": "2400"
+    },
+    {
+      "requete": "SELECT commande_id::text AS commande_id,produit_id::text AS produit_id, qte,pr",
+      "appels": "20000",
+      "total_ms": "368.6",
+      "moyenne_ms": "0.018",
+      "lignes": "60000"
+    },
+    {
+      "requete": "SELECT id::text AS id, to_char(created_at AT TIME ZONE $3,$4) AS created_at, s",
+      "appels": "1200",
+      "total_ms": "301.4",
+      "moyenne_ms": "0.251",
+      "lignes": "25200"
+    },
+    {
+      "requete": "SELECT commande_id::text AS commande_id,produit_id::text AS produit_id, qte,pr",
+      "appels": "200",
+      "total_ms": "37.3",
+      "moyenne_ms": "0.186",
+      "lignes": "12000"
+    }
+  ],
+  "pgss_requete_slide": "SELECT query, calls, round(total_exec_time::numeric, 1) AS total_ms, round(mean_exec_time::numeric, 1) AS moyenne_ms FROM pg_stat_statements ORDER BY total_exec_time DESC LIMIT 10;",
+  "pgss_tri_moyenne": [
+    "SELECT date_trunc($1, created_at) AS mois, statut, count(*)  | 111.68",
+    "SELECT (created_at AT TIME ZONE $1)::date AS jour, count(*)  | 65.07",
+    "SELECT id::text AS id, to_char(created_at AT TIME ZONE $3,$4 | 0.25"
+  ],
+  "log_min_duration_lab": "-1",
+  "log_min_duration_copie": "20ms",
+  "log_destination": "stderr",
+  "logging_collector": "off",
+  "pg_current_logfile": "NULL",
+  "slow_log_lignes_total": 48,
+  "slow_log_extraits": [
+    "2026-10-08 10:05:53.493 [158] duration: 137.321 ms statement: SELECT date_trunc('month', created_at) AS mois, statut, count(*) AS nb_commandes, sum(total) AS chiffre_affa",
+    "2026-10-08 10:05:56.049 [229] duration: 52.304 ms statement: SELECT (created_at AT TIME ZONE 'UTC')::date AS jour, count(*) AS nb_commandes, sum(total) AS montant FROM sh"
+  ],
+  "slow_log_contient_ligne_n1": false,
+  "activity_requete_slide": "SELECT pid, state, wait_event_type, wait_event, pg_blocking_pids(pid) bloqueurs FROM pg_stat_activity WHERE datname = current_database() AND pid <> pg_backend_pid();",
+  "activity_sortie": " pid |        state        | wait_event_type | wait_event | bloqueurs | application_name \n-----+---------------------+-----------------+------------+-----------+------------------\n 353 | idle in transaction | Client          | ClientRead | {}        | A\n 355 | active              | Lock            | relation   | {353}     | B\n(2 rows)\n",
+  "work_mem_slide13": {
+    "4MB": {
+      "work_mem": "4MB",
+      "mediane_ms": 42.486,
+      "min_ms": 33.629,
+      "ms": [
+        88.384,
+        33.629,
+        42.486,
+        34.859,
+        47.054
+      ],
+      "tri": "quicksort Memory 60 kB",
+      "hash": "Batches 1, mémoire 625 kB",
+      "temp_ecrit_pages": 0,
+      "plan": "Sort  (cost=3236.33..3238.83 rows=1000 width=40) (actual time=46.722..46.770 rows=1000.00 loops=1)\n  Sort Key: (sum(total)) DESC\n  Sort Method: quicksort  Memory: 60kB\n  Buffers: shared hit=1677\n  ->  HashAggregate  (cost=3174.00..3186.50 rows=1000 width=40) (actual time=46.054..46.321 rows=1000.00 loops=1)\n        Group Key: client_id\n        Batches: 1  Memory Usage: 625kB\n        Buffers: shared hit=1674\n        ->  Seq Scan on commandes  (cost=0.00..2674.00 rows=100000 width=14) (actual time=0.900..9.483 rows=100000.00 loops=1)\n              Buffers: shared hit=1674\nPlanning:\n  Buffers: shared hit=142\nPlanning Time: 0.511 ms\nExecution Time: 47.054 ms"
+    },
+    "32MB": {
+      "work_mem": "32MB",
+      "mediane_ms": 30.941,
+      "min_ms": 29.922,
+      "ms": [
+        29.922,
+        30.941,
+        29.943,
+        34.197,
+        33.563
+      ],
+      "tri": "quicksort Memory 60 kB",
+      "hash": "Batches 1, mémoire 625 kB",
+      "temp_ecrit_pages": 0,
+      "plan": "Sort  (cost=3236.33..3238.83 rows=1000 width=40) (actual time=33.226..33.287 rows=1000.00 loops=1)\n  Sort Key: (sum(total)) DESC\n  Sort Method: quicksort  Memory: 60kB\n  Buffers: shared hit=1677\n  ->  HashAggregate  (cost=3174.00..3186.50 rows=1000 width=40) (actual time=32.640..32.865 rows=1000.00 loops=1)\n        Group Key: client_id\n        Batches: 1  Memory Usage: 625kB\n        Buffers: shared hit=1674\n        ->  Seq Scan on commandes  (cost=0.00..2674.00 rows=100000 width=14) (actual time=0.669..6.818 rows=100000.00 loops=1)\n              Buffers: shared hit=1674\nPlanning:\n  Buffers: shared hit=142\nPlanning Time: 0.461 ms\nExecution Time: 33.563 ms"
+    }
+  },
+  "work_mem_q2": {
+    "4MB": {
+      "work_mem": "4MB",
+      "mediane_ms": 110.742,
+      "min_ms": 86.866,
+      "ms": [
+        110.742,
+        86.866,
+        141.775,
+        148.707,
+        94.786
+      ],
+      "tri": "external merge Disk 3040 kB",
+      "hash": null,
+      "temp_ecrit_pages": 381,
+      "plan": "GroupAggregate  (cost=13279.82..15742.50 rows=80845 width=54) (actual time=63.824..94.008 rows=30.00 loops=1)\n  Group Key: (date_trunc('month'::text, created_at)), statut\n  Buffers: shared hit=1680, temp read=380 written=381\n  ->  Sort  (cost=13279.82..13529.82 rows=100000 width=20) (actual time=63.489..74.689 rows=100000.00 loops=1)\n        Sort Key: (date_trunc('month'::text, created_at)), statut\n        Sort Method: external merge  Disk: 3040kB\n        Buffers: shared hit=1680, temp read=380 written=381\n        ->  Seq Scan on commandes  (cost=0.00..2924.00 rows=100000 width=20) (actual time=0.600..28.527 rows=100000.00 loops=1)\n              Buffers: shared hit=1674\nPlanning:\n  Buffers: shared hit=152\nPlanning Time: 0.372 ms\nExecution Time: 94.786 ms"
+    },
+    "32MB": {
+      "work_mem": "32MB",
+      "mediane_ms": 51.64,
+      "min_ms": 49.114,
+      "ms": [
+        50.66,
+        49.114,
+        51.64,
+        57.112,
+        52.518
+      ],
+      "tri": "quicksort Memory 26 kB",
+      "hash": "Batches 1, mémoire 2089 kB",
+      "temp_ecrit_pages": 0,
+      "plan": "Sort  (cost=11726.70..11928.82 rows=80845 width=54) (actual time=51.391..51.394 rows=30.00 loops=1)\n  Sort Key: (date_trunc('month'::text, created_at)), statut\n  Sort Method: quicksort  Memory: 26kB\n  Buffers: shared hit=1680\n  ->  HashAggregate  (cost=3924.00..5136.68 rows=80845 width=54) (actual time=50.925..51.333 rows=30.00 loops=1)\n        Group Key: date_trunc('month'::text, created_at), statut\n        Batches: 1  Memory Usage: 2089kB\n        Buffers: shared hit=1674\n        ->  Seq Scan on commandes  (cost=0.00..2924.00 rows=100000 width=20) (actual time=0.628..26.822 rows=100000.00 loops=1)\n              Buffers: shared hit=1674\nPlanning:\n  Buffers: shared hit=152\nPlanning Time: 0.333 ms\nExecution Time: 52.518 ms"
+    }
+  },
+  "work_mem_budget": {
+    "work_mem_mb": 32,
+    "operations_par_requete_q2": 4,
+    "max_connections": 100
+  },
+  "effective_cache_size_plans": [
+    {
+      "client_id <=": 20,
+      "1MB": "Bitmap Heap Scan",
+      "128MB": "Bitmap Heap Scan",
+      "4GB": "Bitmap Heap Scan",
+      "16GB": "Bitmap Heap Scan"
+    },
+    {
+      "client_id <=": 50,
+      "1MB": "Bitmap Heap Scan",
+      "128MB": "Bitmap Heap Scan",
+      "4GB": "Bitmap Heap Scan",
+      "16GB": "Bitmap Heap Scan"
+    },
+    {
+      "client_id <=": 100,
+      "1MB": "Bitmap Heap Scan",
+      "128MB": "Bitmap Heap Scan",
+      "4GB": "Bitmap Heap Scan",
+      "16GB": "Bitmap Heap Scan"
+    },
+    {
+      "client_id <=": 150,
+      "1MB": "Bitmap Heap Scan",
+      "128MB": "Bitmap Heap Scan",
+      "4GB": "Bitmap Heap Scan",
+      "16GB": "Bitmap Heap Scan"
+    },
+    {
+      "client_id <=": 200,
+      "1MB": "Bitmap Heap Scan",
+      "128MB": "Bitmap Heap Scan",
+      "4GB": "Bitmap Heap Scan",
+      "16GB": "Bitmap Heap Scan"
+    },
+    {
+      "client_id <=": 300,
+      "1MB": "Bitmap Heap Scan",
+      "128MB": "Bitmap Heap Scan",
+      "4GB": "Bitmap Heap Scan",
+      "16GB": "Bitmap Heap Scan"
+    },
+    {
+      "client_id <=": 500,
+      "1MB": "Seq Scan",
+      "128MB": "Seq Scan",
+      "4GB": "Seq Scan",
+      "16GB": "Seq Scan"
+    },
+    {
+      "client_id <=": 800,
+      "1MB": "Seq Scan",
+      "128MB": "Seq Scan",
+      "4GB": "Seq Scan",
+      "16GB": "Seq Scan"
+    }
+  ],
+  "effective_cache_size_change": false,
+  "shared_buffers": "128MB",
+  "effective_cache_size": "4GB",
+  "vacuum": {
+    "taille_initiale_octets": 7249920,
+    "taille_apres_update_octets": 14499840,
+    "taille_apres_vacuum_octets": 14499840,
+    "n_live_n_dead_apres_update": "200000 / 200000",
+    "transaction_longue": "idle in transaction depuis 3.2 s",
+    "vacuum_pendant_transaction": {
+      "supprimees": 0,
+      "restantes": 400000,
+      "mortes_non_supprimables": 200000
+    },
+    "vacuum_apres_commit": {
+      "supprimees": 200000,
+      "restantes": 200000,
+      "mortes_non_supprimables": 0
+    },
+    "sortie_vacuum_1": [
+      "INFO:  vacuuming \"shopflow.shopflow.a9_dead\"",
+      "INFO:  finished vacuuming \"shopflow.shopflow.a9_dead\": index scans: 0",
+      "tuples: 0 removed, 400000 remain, 200000 are dead but not yet removable",
+      "frozen: 0 pages from table (0.00% of total) had 0 tuples frozen"
+    ],
+    "sortie_vacuum_2": [
+      "INFO:  vacuuming \"shopflow.shopflow.a9_dead\"",
+      "INFO:  finished vacuuming \"shopflow.shopflow.a9_dead\": index scans: 1",
+      "tuples: 200000 removed, 200000 remain, 0 are dead but not yet removable",
+      "frozen: 0 pages from table (0.00% of total) had 0 tuples frozen"
+    ]
+  },
+  "autovacuum_lab": "on",
+  "track_counts_lab": "on",
+  "autovacuum_tables_lab": [
+    "clients : dernier autovacuum jamais, dernier analyze auto jamais, mortes 0",
+    "commandes : dernier autovacuum jamais, dernier analyze auto jamais, mortes 12",
+    "lignes : dernier autovacuum jamais, dernier analyze auto jamais, mortes 0",
+    "produits : dernier autovacuum jamais, dernier analyze auto jamais, mortes 5"
+  ],
+  "connexions_lab": [
+    "active 1",
+    "idle 1"
+  ],
+  "superuser_reserved": "3",
+  "fin": "2026-10-08 12:06:15",
+  "slow_log_par_type": {
+    "autre (contrôles de préparation)": 18,
+    "agrégation mensuelle": 20,
+    "export journalier": 10
+  },
+  "slow_log_fenetre_utc": [
+    "2026-10-08 10:04:36",
+    "2026-10-08 10:07:15"
+  ],
+  "slow_log_total_journal_complet": 1249,
+  "slow_log_lignes_n1_journal_complet": 0
+}

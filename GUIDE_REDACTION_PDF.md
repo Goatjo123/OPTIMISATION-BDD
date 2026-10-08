@@ -222,5 +222,9 @@ Chaque mesure du README et du PDF a été recontrôlée contre `atelier4/resulta
 | 12 | Transformations écartées (dont TTL qui ne rafraîchit pas un UPDATE direct, PgBouncer qui n'accélère pas) et prix d'un index à l'écriture |
 | 13 | Méthode de preuve et limites |
 
+**`test.pdf` (71 pages, essai Jour 5)** : le PDF principal (59 pages, identiques) + chapitre **Jour 5** (p. 60 à 67 : observation, tuning, Atelier 9, avant/après, export et contrat, conclusion limitée, pièces du dossier) + **annexe 11** (p. 68 à 71). Chaque point du cours Jour 5 (slides 4 à 31) y est relié à une mesure réelle (copie jetable `a9-pg`, dossier `atelier9/`) ; style concis (tableaux, une ligne de lecture), pas de valeur fictive.
+
+**`test_compact.pdf` (4 pages, dossier essentiel)** : généré par `dossier/build_dossier.py`, organisé selon les six pièces du dossier collectif (slide 30) et la grille de relecture (slide 31) : diagnostic initial, DDL et déploiement, SQL et trace API, benchmark avant/après, tests de correction, décision finale. Sans notes de compréhension ni annexes : les chiffres sont lus dans les fichiers de mesures (aucune saisie manuelle). `test.pdf` (71 pages) reste la version détaillée.
+
 ## 8. Modèle de phrase « Ce que j'ai compris »
 > **Je [action]** parce que [raison]. Exemple : [chiffre mesuré]. Condition : [quand cela s'applique / ne s'applique plus].
