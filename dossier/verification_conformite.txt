@@ -1,0 +1,142 @@
+== 1. Forme : dossier court, annexes intactes
+OK    dossier court : 8 pages au plus (fiche : A à F = 6 à 9 pages) 8 pages
+OK    un seul fichier, sans annexes recopiées 
+OK    sources PRINCIPAL lisibles (test.pdf, 71 pages) 
+== 2. Structure recommandée (fiche partie 3) : sections et taille
+OK    A. Besoin et état initial page D-2
+OK    B. Architecture et stockage page D-2
+OK    C. Intervention principale page D-3
+OK    D. Benchmark page D-4
+OK    E. Correction et fiabilité page D-5
+OK    F. Décision et limites page D-6
+== 2b. Inventaire des preuves (fiche partie 2) : familles et chiffres repris de PRINCIPAL
+OK    famille : Plans et index 
+OK    famille : Migration 
+OK    famille : API 
+OK    famille : Pooling 
+OK    famille : Cache 
+OK    famille : Charge 
+OK    famille : Donnée moderne 
+OK    famille : Non réalisé 
+== 3. Fil narratif (fiche partie 3) : besoin, mesure, hypothèse, un seul changement, vérification, charge, décision
+OK    présent : Hypothèse causale 
+OK    présent : Changement (un seul) 
+OK    présent : Correction et fiabilité 
+OK    présent : Benchmark 
+OK    présent : Décision et limites 
+== 4. Fiches d'identité (fiche partie 4) : 7 champs et toutes les preuves
+OK    14 preuves définies (P-01 à P-14) ['P-01', 'P-02', 'P-03', 'P-04', 'P-05', 'P-06', 'P-07', 'P-08', 'P-09', 'P-10', 'P-11', 'P-12', 'P-13', 'P-14']
+OK    toutes les références P-xx pointent une preuve définie références : ['P-01', 'P-02', 'P-03', 'P-04', 'P-05', 'P-06', 'P-07', 'P-08', 'P-09', 'P-10', 'P-11', 'P-12', 'P-13', 'P-14']
+OK    chaque preuve définie est utilisée ailleurs dans le dossier 
+OK    champ de la fiche : Question 
+OK    champ de la fiche : Conditions 
+OK    champ de la fiche : Action 
+OK    champ de la fiche : Résultat brut 
+OK    champ de la fiche : Interprétation 
+OK    champ de la fiche : Limite 
+OK    champ de la fiche : ID 
+== 5. Optimisation principale (fiche partie 5) : 7 questions
+OK    Quel problème ? → Problème observable
+OK    Pourquoi cette hypothèse ? → Trace montrant le mécanisme
+OK    Quel changement ? → Changement (un seul)
+OK    Le résultat reste-t-il correct ? → Invariant fonctionnel
+OK    Quel effet mesuré ? → Benchmark avant
+OK    Quel coût ? → Coûts
+OK    Quelle portée ? → Valable ici
+== 6. Fiabilité / fraîcheur (fiche partie 6) : une preuve (cache Redis)
+OK    présent : 57.50 
+OK    présent : 19.90 
+OK    présent : invalidation 
+OK    présent : TTL 60 → −2 
+OK    présent : Redis arrêté 
+== 7. Auto-évaluation (partie 7), deux questions et présentation (partie 8), checklist (partie 9)
+OK    critère d'auto-évaluation : Besoin 
+OK    critère d'auto-évaluation : Stockage 
+OK    critère d'auto-évaluation : Correction 
+OK    critère d'auto-évaluation : Méthode 
+OK    critère d'auto-évaluation : Intervention 
+OK    critère d'auto-évaluation : Mesure 
+OK    critère d'auto-évaluation : Fiabilité / fraîcheur 
+OK    critère d'auto-évaluation : Limites 
+OK    chaque critère a une référence P-xx 
+OK    question reproductibilité 
+OK    question conséquence API 
+OK    checklist : 10 lignes cochées 0 cases
+OK    variante rejetée (×2) et risque restant 
+OK    formulation finale en 3 phrases numérotées 
+OK    présentation de 5 minutes référencée 
+== 8. Règle de preuve : p95, débit, erreurs, unités
+OK    présent : req/s 
+OK    présent : p95 
+OK    présent : ms 
+OK    présent : Err. 
+OK    présent : médiane 
+OK    présent : 10 s 
+OK    présent : 3 s 
+== 9. Chaque chiffre du dossier se retrouve dans les annexes (source indépendante : PRINCIPAL)
+OK    index composé API = 2,5 (dans le dossier : oui)
+OK    client actif = 91 (dans le dossier : oui)
+OK    partiel ms = 0,070 (dans le dossier : oui)
+OK    partiel facteur = 144,6 (dans le dossier : oui)
+OK    curseur 1 000 000 = 944,3 (dans le dossier : oui)
+OK    curseur ms = 0,177 (dans le dossier : oui)
+OK    NOT NULL direct = 3324,1 (dans le dossier : oui)
+OK    NOT NULL progressif = 46,3 (dans le dossier : oui)
+OK    work_mem 32 MB = 50,2 (dans le dossier : oui)
+OK    statistique = 45,5 (dans le dossier : oui)
+OK    EXISTS = 11,3 (dans le dossier : oui)
+OK    jointure = 27,6 (dans le dossier : oui)
+OK    débit N+1 = 246,9 (dans le dossier : oui)
+OK    p95 N+1 = 98,0 (dans le dossier : oui)
+OK    débit groupé = 1032,1 (dans le dossier : oui)
+OK    p95 groupé = 26,8 (dans le dossier : oui)
+OK    p50 N+1 20 clients = 79,0 (dans le dossier : oui)
+OK    p50 groupé = 18,2 (dans le dossier : oui)
+OK    essais N+1 = 238 (dans le dossier : oui)
+OK    essais N+1 max = 253 (dans le dossier : oui)
+OK    essais groupé = 978 (dans le dossier : oui)
+OK    essais groupé max = 1082 (dans le dossier : oui)
+OK    pgss appels = 20000 (dans le dossier : oui)
+OK    pgss moyenne = 0,018 (dans le dossier : oui)
+OK    sqlMs 21 requêtes = 14,2 (dans le dossier : oui)
+OK    sqlMs groupé = 2,2 (dans le dossier : oui)
+OK    journal lent = 1249 (dans le dossier : oui)
+OK    HTTP N+1 = 55,3 (dans le dossier : oui)
+OK    HTTP groupé = 43,9 (dans le dossier : oui)
+OK    pool 20 essai 1 = 275,7 (dans le dossier : non — non cité)
+OK    pool 20 essai 2 = 299,0 (dans le dossier : non — non cité)
+OK    pool 5 essai 2 = 137,4 (dans le dossier : non — non cité)
+OK    pool 5 essai 1 = 216,0 (dans le dossier : non — non cité)
+OK    PgBouncer tps direct = 260,7 (dans le dossier : oui)
+OK    PgBouncer tps pool = 93,8 (dans le dossier : oui)
+OK    PgBouncer latence = 422 (dans le dossier : oui)
+OK    miss = 2,7 (dans le dossier : oui)
+OK    hit = 0,988 (dans le dossier : oui)
+OK    prix périmé = 57.50 (dans le dossier : oui)
+OK    prix base = 19.90 (dans le dossier : oui)
+OK    course = 39.90 (dans le dossier : oui)
+OK    rafale miss = 6 (dans le dossier : oui)
+OK    md5 commandes = 7505112bb794 (dans le dossier : oui)
+OK    md5 lignes = e989d5bec39b (dans le dossier : oui)
+OK    série D p95 = 358,5 (dans le dossier : non — non cité)
+== 10. Renvois « PRINCIPAL p. N » : la page citée traite bien du sujet
+OK    PRINCIPAL p. 7 contient « Atelier 3 » 
+OK    PRINCIPAL p. 16 contient « Atelier 4 bis » 
+OK    PRINCIPAL p. 18 contient « Verrous » 
+OK    PRINCIPAL p. 19 contient « Atelier 7 » 
+OK    PRINCIPAL p. 20 contient « N+1 contre » 
+OK    PRINCIPAL p. 21 contient « PgBouncer » 
+OK    PRINCIPAL p. 22 contient « Atelier 8 » 
+OK    PRINCIPAL p. 23 contient « fraîcheur » 
+OK    PRINCIPAL p. 53 contient « Annexe 9 » 
+OK    PRINCIPAL p. 56 contient « reconnexion » 
+OK    PRINCIPAL p. 57 contient « Annexe 10 » 
+OK    PRINCIPAL p. 58 contient « Appels » 
+OK    PRINCIPAL p. 59 contient « Rafale » 
+OK    PRINCIPAL p. 48 contient « Annexe 8 » 
+OK    PRINCIPAL p. 1 contient « Atelier 1 » 
+OK    PRINCIPAL p. 3 contient « Atelier 2 » 
+OK    PRINCIPAL p. 11 contient « Atelier 4 » 
+OK    « fiches p. D-7 » : la page D-7 est bien celle des fiches 
+
+RÉSULTAT GLOBAL : TOUS LES CONTRÔLES PASSENT

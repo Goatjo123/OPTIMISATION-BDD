@@ -386,3 +386,9 @@ Explication simple du cours (jusqu'à l'atelier 3) : voir [`COURS_JOUR2_SIMPLE.m
 - Chaque diapo a un cadre « À DIRE » avec le texte à prononcer. Durée estimée à 130 mots/min : V1 5 min 12 s, V2 4 min 36 s.
 - Tous les chiffres viennent des fichiers de mesures (atelier7, atelier8, atelier9/resultats). Source : `presentation/build_presentations.py`.
 - Réserve à dire : les mesures utilisent 3 s d'échauffement et 10 s par essai, la fiche cite 10 s et 30 s en exemple.
+
+## Dossier final Atelier 10 (PRINCIPAL+)
+- `PRINCIPAL_PLUS_complet.pdf` (82 pages, autonome : aucun renvoi à un fichier extérieur) : couverture, page de contexte, dossier D-1 à D-9 reconstruit par `dossier/pages_dossier.py` puis annexes = `test.pdf` (PRINCIPAL p. 1-59, Jour 5 p. 60-71), avec signets. « PRINCIPAL p. N » = page N + 11 du fichier.
+- `PRINCIPAL_PLUS.pdf` (8 pages) : ANCIENNE version du dossier, cite des fichiers extérieurs, à ne pas rendre. Assemblage : `dossier/assembler_principal_plus.py`.
+- Contrôles : `dossier/verifier_conformite.py` (structure vs fiche) et `dossier/audit_chiffres.py` (104 nombres non triviaux retrouvés dans les sources ; tableau D-4 recalculé depuis p2_charge.json), sortie dans `dossier/audit_chiffres.txt`.
+- À savoir dire : protocole 3 s + 10 s (la fiche cite 10 s + 30 s en exemple) ; en groupé la file du pool atteint encore 14 à 20 clients (20 clients pour 5 connexions), c'est la durée d'occupation qui baisse ; index composé et migration testés, non appliqués au laboratoire.

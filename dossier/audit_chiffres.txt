@@ -1,0 +1,29 @@
+/home/youssef/école/PRINCIPAL_PLUS_complet.pdf: 8 pages du dossier (D-1 à D-8), 154 nombres distincts, dont 102 non triviaux (décimale ou 3 chiffres et plus)
+1. retrouvés dans les fichiers de mesures ou les annexes : 102/102 ; à contrôler : []
+2. retrouvés dans le texte des annexes jointes seul : 99/102 ; autres (arrondis, graduations) : ['1 030', '359', '900']
+3. ligne  1 clients recalculée depuis p2_charge.json : identique
+3. ligne  5 clients recalculée depuis p2_charge.json : identique
+3. ligne 10 clients recalculée depuis p2_charge.json : identique
+3. ligne 20 clients recalculée depuis p2_charge.json : identique
+3. facteur ×4,2 : vérifié
+3. p95 −73 % : vérifié
+3. essais N+1 238 à 253 : vérifié
+3. essais groupé 978 à 1 082 : vérifié
+3. intervalles disjoints : vérifié
+3. erreurs 0 partout : vérifié
+4. renvois à des documents extérieurs dans les 11 premières pages : 0 []
+5. fiche : A. Besoin et état initial : présent
+5. fiche : B. Architecture et stockage : présent
+5. fiche : C. Intervention principale : présent
+5. fiche : D. Benchmark : présent
+5. fiche : E. Correction et fiabilité : présent
+5. fiche : F. Décision et limites : présent
+5. fiche : Fiches d'identité : présent
+5. fiche : Auto-évaluation : présent
+5. fiche : Checklist de remise : présent
+5. fiche : Formulation finale : présent
+5. fiche : Reproductibilité : présent
+5. fiche : Conséquence pour l'API : présent
+5. fiche : Variante rejetée n° 1 : présent
+5. fiche : Risques restants : présent
+5. preuves définies : 14 ; références non définies : []
