@@ -7,7 +7,7 @@ import glob, json, os, re, sys
 import pypdf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PDF = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "PRINCIPAL_PLUS_complet.pdf")  # D-1 à D-8 = pages 3 à 10
+PDF = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "PRINCIPAL_PLUS_complet.pdf")  # D-1 à D-8 = pages 4 à 11
 NUM = re.compile(r"\d{1,3}(?:[   ]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?")
 
 
@@ -56,7 +56,7 @@ def found(tok):
 
 
 reader = pypdf.PdfReader(PDF)
-PAGES = reader.pages[2:10]
+PAGES = reader.pages[3:11]
 ANNEXE = set()
 for p in pypdf.PdfReader(os.path.join(ROOT, "test.pdf")).pages:
     ANNEXE |= nums(p.extract_text())
@@ -93,15 +93,15 @@ checks = {"facteur ×4,2": f"{b['mediane']['debit_termine'] / a['mediane']['debi
 for k, v in checks.items():
     print(f"3. {k} : {'vérifié' if v else 'ÉCART'}"); bad += not v
 
-front = [reader.pages[i].extract_text() for i in range(11)]
+front = [reader.pages[i].extract_text() for i in range(12)]
 alltxt = "\n".join(front)
 pat = re.compile(r"PRINCIPAL\.pdf|Presentation_|\.json|\.py\b|\.mjs|\.log|\.csv|atelier\d/|dossier/|test\.pdf")
 ext = [m.group(0) for m in pat.finditer(alltxt)]
-print(f"4. renvois à des documents extérieurs dans les 11 premières pages : {len(ext)} {ext}"); bad += bool(ext)
+print(f"4. renvois à des documents extérieurs dans les 12 premières pages : {len(ext)} {ext}"); bad += bool(ext)
 for k in ("A. Besoin et état initial", "B. Architecture et stockage", "C. Intervention principale", "D. Benchmark", "E. Correction et fiabilité", "F. Décision et limites",
           "Fiches d'identité", "Auto-évaluation", "Checklist de remise", "Formulation finale", "Reproductibilité", "Conséquence pour l'API", "Variante rejetée n° 1", "Risques restants"):
     ok = k in alltxt; print(f"5. fiche : {k} : {'présent' if ok else 'ABSENT'}"); bad += not ok
-d7 = reader.pages[8].extract_text(); defined = set(re.findall(r"P-\d\d(?=\s[A-ZÉ])", d7)); used = set(re.findall(r"P-\d\d", alltxt))
+d7 = reader.pages[9].extract_text(); defined = set(re.findall(r"P-\d\d(?=\s[A-ZÉ])", d7)); used = set(re.findall(r"P-\d\d", alltxt))
 print(f"5. preuves définies : {len(defined)} ; références non définies : {sorted(used - defined)}"); bad += (len(defined) != 14 or bool(used - defined))
 sys.exit(1 if bad else 0)
 

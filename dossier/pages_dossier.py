@@ -1,5 +1,5 @@
 """Pages D-1 à D-9 du dossier final (Atelier 10), autonomes : chaque renvoi pointe une page des annexes jointes
-(« annexe p. N » = page N numérotée en haut de l'annexe = page N + 11 du fichier). Aucun fichier extérieur n'est cité.
+(« annexe p. N » = page portant le numéro N en haut de l'annexe). Aucun fichier extérieur n'est cité.
 Les chiffres du tableau D-4 sont relus dans atelier9/resultats/p2_charge.json au moment de la construction."""
 import io, json, os
 from reportlab.lib import colors
@@ -113,12 +113,12 @@ pages.append(("D-1", [
     H2("Inventaire des preuves déjà produites et choix de l'optimisation"),
     P("Chaque chiffre du dossier renvoie à une preuve <b>P-xx</b> (fiches en D-7) et à une page des annexes jointes (« annexe p. N », numéro en haut de la page ; voir D-9)."), SP,
     T([["Famille", "Résultat mesuré (preuve déjà réalisée)", "Où", "Rôle ici"],
-       ["Plans et index", "Atelier 3 : index composé (client_id, created_at DESC, id DESC) : ×2,5 sur la requête de l'API, ×91 pour un client à 20 100 commandes, WAL +35 % ; retenu, migration écrite et non appliquée au laboratoire. Atelier 4 : index partiel 10,1 → 0,070 ms (×144,6, 1 680 → 3 buffers), inutile hors de son prédicat", "annexe p. 7-15", "contexte"],
+       ["Plans et index", "Atelier 3 : index composé (client_id, created_at DESC, id DESC) : ×2,5 sur la requête de l'API, ×91 pour un client à 20 100 commandes, WAL +35 % ; retenu, migration écrite et non appliquée au laboratoire. Atelier 4 : index partiel 10,1 → 0,070 ms (×144,6, 1 680 → 3 buffers), inutile hors de son prédicat", "annexe p. 7-14", "contexte"],
        ["Réécriture et tuning", "Atelier 2 : EXISTS 11,3 ms contre jointure 27,6 ms (la jointure répète le client 42 cent fois). Agrégation mensuelle sur copie : 84,6 → 50,2 ms (work_mem 32 MB) ou 45,5 ms (statistique), même résultat (md5)", "annexe p. 1-6, 62", "contexte"],
        ["Migration", "Atelier 4 bis : NOT NULL direct = 3 324,1 ms sous verrou exclusif, migration progressive = 46,3 ms ; remplissage 2,7 fois plus long ; retour arrière vérifié", "annexe p. 16-18", "contexte"],
        ["API", "Atelier 7 : <b>N+1 21 → 2 requêtes</b> ; curseur contre OFFSET à 1 000 000 de commandes : 944,3 → 0,177 ms, identique à petite profondeur", "annexe p. 19-20", "<b>principal</b>"],
        ["Pooling", "Atelier 7 : PgBouncer 40 → 5 connexions mais 261 → 94 transactions/s ; Jour 5 : pool 5 / 10 / 20", "annexe p. 21, 63 ; P-06, P-07", "variante rejetée"],
-       ["Cache", "Atelier 8 : miss 2,7 ms, hit 0,988 ms ; 57.50 servi pour 19.90 ; invalidation, expiration, repli, course", "annexe p. 22-24", "<b>fraîcheur</b>"],
+       ["Cache", "Atelier 8 : miss 2,7 ms, hit 0,988 ms ; 57.50 servi pour 19.90 ; invalidation, expiration, repli, course", "annexe p. 22-23", "<b>fraîcheur</b>"],
        ["Charge", "Jour 5 : courbe 1/5/10/20 clients (N+1 ×4,2), charge ouverte (503 à 130 %), rapport concurrent p95 +64 %", "annexe p. 63-64 ; P-05, P-12", "<b>principal</b>"],
        ["Donnée moderne", "Jour 5 : export journalier CSV (240 lignes, 80 000 commandes payées, montant exact), contrat de données ; Lakehouse et Data Mesh conçus, non déployés", "annexe p. 65, 71", "contexte"],
        ["Non réalisé", "Réplication, partitionnement, sharding : aucune preuve produite", "—", "absent"]],
@@ -244,7 +244,7 @@ FI = [("P-01 ÉTAT-INITIAL", "Quel problème observe-t-on sur GET /commandes ?",
       ("P-10 CACHE-INVALID", "Invalidation, expiration et repli fonctionnent-ils ?", "PATCH 29.90 ; attente 61 s ; Redis arrêté ; PATCH 34.90 avec Redis arrêté", "annexe p. 22-23, 58", "invalidation ok puis miss ; TTL 60 → −2 ; Redis arrêté : 200 et 1 SELECT ; invalidation échouée : base 34.90, copie 29.90", "seul TTL testé : 60 s"),
       ("P-11 CACHE-COURSE", "Supprimer la clé après l'écriture suffit-il ?", "course lecture lente / invalidation reproduite à la main ; rafale de 20 lectures", "annexe p. 23, 59", "course : l'API sert 34.90, la base a 39.90 ; rafale : 6 miss et 6 SELECT", "course non reproduite sous charge ; rafale non répétée"),
       ("P-12 CHARGE-OUVERTE", "La charge fermée masque-t-elle la saturation ?", "N+1, pool 5, arrivées à cadence fixe : 50 %, 90 %, 130 % du débit fermé, 2 essais", "annexe p. 64, 71", "50 % : tient ; 90 % : un essai p95 359 ms, l'autre 503 ; 130 % : presque tout en 503 (pool 1 s)", "comportement bimodal : pas de médiane"),
-      ("P-13 STOCKAGE", "Quels éléments de gestion de la donnée sont réellement déployés ?", "ateliers 3, 4 bis, 8 : DDL, index testés, migration progressive, Redis ; état du laboratoire vérifié avant et après chaque test", "annexe p. 7-18, 48-52", "laboratoire : 6 index de contraintes, cache Redis en service (P-08) ; index composé et migration par lots testés, non appliqués au laboratoire", "pas de réplication, partitionnement ni sharding"),
+      ("P-13 STOCKAGE", "Quels éléments de gestion de la donnée sont réellement déployés ?", "ateliers 3, 4 bis, 8 : DDL, index testés, migration progressive, Redis ; état du laboratoire vérifié avant et après chaque test", "annexe p. 7-14, 16-18, 48-52", "laboratoire : 6 index de contraintes, cache Redis en service (P-08) ; index composé et migration par lots testés, non appliqués au laboratoire", "pas de réplication, partitionnement ni sharding"),
       ("P-14 MÉTHODE-ENV", "Un autre poste peut-il reproduire la mesure ?", "versions, copie jetable, empreintes md5, scripts de charge", "annexe p. 68, 71", "PostgreSQL 18.6, Node 22.14, md5 commandes 7505112bb794 et lignes e989d5bec39b identiques laboratoire / copie ; campagne : 16 min", "WSL2, 8 cœurs ; journaux pgbench par transaction non conservés")]
 head = [["ID · Question", "Conditions · Action", "Résultat brut (où)", "Interprétation", "Limite"]]
 body = [[f"<b>{a.split(' ')[0]}</b> {' '.join(a.split(' ')[1:])}<br/>{q}", c, w, i, l] for a, q, c, w, i, l in FI]
@@ -293,11 +293,11 @@ PJ = [["Preuve", "Sortie brute dans ce fichier (page de l'annexe)"],
       ["P-02", "p. 68 (11.2 pg_stat_statements, 11.3 journal lent) ; p. 20 et 53 (sqlMs par TraceId)"],
       ["P-03 P-04", "p. 19-20 (comptage, droits) ; p. 53-54 (9.3 à 9.6)"], ["P-07", "p. 21 ; p. 55 (9.8 campagnes brutes)"],
       ["P-08", "p. 23 ; p. 57-58 (10.3, 10.6)"], ["P-09 P-10", "p. 22-23 ; p. 58 (10.4, 10.5)"], ["P-11", "p. 23 ; p. 59 (10.7 rafale)"],
-      ["P-13", "p. 7-18 (ateliers 3 et 4, 4 bis) ; p. 48-52 (annexe 8)"], ["P-14", "p. 68 (11.1 environnement) ; p. 71 (11.8 rejouer)"]]
+      ["P-13", "p. 7-14 et 16-18 (ateliers 3, 4 et 4 bis) ; p. 48-52 (annexe 8)"], ["P-14", "p. 68 (11.1 environnement) ; p. 71 (11.8 rejouer)"]]
 pages.append(("D-9", [
     H2("Pièces jointes : où trouver la sortie brute de chaque preuve"),
-    P("Ce fichier contient la couverture, la page de contexte, le dossier (D-1 à D-9), puis l'annexe complète : pages 1 à 59 (ateliers 1 à 8 et leurs preuves), 60 à 67 (chapitre du Jour 5) et 68 à 71 (annexe 11). "
-      "<b>« annexe p. N »</b> désigne la page <b>N</b> de l'annexe, numérotée en haut de la page ; elle se trouve à la page <b>N + 11</b> de ce fichier.", s=8.8, l=12), SP,
+    P("Ce fichier contient la couverture, le contexte, l'organisation, le dossier (D-1 à D-9), puis les annexes : pages 1 à 71 d'origine, sauf les pages 15, 24, 25 et 67. "
+      "<b>« annexe p. N »</b> désigne la page portant le numéro <b>N</b> en haut ; le sommaire (page 13) donne sa place dans ce fichier (colonne « Fichier p. »).", s=8.8, l=12), SP,
     T(PJ, [110, 370], 8), SP,
     H3("Ce qui n'est pas dans les pièces"),
     P("Réplication, partitionnement et sharding : aucune preuve produite. Journaux de latence par transaction de pgbench (séries SQL) : non conservés, seules leurs statistiques le sont (annexe p. 68).", s=8.6, l=11.5)]))

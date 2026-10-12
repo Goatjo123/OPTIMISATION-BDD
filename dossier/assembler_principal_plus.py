@@ -18,7 +18,12 @@ pdfmetrics.registerFont(TTFont("Mono", F + "DejaVuSansMono.ttf"))
 pdfmetrics.registerFontFamily("S", normal="S", bold="SB")
 NAVY, ACC, GRID = colors.HexColor("#173a4d"), colors.HexColor("#b4532a"), colors.HexColor("#c9cfd6")
 P = lambda t, **k: Paragraph(t, ParagraphStyle("p", fontName=k.pop("f", "S"), fontSize=k.pop("s", 8.4), leading=k.pop("l", 11), **k))
-ANN0 = 11  # pages avant l'annexe : contexte + D-1 à D-9 ; page N de l'annexe = page N + 11 de ce fichier
+import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import annexes
+KEPT = [n for n in range(1, 72) if n not in annexes.DROP]   # pages d'annexe conservées (numéros d'origine)
+ANN0 = 13  # pages avant les annexes : couverture, contexte, organisation, D-1 à D-9, sommaire des annexes
+TOTAL = ANN0 + len(KEPT)
+phys = lambda n: ANN0 + KEPT.index(n) + 1   # page (1-based) de ce fichier où se trouve la page d'annexe n de ce fichier
 
 rows = [("Preuve", "Sortie brute dans ce fichier (page de l'annexe)", "Fichiers sources (dépôt, non joints)"),
         ("P-01 P-05 P-06 P-12", "p. 63-64 (courbes, séries C et D) ; p. 70-71 (11.7 : chaque essai)", "atelier9/resultats/p2_charge.json, p2_run.log"),
@@ -46,8 +51,8 @@ def deco(c, doc, label="D-9"):
 
 doc = SimpleDocTemplate(buf, pagesize=A4, leftMargin=39, rightMargin=39, topMargin=58, bottomMargin=40)
 doc.build([P("Pièces jointes : où trouver la sortie brute de chaque preuve", f="SB", s=11.5, l=15, textColor=ACC), Spacer(1, 6),
-           P("Ce fichier contient la couverture, la page de contexte, le dossier (D-1 à D-9), puis l'annexe complète : PRINCIPAL (pages 1 à 59), le chapitre du Jour 5 (60 à 67) et l'annexe 11 (68 à 71). "
-             "<b>« PRINCIPAL p. N »</b> désigne la page <b>N</b> de l'annexe, numérotée en haut de la page ; elle se trouve à la page <b>N + 11</b> de ce fichier.", s=8.8, l=12), Spacer(1, 8),
+           P("Ce fichier contient la couverture, le contexte, l'organisation, le dossier (D-1 à D-9), puis l'annexe complète : PRINCIPAL (pages 1 à 59), le chapitre du Jour 5 (60 à 67) et l'annexe 11 (68 à 71). "
+             "<b>« PRINCIPAL p. N »</b> désigne la page <b>N</b> de l'annexe, numérotée en haut de la page ; elle se trouve à la page <b>N + 12</b> de ce fichier.", s=8.8, l=12), Spacer(1, 8),
            t, Spacer(1, 10),
            P("Ce qui n'est pas dans les pièces", f="SB", s=9.4, textColor=ACC), Spacer(1, 2),
            P("Réplication, partitionnement et sharding : aucune preuve produite. Journaux de latence par transaction de pgbench (séries SQL) : non conservés, seules leurs statistiques le sont (p. 68). "
@@ -119,12 +124,12 @@ def cover(c):
     para(c, "Une page de 20 commandes paraît simple, mais devient lente quand plusieurs clients arrivent. <b>D'où vient ce coût, comment le supprimer sans changer le résultat, et à quel prix ?</b>", 58, H - 489, W - 116, 10.2, 13.4)
     # plan
     c.setFillColor(NAVY); c.setFont("SB", 10.5); c.drawString(45, H - 568, "Dans ce dossier")
-    plan = [("Contexte du projet", "2"), ("Inventaire des preuves et choix de l'optimisation", "3"), ("A. Besoin et état initial · B. Architecture et stockage", "4"),
-            ("C. Intervention principale : 21 requêtes → 2", "5"), ("D. Benchmark avant / après, courbe 1 à 20 clients", "6"), ("E. Correction et fiabilité : résultat identique, cache Redis", "7"),
-            ("F. Décision, variantes rejetées, limites", "8"), ("Fiches d'identité des preuves P-01 à P-14", "9"), ("Auto-évaluation B4C8 · questions · checklist · formulation finale", "10"),
-            ("Pièces jointes, puis annexes : sorties brutes (pages 12 à 82)", "11")]
+    plan = [("Contexte du projet", "2"), ("Organisation du document : comment le lire", "3"), ("Inventaire des preuves et choix de l'optimisation", "4"),
+            ("A. Besoin et état initial · B. Architecture et stockage", "5"), ("C. Intervention principale : 21 requêtes → 2", "6"), ("D. Benchmark avant / après, courbe 1 à 20 clients", "7"),
+            ("E. Correction et fiabilité : résultat identique, cache Redis", "8"), ("F. Décision, variantes rejetées, limites", "9"), ("Fiches d'identité des preuves P-01 à P-14", "10"),
+            ("Auto-évaluation B4C8 · questions · checklist · formulation finale", "11"), ("Pièces jointes : page d'annexe de chaque preuve", "12"), ("Sommaire détaillé des ateliers et des annexes, puis annexes (pages 14 à 80)", "13")]
     for i, (t, p) in enumerate(plan):
-        y = H - 590 - i * 19
+        y = H - 584 - i * 17
         c.setFillColor(colors.black); c.setFont("S", 9.2); c.drawString(45, y, t)
         c.setFillColor(ACC); c.setFont("SB", 9.2); c.drawRightString(W - 45, y, p)
         c.setStrokeColor(GRID); c.setLineWidth(.4); c.line(45, y - 5, W - 45, y - 5)
@@ -188,25 +193,106 @@ def contexte(c):
     para(c, "Orange : l'optimisation défendue dans ce dossier (ateliers 7 et Jour 5). Vert : la preuve de fraîcheur (atelier 8). Gris : preuves de contexte.", 45, y2 - 40 - 3 * 44 - 4, W - 90, 7.8, 9.6, "S", GREY)
 
 
+def guide(c):
+    bar(c, "Organisation")
+    c.setFillColor(ACC); c.setFont("SB", 13); c.drawString(45, H - 62, "Comment ce document est organisé")
+    h = para(c, "Deux parties. <b>Le dossier</b> (pages 1 à 13, dont le sommaire détaillé des ateliers en page 13) répond à la fiche de l'Atelier 10 : il affirme et renvoie. <b>Les annexes</b> (pages 14 à 80) contiennent les sorties brutes : elles prouvent. "
+                "Chaque chiffre du dossier renvoie à une preuve <b>P-xx</b> (page 10), qui renvoie à une page d'annexe (page 12).", 45, H - 72, W - 90, 9.4, 12.6)
+    y = H - 72 - h - 14
+    c.setFillColor(NAVY); c.setFont("SB", 9.6); c.drawString(45, y, "PARTIE 1 · LE DOSSIER, PAGES 1 À 13")
+    rows = [("1", "Couverture", "question, résultat en quatre chiffres, plan", ""), ("2", "Contexte", "projet, architecture, données, parcours, histoire en quatre temps", ""),
+            ("3", "Organisation", "cette page", ""), ("4", "D-1 Inventaire", "les preuves déjà produites et le choix de l'optimisation", "fiche, partie 2"),
+            ("5", "D-2 A et B", "besoin, état initial, architecture et stockage déployés", "partie 3"), ("6", "D-3 C", "hypothèse, un seul changement, trace du mécanisme", "partie 3 et 5"),
+            ("7", "D-4 D", "protocole, tableau avant / après, courbes, saturation", "partie 3"), ("8", "D-5 E", "résultat identique, droits, fraîcheur du cache Redis", "parties 3 et 6"),
+            ("9", "D-6 F", "décision, variantes rejetées, coûts, risques, portée", "partie 3"), ("10", "D-7", "fiche d'identité de chaque preuve P-01 à P-14", "partie 4"),
+            ("11", "D-8", "auto-évaluation, deux questions, checklist, trois phrases finales", "parties 7 à 9"), ("12", "D-9", "pièces jointes : page d'annexe de chaque preuve", "partie 9"), ("13", "Sommaire", "contenu détaillé de chaque atelier et de chaque annexe", "")]
+    yy = y - 14
+    for i, (n, a, b, f) in enumerate(rows):
+        if i % 2 == 0: c.setFillColor(PALE_B); c.rect(45, yy - 5, W - 90, 15.5, stroke=0, fill=1)
+        c.setFillColor(ACC); c.setFont("SB", 8.4); c.drawString(50, yy, n); c.setFillColor(colors.black); c.setFont("SB", 8.4); c.drawString(78, yy, a)
+        c.setFont("S", 8.2); c.drawString(160, yy, b); c.setFillColor(GREY); c.setFont("S", 7.6); c.drawRightString(W - 50, yy, f); yy -= 15.5
+    y2 = yy - 14
+    c.setFillColor(NAVY); c.setFont("SB", 9.6); c.drawString(45, y2, "PARTIE 2 · LES ANNEXES, PAGES 14 À 80")
+    c.setFillColor(GREY); c.setFont("S", 7.6); c.drawString(45, y2 - 11, "« annexe p. N » = page portant le numéro N en haut. Numérotation d'origine conservée : les pages 15, 24, 25 et 67 ne sont pas reprises.")
+    G = [(1, 6, "Ateliers 1 et 2 : diagnostic initial, réécritures équivalentes"), (7, 14, "Ateliers 3 et 4 : historique client, index composé, index spécialisés"),
+         (16, 18, "Atelier 4 bis : migration de schéma progressive"), (19, 21, "Atelier 7 : pagination, N+1, PgBouncer"), (22, 23, "Atelier 8 : cache Redis et fraîcheur"),
+         (26, 47, "Annexes 1 à 7 : plans et mesures des ateliers 1 à 4"), (48, 52, "Annexe 8 : preuves de l'atelier 4 bis"), (53, 56, "Annexe 9 : preuves de l'atelier 7"),
+         (57, 59, "Annexe 10 : preuves de l'atelier 8"), (60, 66, "Jour 5 : diagnostic, tuning, courbe de charge, OLTP et analytique"),
+         (68, 71, "Annexe 11 : preuves du Jour 5, dont les mesures brutes de chaque essai")]
+    ann = [(f"{a} à {b}", f"{phys(a)}-{phys(b)}", d) for a, b, d in G]
+    yy = y2 - 40
+    c.setFillColor(GREY); c.setFont("SB", 7.4); c.drawString(50, yy + 12, "Annexe p."); c.drawString(110, yy + 12, "Fichier p."); c.drawString(165, yy + 12, "Contenu")
+    for i, (a, b, d) in enumerate(ann):
+        if i % 2 == 0: c.setFillColor(PALE_B); c.rect(45, yy - 5, W - 90, 15.5, stroke=0, fill=1)
+        c.setFillColor(colors.black); c.setFont("SB", 8.2); c.drawString(50, yy, a); c.drawString(110, yy, b); c.setFont("S", 8.2); c.drawString(165, yy, d); yy -= 15.5
+    y3 = yy - 12
+    box(c, 45, y3 - 82, W - 90, 82, PALE_O, ACC, 6)
+    c.setFillColor(ACC); c.setFont("SB", 9); c.drawString(58, y3 - 16, "COMMENT S'EN SERVIR")
+    for k, (a, b) in enumerate((("Lecture rapide", "pages 1, 7, 8 et 9 : le résultat, la courbe, le cache et la décision."),
+                                ("Vérifier un chiffre", "repérer son P-xx (page 10), lire la page d'annexe (page 12), l'ouvrir via « Fichier p. »."),
+                                ("Naviguer", "les signets du PDF reprennent ce plan : couverture, dossier, puis chaque famille d'annexes."))):
+        c.setFillColor(colors.black); c.setFont("SB", 8.4); c.drawString(58, y3 - 33 - k * 15, a); c.setFont("S", 8.4); c.drawString(160, y3 - 33 - k * 15, b)
+
 cbuf = io.BytesIO()
 cc = _cv.Canvas(cbuf, pagesize=A4); cc.setTitle("PRINCIPAL+ : dossier final Atelier 10, ShopFlow")
-cover(cc); cc.showPage(); contexte(cc); cc.showPage(); cc.save(); cbuf.seek(0)
+cover(cc); cc.showPage(); contexte(cc); cc.showPage(); guide(cc); cc.showPage(); cc.save(); cbuf.seek(0)
 
 w = pypdf.PdfWriter()
+def sommaire():
+    sb = io.BytesIO()
+    def dec(c, d): deco(c, d, "Sommaire")
+    ph = lambda a, b=None: (f"{phys(a)}" if b is None or a == b else f"{phys(a)}-{phys(b)}")
+    po = lambda a, b=None: (f"{a}" if b is None or a == b else f"{a}-{b}")
+    rows = [("ATELIERS : CHAPITRES", None, None, None),
+            ("Atelier 1 · Diagnostic initial", (1, 2), "deux requêtes (historique du client 42, indicateurs mensuels), résultats vérifiés, 5 mesures, nœud coûteux et hypothèse", "annexe 1"),
+            ("Atelier 2 · Réécriture équivalente", (3, 6), "jointure contre EXISTS (27,6 → 11,3 ms), total par commande, optimisations testées sur copie (work_mem, statistique), bilan", "annexes 2 et 3"),
+            ("Atelier 3 · Historique client", (7, 10), "index simple, composé, couvrant ; requête réelle de l'API ; piège de l'alias dans ORDER BY ; coût d'écriture ; tableau de décision", "annexes 4 et 5"),
+            ("Atelier 4 · Index spécialisés", (11, 14), "index partiel (10,1 → 0,070 ms), GIN, GiST ; à quelle requête répond chacun et à quel prix", "annexes 6 et 7"),
+            ("Atelier 4 bis · Migration de schéma", (16, 18), "colonne ajoutée sans bloquer : remplissage par lots, verrous A, B, C, retour arrière (46,3 ms contre 3 324,1 ms)", "annexe 8"),
+            ("Atelier 7 · Pagination, N+1, PgBouncer", (19, 21), "21 → 2 requêtes, curseur contre OFFSET (944,3 → 0,177 ms), dates identiques, droits, PgBouncer", "annexe 9"),
+            ("Atelier 8 · Cache Redis et fraîcheur", (22, 23), "cache-aside, miss et hit (2,7 → 0,988 ms), copie périmée, invalidation, repli, course", "annexe 10"),
+            ("PREUVES DES ATELIERS 1 À 4 BIS, 7 ET 8", None, None, None),
+            ("Annexe 1 · Plans de l'atelier 1", (26, 26), "plans EXPLAIN (ANALYZE, BUFFERS) complets", ""),
+            ("Annexes 2 et 3 · Atelier 2", (27, 29), "plans de la jointure, de EXISTS, des optimisations O1 et O2", ""),
+            ("Annexes 4 et 5 · Atelier 3", (30, 39), "plans de la requête de l'API, preuves des mesures", ""),
+            ("Annexes 6 et 7 · Atelier 4", (40, 47), "plans de chaque index, preuves des mesures", ""),
+            ("Annexe 8 · Atelier 4 bis", (48, 52), "traces SQL, volumes, contrainte, verrous, retour arrière", ""),
+            ("Annexe 9 · Atelier 7", (53, 56), "SQL émis, traces par TraceId, 30 tours alternés, OFFSET et curseur, PgBouncer brut", ""),
+            ("Annexe 10 · Atelier 8", (57, 59), "code du cache, paires miss / hit, TTL, expiration, rafale", ""),
+            ("JOUR 5 : MONITORER ET PROUVER LES GAINS", None, None, None),
+            ("Jour 5 · Chapitre", (60, 66), "tableau de bord et requêtes coûteuses ; tuning (work_mem, cache, connexions, VACUUM) ; courbe de charge 1 à 20 clients ; lecture avant / après ; OLTP et analytique ; conclusion limitée", "annexe 11"),
+            ("Annexe 11 · Jour 5", (68, 71), "11.1 environnement · 11.2 pg_stat_statements · 11.3 journal lent · 11.4 à 11.6 tuning · 11.7 mesures brutes de chaque essai · 11.8 export et reproductibilité", "")]
+    data = [[P("Chapitre", f="SB", s=7.6, textColor=colors.white), P("Annexe p.", f="SB", s=7.6, textColor=colors.white), P("Fichier p.", f="SB", s=7.6, textColor=colors.white),
+             P("Contenu", f="SB", s=7.6, textColor=colors.white), P("Lié à", f="SB", s=7.6, textColor=colors.white)]]
+    st = [("BACKGROUND", (0, 0), (-1, 0), NAVY), ("GRID", (0, 0), (-1, -1), .4, GRID), ("VALIGN", (0, 0), (-1, -1), "TOP"), ("TOPPADDING", (0, 0), (-1, -1), 2.6), ("BOTTOMPADDING", (0, 0), (-1, -1), 2.6)]
+    for name, pg, desc, prf in rows:
+        k = len(data)
+        if pg is None:
+            data.append([P(name, f="SB", s=7.6, textColor=ACC), "", "", "", ""]); st += [("SPAN", (0, k), (-1, k)), ("BACKGROUND", (0, k), (-1, k), colors.HexColor("#fdf3ec"))]
+        else:
+            data.append([P(name, f="SB", s=7.8), P(po(*pg), s=7.8), P(ph(*pg), s=7.8, f="SB"), P(desc, s=7.6, l=9.6), P(prf, s=7.4, textColor=GREY)])
+    tb = Table(data, colWidths=[110, 52, 52, 222, 44], repeatRows=1, hAlign="LEFT"); tb.setStyle(TableStyle(st))
+    SimpleDocTemplate(sb, pagesize=A4, leftMargin=39, rightMargin=39, topMargin=50, bottomMargin=34).build(
+        [P("Sommaire détaillé des ateliers et des annexes", f="SB", s=12.5, l=16, textColor=ACC), Spacer(1, 3),
+         P("« Annexe p. N » = numéro en haut de la page (numérotation d'origine, pages 15, 24, 25 et 67 non reprises). « Fichier p. » = place dans ce PDF.", s=7.8, l=10, textColor=GREY), Spacer(1, 5), tb], onFirstPage=dec)
+    sb.seek(0); return sb
+
+
 import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pages_dossier import build
 w.append(cbuf, import_outline=False)
 for b in build(): w.append(b, import_outline=False)
-w.append(os.path.join(ROOT, "test.pdf"), import_outline=False)
-w.add_outline_item("Couverture", 0); w.add_outline_item("Contexte du projet", 1)
-for title, idx in (("A. Besoin et état initial · B. Architecture et stockage", 3), ("C. Intervention principale", 4), ("D. Benchmark avant / après", 5), ("E. Correction et fiabilité", 6),
-                   ("F. Décision et limites", 7), ("Fiches d'identité des preuves (P-01 à P-14)", 8), ("Auto-évaluation · deux questions · checklist · formulation finale", 9), ("Pièces jointes", 10)):
+w.append(sommaire(), import_outline=False)
+for _n, _p in annexes.build(): w.add_page(_p)
+w.add_outline_item("Couverture", 0); w.add_outline_item("Contexte du projet", 1); w.add_outline_item("Organisation du document", 2)
+for title, idx in (("A. Besoin et état initial · B. Architecture et stockage", 4), ("C. Intervention principale", 5), ("D. Benchmark avant / après", 6), ("E. Correction et fiabilité", 7),
+                   ("F. Décision et limites", 8), ("Fiches d'identité des preuves (P-01 à P-14)", 9), ("Auto-évaluation · deux questions · checklist · formulation finale", 10), ("Pièces jointes", 11)):
     w.add_outline_item(title, idx)
 root = w.add_outline_item("Annexes : preuves brutes (PRINCIPAL et Jour 5)", ANN0)
 for title, n in (("Ateliers 1 à 4 (p. 1)", 1), ("Atelier 4 bis (p. 16)", 16), ("Atelier 7 : N+1, curseur, PgBouncer (p. 19)", 19), ("Atelier 8 : cache Redis (p. 22)", 22),
                  ("Annexe 8 : preuves atelier 4 bis (p. 48)", 48), ("Annexe 9 : preuves atelier 7 (p. 53)", 53), ("Annexe 10 : preuves atelier 8 (p. 57)", 57),
                  ("Jour 5 : chapitre (p. 60)", 60), ("Annexe 11 : preuves du Jour 5 (p. 68)", 68)):
-    w.add_outline_item(title, ANN0 + n - 1, parent=root)
+    w.add_outline_item(title, phys(n) - 1, parent=root)
 w.add_metadata({"/Title": "PRINCIPAL+ : dossier final Atelier 10, ShopFlow", "/Author": "Optimisation BDD, SUP DE VINCI M2"})
 out = os.path.join(ROOT, "PRINCIPAL_PLUS_complet.pdf")
 with open(out, "wb") as f:

@@ -11,7 +11,7 @@
 3. essais groupé 978 à 1 082 : vérifié
 3. intervalles disjoints : vérifié
 3. erreurs 0 partout : vérifié
-4. renvois à des documents extérieurs dans les 11 premières pages : 0 []
+4. renvois à des documents extérieurs dans les 12 premières pages : 0 []
 5. fiche : A. Besoin et état initial : présent
 5. fiche : B. Architecture et stockage : présent
 5. fiche : C. Intervention principale : présent
